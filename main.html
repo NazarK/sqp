@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<HEAD>
+<META http-equiv='Content-Type' content='text/html; charset=UTF-8'> 
+</HEAD>
+<base href={!base_url}>
+
+<link rel="stylesheet" href="main.css" /> 
+
+<title>{!apptitle}</title>
+
+<body>
+<table align=center width=975 cellpadding=0 cellspacing=0 border=0>
+
+  <!-- LOGO -->
+
+  <!-- MENU -->
+
+ <tr>
+        <td background=images/menu_back.png valign=top style='color:#001;font-family:Trebuchet MS, Helvetica;font-size:14px'>
+          <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            >><a href=?>Home</a> {!menu_user} {!menu_logout} 
+        <br><br>
+
+
+
+  <!-- CONTENT -->
+
+  <tr>
+    <td valign=top>
+      <table cellpadding=0 cellspacing=0 border=0 style='background-color:#fff'>
+        <tr>
+          <td valign=top style='width:912;padding:20px;height:16px;font-family:Helvetica;font-size:14px'>
+          {!submenu}
+          {!pageheader}
+          {!log}
+          {!content}
+      </table>
+
+
+  <!-- FOOTER -->
+
+<!--  <tr>
+      <td>
+      <table  cellpadding=0 cellspacing=0 border=0>
+        <tr>
+          <td width=12 style='background-color:#013'>
+          <td style='width:924;color:#89c;background-color:#124;padding:14px;font-size:12px'>
+            (c) 2010 {!apptitle} 
+      </table>
+-->
+
+</table>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16638992-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>

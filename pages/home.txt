@@ -1,0 +1,17 @@
+This is site of SQP CMS system.
+Simple PHP Framework for building simple web applications.
+
+* MVC model
+* TableEditor component
+* Authorization engine 
+
+For login use username:admin password:admin
+
+Enjoy....
+
+June, 2010
+Nazar Kuliyev, Dexosoft president ;-)
+
+<a href=sqp.zip>Download sqp.zip</a>
+
+<a href=notes.txt>Documentation</a>

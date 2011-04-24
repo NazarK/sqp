@@ -1,0 +1,123 @@
+
+--- 3/5/2011 12:18 ------------------------
+/sqp.org/admin/login
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: settings<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: settings, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT admin_pass FROM settings,[db_query_error_function] => db_die,[args] => Array (),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT admin_pass FROM settings) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT admin_pass FROM settings) called at [C:\wamp\www\sqp.org\uses\admin.php:91]
+#3  page_admin_login() called at [C:\wamp\www\sqp.org\index.php:162]
+
+--- 3/14/2011 14:34 ------------------------
+/sqp.org/
+Unknown error type: [8] Undefined offset:  1<br />
+
+#0  myErrorHandler(8, Undefined offset:  1, C:\wamp\www\sqp.org\index.php, 156, Array ([GLOBALS] => Array ( *RECURSION*,[_POST] => Array (),[_GET] => Array ([q] => home),[_COOKIE] => Array ([phpbb3_fa9cu_k] => ,[style_cookie] => null,[phpbb3_fa9cu_u] => 2,[phpbb3_fa9cu_sid] => de7dfb21546718b9a0743af0cdbdc19d,[simpleCart] => ,[PHPSESSID] => kc6kgl1emg29o4jvd6oq8vrk85),[_FILES] => Array (),[_SESSION] => Array ([webpaper.colang] => en,[userid] => 1,[ac_type] => ,[ext_username] => nazar.kuliev@gmail.com,[lang] => eng),[tables] => Array ([top_list] => Array ([fields] => Array ([0] => email,[1] => time)),[users] => Array ([fields] => Array ([0] => username,[1] => password,[2] => email)),[images] => Array ([fields] => Array ([0] => link)),[pages] => Array ([fields] => Array ([0] => short),[liveedit] => 1)),[_SERVER] => Array ([HTTP_HOST] => localhost,[HTTP_USER_AGENT] => Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.15) Gecko/20110303 MRA 5.7 (build 03797) Firefox/3.6.15,[HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8,[HTTP_ACCEPT_LANGUAGE] => en-us,en;q=0.5,[HTTP_ACCEPT_ENCODING] => gzip,deflate,[HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.7,[HTTP_KEEP_ALIVE] => 115,[HTTP_CONNECTION] => keep-alive,[HTTP_COOKIE] => phpbb3_fa9cu_k=; style_cookie=null; phpbb3_fa9cu_u=2; phpbb3_fa9cu_sid=de7dfb21546718b9a0743af0cdbdc19d; simpleCart=; PHPSESSID=kc6kgl1emg29o4jvd6oq8vrk85,[PATH] => C:\Program Files\ActiveState Komodo Edit 6\;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\Program Files\Borland\Delphi7\Bin;C:\Program Files\Borland\Delphi7\Projects\Bpl\;C:\PROGRA~1\Borland\CBUILD~1\Bin;C:\PROGRA~1\Borland\CBUILD~1\Projects\Bpl;C:\Program Files\CodeGear\RAD Studio\6.0\bin;C:\Documents and Settings\All Users\Documents\RAD Studio\6.0\Bpl;C:\Program Files\Embarcadero\RAD Studio\7.0\bin;C:\Documents and Settings\All Users\Documents\RAD Studio\7.0\Bpl;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Program Files\QuickTime\QTSystem\;;C:\Program Files\EurekaLab\EurekaLog 6\Delphi14;C:\Program Files\EurekaLab\EurekaLog 6\CBuilder14;C:\WINDOWS\system32\WindowsPowerShell\v1.0,[SystemRoot] => C:\WINDOWS,[COMSPEC] => C:\WINDOWS\system32\cmd.exe,[PATHEXT] => .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.PSC1,[WINDIR] => C:\WINDOWS,[SERVER_SIGNATURE] => ,[SERVER_SOFTWARE] => Apache/2.2.8 (Win32) PHP/5.2.6,[SERVER_NAME] => localhost,[SERVER_ADDR] => 127.0.0.1,[SERVER_PORT] => 80,[REMOTE_ADDR] => 127.0.0.1,[DOCUMENT_ROOT] => C:/wamp/www/,[SERVER_ADMIN] => admin@localhost,[SCRIPT_FILENAME] => C:/wamp/www/sqp.org/index.php,[REMOTE_PORT] => 3801,[GATEWAY_INTERFACE] => CGI/1.1,[SERVER_PROTOCOL] => HTTP/1.1,[REQUEST_METHOD] => GET,[QUERY_STRING] => ,[REQUEST_URI] => /sqp.org/,[SCRIPT_NAME] => /sqp.org/index.php,[PHP_SELF] => /sqp.org/index.php,[REQUEST_TIME] => 1300113281),[_REQUEST] => Array ([phpbb3_fa9cu_k] => ,[style_cookie] => null,[phpbb3_fa9cu_u] => 2,[phpbb3_fa9cu_sid] => de7dfb21546718b9a0743af0cdbdc19d,[simpleCart] => ,[PHPSESSID] => kc6kgl1emg29o4jvd6oq8vrk85),[log] => ,[fields_stack] => Array (),[database_object_get_tables] => Array (),[db_query_error_function] => db_die,[form] => ,[ln_margin] => 0,[ln_enabled] => 1,[ln_margin_step] => 2,[table_edit_props] => ctable_edit_props Object ([new_record_show] => 1,[new_record_html] => ,[action_string_left] => ,[del_record_show] => 1,[edit_record_show] => 1,[col_title_show] => 1,[add_record_html] => ,[add_redir] => 1,[add_records] => 1,[add_record_button_show] => 1),[db_table_last] => ,[db_data_model_create] => ,[menus] => Array (),[script_uses] => Array (),[apptitle] => SQP Web Application,[base_url] => http://localhost/sqp.org/,[dbhandle] => Resource id #5,[submenu] => ,[pageheader] => ,[content] => This is site of SQP CMS system.<br>
+Simple PHP Framework for building simple web applications.<br>
+<br>
+* MVC model<br>
+* TableEditor component<br>
+* Authorization engine <br>
+<br>
+For login use username:admin password:admin<br>
+<br>
+Enjoy....<br>
+<br>
+June, 2010<br>
+Nazar Kuliyev, Dexosoft president ;-)<br>
+<br>
+<a href=sqp.zip>Download sqp.zip</a><br>
+<br>
+<a href=notes.txt>Documentation</a>,[query] => ,[modules] => Array ([0] => admin,[1] => images,[2] => pages,[3] => profiler,[4] => tinymce),[module] => uses/tinymce.php,[module_name] => tinymce,[fname] => tinymce_connect,[prf_root] => LogNode Object ([total_time] => 0,[start_time] => 0,[id] => root,[parent] => 0,[subs] => Array (),[count] => 0),[prf_active] => LogNode Object ([total_time] => 0,[start_time] => 0,[id] => root,[parent] => 0,[subs] => Array (),[count] => 0),[rus_highlight] => #515151,[eng_highlight] => #C0BEBF,[menu_logout] => ,[menu_user] => ,[menu_users] => :: <a href=?q=users>Users</a>,[parts] => Array ([0] => home),[pagename] => home,[filename] => pages/home.txt,[file] => This is site of SQP CMS system.<br>
+Simple PHP Framework for building simple web applications.<br>
+<br>
+* MVC model<br>
+* TableEditor component<br>
+* Authorization engine <br>
+<br>
+For login use username:admin password:admin<br>
+<br>
+Enjoy....<br>
+<br>
+June, 2010<br>
+Nazar Kuliyev, Dexosoft president ;-)<br>
+<br>
+<a href=sqp.zip>Download sqp.zip</a><br>
+<br>
+<a href=notes.txt>Documentation</a>,[matches] => Array ([0] => Array ()),[function] => home,[appropriate_function] => ,[appropriate_index] => -1,[temp_template] => home,[def_template] => ,[part] => home,[i] => 0,[before_function] => ,[args] => Array ([0] => home))) called at [C:\wamp\www\sqp.org\index.php:156]
+
+--- 3/29/2011 16:35 ------------------------
+/slo.kz/p/2
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT * FROM pages WHERE id=2,[db_query_error_function] => db_die,[args] => Array ([0] => 2),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT * FROM pages WHERE id=2) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT * FROM pages WHERE id=%d, 2) called at [C:\wamp\www\sqp.org\bios.php:874]
+#3  database_object_get(pages, 2, ) called at [C:\wamp\www\sqp.org\bios.php:821]
+#4  db_object_get(pages, 2) called at [C:\wamp\www\sqp.org\uses\pages.php:19]
+#5  page_p(2) called at [C:\wamp\www\sqp.org\index.php:172]
+
+--- 3/29/2011 16:35 ------------------------
+/slo.kz/p/1
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT * FROM pages WHERE id=1,[db_query_error_function] => db_die,[args] => Array ([0] => 1),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT * FROM pages WHERE id=1) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT * FROM pages WHERE id=%d, 1) called at [C:\wamp\www\sqp.org\bios.php:874]
+#3  database_object_get(pages, 1, ) called at [C:\wamp\www\sqp.org\bios.php:821]
+#4  db_object_get(pages, 1) called at [C:\wamp\www\sqp.org\uses\pages.php:19]
+#5  page_p(1) called at [C:\wamp\www\sqp.org\index.php:172]
+
+--- 4/4/2011 5:41 ------------------------
+/goldenkompasstravel.kz/p/4
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT * FROM pages WHERE id=4,[db_query_error_function] => db_die,[args] => Array ([0] => 4),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT * FROM pages WHERE id=4) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT * FROM pages WHERE id=%d, 4) called at [C:\wamp\www\sqp.org\bios.php:874]
+#3  database_object_get(pages, 4, ) called at [C:\wamp\www\sqp.org\bios.php:821]
+#4  db_object_get(pages, 4) called at [C:\wamp\www\sqp.org\uses\pages.php:19]
+#5  page_p(4) called at [C:\wamp\www\sqp.org\index.php:172]
+
+--- 4/4/2011 5:41 ------------------------
+/goldenkompasstravel.kz/p/3
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT * FROM pages WHERE id=3,[db_query_error_function] => db_die,[args] => Array ([0] => 3),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT * FROM pages WHERE id=3) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT * FROM pages WHERE id=%d, 3) called at [C:\wamp\www\sqp.org\bios.php:874]
+#3  database_object_get(pages, 3, ) called at [C:\wamp\www\sqp.org\bios.php:821]
+#4  db_object_get(pages, 3) called at [C:\wamp\www\sqp.org\uses\pages.php:19]
+#5  page_p(3) called at [C:\wamp\www\sqp.org\index.php:172]
+
+--- 4/4/2011 5:42 ------------------------
+/goldenkompasstravel.kz/p/1
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT * FROM pages WHERE id=1,[db_query_error_function] => db_die,[args] => Array ([0] => 1),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT * FROM pages WHERE id=1) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT * FROM pages WHERE id=%d, 1) called at [C:\wamp\www\sqp.org\bios.php:874]
+#3  database_object_get(pages, 1, ) called at [C:\wamp\www\sqp.org\bios.php:821]
+#4  db_object_get(pages, 1) called at [C:\wamp\www\sqp.org\uses\pages.php:19]
+#5  page_p(1) called at [C:\wamp\www\sqp.org\index.php:172]
+
+--- 4/4/2011 5:42 ------------------------
+/sqp.org/admin/pages
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such table: pages, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => SELECT pages.id as id, pages.short FROM pages  ,[db_query_error_function] => db_die,[args] => Array (),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, SELECT pages.id as id, pages.short FROM pages  ) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(SELECT pages.id as id, pages.short FROM pages  ) called at [C:\wamp\www\sqp.org\bios.php:2312]
+#3  table_edit(pages, admin/pages, , , , , , <a href=admin/edit/pages/content/[id]><img src=images/edit.png atl='Редактировать' title='Редактировать'></a> <a href=http://localhost/sqp.org/p/[id]>http://localhost/sqp.org/p/[id]</a>) called at [C:\wamp\www\sqp.org\uses\pages.php:48]
+#4  page_admin_pages() called at [C:\wamp\www\sqp.org\index.php:171]
+
+--- 4/11/2011 13:48 ------------------------
+/sqp.org/admin/pages
+Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such column: weight<br />
+
+#0  myErrorHandler(2, sqlite_query() [<a href='function.sqlite-query'>function.sqlite-query</a>]: no such column: weight, C:\wamp\www\sqp.org\bios.php, 1025, Array ([query] => UPDATE pages SET weight=id WHERE weight is null OR weight=0,[db_query_error_function] => db_die,[args] => Array (),[dbhandle] => Resource id #5))
+#1  sqlite_query(Resource id #5, UPDATE pages SET weight=id WHERE weight is null OR weight=0) called at [C:\wamp\www\sqp.org\bios.php:1025]
+#2  db_query(UPDATE pages SET weight=id WHERE weight is null OR weight=0) called at [C:\wamp\www\sqp.org\bios.php:3487]
+#3  weight_fix(pages) called at [C:\wamp\www\sqp.org\bios.php:2014]
+#4  table_edit(pages, admin/pages, , , , , , <a href=admin/edit/pages/content/[id]><img src=images/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href=http://localhost/sqp.org/p/[id]>http://localhost/sqp.org/p/[id]</a>) called at [C:\wamp\www\sqp.org\uses\pages.php:61]
+#5  page_admin_pages() called at [C:\wamp\www\sqp.org\index.php:171]
