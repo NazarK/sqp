@@ -91,7 +91,10 @@ function page_m($id) {
    $m = db_object_get("menu",$id);
 
    if(!$m->link) {
-     return "Меню - пустая ссылка";
+     $o = "Меню - пустая ссылка";
+
+	 if(!form_post('die')) return $o;
+	 else { echo $o; die(); }
    }
    Header("Location: $m->link");
    die();
@@ -113,4 +116,18 @@ function menu_vertical($parent_id,$level=0) {
   return $o;
 }
 
+
+function menu_page_link($parent_id,$index) {
+  $items = menu_items($parent_id);
+  $item = $items[$index];
+  $link = $item->link;
+  if(!$link) {
+     $id = page_id_by_title($item->title);
+	 if($id) {
+	   $link = "p/$id";
+	 }
+  }
+	 
+  return "<a class=menuItem href=$link>$item->title</a>";
+}
 ?>

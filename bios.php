@@ -3584,4 +3584,29 @@ function table_form_post($table, $answer) {
    return "";
 }
 
+function assertTrue($val,$message) {
+  if(!$val) {
+	  if(!isset($GLOBALS['assertErrors'])) {
+        $GLOBALS['assertErrors'] = array();
+	  }
+	  $GLOBALS['assertErrors'][] = $message;
+  }
+  return $val;
+}
+
+function assertFailed() {
+	if(!isset($GLOBALS['assertErrors'])) return false;
+    $o = "";
+	foreach($GLOBALS['assertErrors'] as $er) {
+       $o .= "<div class=assertError>$er</div>";
+	}
+	return $o;
+}
+
+function assertFailedFirst() {
+	if(!isset($GLOBALS['assertErrors'])) return false;
+	$er = $GLOBALS['assertErrors'][0];
+    return "<div class=assertError>$er</div>";  
+}
+
 ?>

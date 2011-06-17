@@ -121,3 +121,30 @@ Unknown error type: [2] sqlite_query() [<a href='function.sqlite-query'>function
 #3  weight_fix(pages) called at [C:\wamp\www\sqp.org\bios.php:2014]
 #4  table_edit(pages, admin/pages, , , , , , <a href=admin/edit/pages/content/[id]><img src=images/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href=http://localhost/sqp.org/p/[id]>http://localhost/sqp.org/p/[id]</a>) called at [C:\wamp\www\sqp.org\uses\pages.php:61]
 #5  page_admin_pages() called at [C:\wamp\www\sqp.org\index.php:171]
+
+--- 6/7/2011 7:43 ------------------------
+/premiatravel.kz/admin/
+Unknown error type: [8] Undefined variable: res<br />
+
+#0  myErrorHandler(8, Undefined variable: res, C:\wamp\www\sqp.org\bios.php, 1034, Array ([query] => SELECT admin_pass FROM settings,[db_query_error_function] => db_die,[args] => Array (),[sqllog] => SELECT admin_pass FROM settings<br>)) called at [C:\wamp\www\sqp.org\bios.php:1034]
+#1  db_query(SELECT admin_pass FROM settings) called at [C:\wamp\www\sqp.org\uses\admin.php:158]
+#2  requires_admin() called at [C:\wamp\www\sqp.org\uses\admin.php:193]
+#3  page_admin() called at [C:\wamp\www\sqp.org\index.php:176]
+
+--- 6/7/2011 7:43 ------------------------
+/premiatravel.kz/admin/
+Unknown error type: [8] Undefined variable: res<br />
+
+#0  myErrorHandler(8, Undefined variable: res, C:\wamp\www\sqp.org\bios.php, 1034, Array ([query] => SELECT admin_pass FROM settings,[db_query_error_function] => db_die,[args] => Array (),[sqllog] => SELECT admin_pass FROM settings<br>)) called at [C:\wamp\www\sqp.org\bios.php:1034]
+#1  db_query(SELECT admin_pass FROM settings) called at [C:\wamp\www\sqp.org\uses\admin.php:158]
+#2  requires_admin() called at [C:\wamp\www\sqp.org\uses\admin.php:193]
+#3  page_admin() called at [C:\wamp\www\sqp.org\index.php:176]
+
+--- 6/7/2011 7:43 ------------------------
+/premiatravel.kz/admin/
+Unknown error type: [8] Undefined variable: res<br />
+
+#0  myErrorHandler(8, Undefined variable: res, C:\wamp\www\sqp.org\bios.php, 1034, Array ([query] => SELECT admin_pass FROM settings,[db_query_error_function] => db_die,[args] => Array (),[sqllog] => SELECT admin_pass FROM settings<br>)) called at [C:\wamp\www\sqp.org\bios.php:1034]
+#1  db_query(SELECT admin_pass FROM settings) called at [C:\wamp\www\sqp.org\uses\admin.php:158]
+#2  requires_admin() called at [C:\wamp\www\sqp.org\uses\admin.php:193]
+#3  page_admin() called at [C:\wamp\www\sqp.org\index.php:176]

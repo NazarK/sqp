@@ -26,10 +26,10 @@ function page_admin_email() {
 //    die("<script>window.close()</script>");
   }
   $settings = db_fetch_object(db_query("SELECT * FROM settings LIMIT 1"));
-  $o = "<h1>Admin Email</h1>";
+  $o = "<h1>{~Admin Email}</h1>";
   form_start();
-  form_input("Email","email",$settings->admin_email);
-  form_submit("Save","save");
+  form_input("{~Email}","email",$settings->admin_email);
+  form_submit("{~Save}","save");
   form_end();
 
   $o .= form();
@@ -40,7 +40,7 @@ function page_admin_pass() {
   use_template("admin");
 
   $o = "";
-  $o .= "<h1>Admin Pass</h1>";
+  $o .= "<h1>{~Admin Pass}</h1>";
 
   if(form_post("submit")) {
 	$pass = db_result(db_query("SELECT admin_pass FROM settings"));
@@ -57,10 +57,10 @@ function page_admin_pass() {
 
   }
   form_start();
-  form_password("Current password","curpass");
-  form_password("New password","newpass");
-  form_password("New retype","retype");
-  form_submit("Submit","submit","");
+  form_password("{~Current password}","curpass");
+  form_password("{~New password}","newpass");
+  form_password("{~New retype}","retype");
+  form_submit("{~Submit}","submit","");
   form_end();
   $o .= form();
   return $o;

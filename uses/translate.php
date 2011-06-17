@@ -45,6 +45,7 @@ function trans($s) {
 		$lines = file("dictionary.txt");
 		foreach($lines as $line) {
 		  $parts = explode('=',$line);
+		  if(isset($parts[1]))
 		  $dictionary[$parts[0]] = trim($parts[1]);
 		}
 	}

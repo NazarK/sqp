@@ -17,6 +17,7 @@ function page_admin_edit($table,$field,$id) {
      $html = form_post("editor1");
 	 $html = str_replace('\"','"',$html);
 	 $html = str_replace("\'","'",$html);
+	 $html = str_replace("\\\\","\\",$html);
 	 $f = "on_{$table}_{$field}_update";
      if(function_exists($f)) {
 		 $f($id,$html);

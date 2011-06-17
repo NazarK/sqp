@@ -79,4 +79,8 @@ function WebPageTitle() {
   }
 }
 
+
+function page_id_by_title($title) {
+   return db_result(db_query("SELECT id FROM pages WHERE short='%s'",$title));
+}
 ?>
