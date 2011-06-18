@@ -130,4 +130,29 @@ function menu_page_link($parent_id,$index) {
 	 
   return "<a class=menuItem href=$link>$item->title</a>";
 }
+
+function menu_with_links($parent_id) {
+ $items = menu_items($parent_id);
+
+ foreach($items as &$item) {
+   if(!$item->link) {
+     $page = page_id_by_title($item->title);
+	 if($page) {
+       $item->link = "p/$page";
+	 }
+   }
+ }
+
+
+ $o = "";
+
+ foreach($items as &$item) {
+   $o .= "<div class=menuItemDiv><a class=menuItem href={$item->link}>$item->title</a></div>";
+ }
+
+
+ return $o;
+
+}
+
 ?>

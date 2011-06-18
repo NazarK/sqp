@@ -2220,7 +2220,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         }
         
         if($table_edit_props->add_record_button_show) {
-          form_submit("Add record","add");
+          form_submit("{~Add record}","add");
         } else {
           form_hidden("add","1");
         }

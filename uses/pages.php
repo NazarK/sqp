@@ -23,8 +23,21 @@ function PageTitle($id) {
 	return db_result(db_query("SELECT short FROM pages WHERE id=%d",$id));
 }
 
+function page_id_by_title_trans($title) {
+    $pages = db_fetch_objects(db_query("SELECT id, short FROM pages"));
+	foreach($pages as $p) {
+      if(translit($p->short)==$title) {
+		  return $p->id;
+	  }
+	}
+}
+
 function page_p($id) {
-  $page = db_object_get("pages",$id);
+  if(is_numeric($id)) {
+    $page = db_object_get("pages",$id);
+  } else {
+
+  }
   if($page)
     $o = $page->content;
   else
@@ -74,13 +87,50 @@ function WebPageTitle() {
 	  return "$t - ";
 	  else
 	  return "";
+  } else
+  if(self_q()=='news') {
+	  return "Новости - ";
   } else {
 	  return "";
   }
 }
 
+function ContentTitle() {
+  if(self_q()=="p") {
+	  $t = PageTitle(arg(0));
+	  return $t;
+  } else 
+  if(self_q()=="news") {
+	  return "Новости";
+  } else {
+	  return "";
+  }
+
+}
 
 function page_id_by_title($title) {
    return db_result(db_query("SELECT id FROM pages WHERE short='%s'",$title));
 }
+
+function translit($str) 
+{
+    $tr = array(
+        "А"=>"a","Б"=>"b","В"=>"v","Г"=>"g",
+        "Д"=>"d","Е"=>"e","Ж"=>"j","З"=>"z","И"=>"i",
+        "Й"=>"y","К"=>"k","Л"=>"l","М"=>"m","Н"=>"n",
+        "О"=>"o","П"=>"p","Р"=>"r","С"=>"s","Т"=>"t",
+        "У"=>"u","Ф"=>"f","Х"=>"h","Ц"=>"ts","Ч"=>"ch",
+        "Ш"=>"sh","Щ"=>"sch","Ъ"=>"","Ы"=>"y","Ь"=>"",
+        "Э"=>"e","Ю"=>"yu","Я"=>"ya","а"=>"a","б"=>"b",
+        "в"=>"v","г"=>"g","д"=>"d","е"=>"e","ж"=>"j",
+        "з"=>"z","и"=>"i","й"=>"y","к"=>"k","л"=>"l",
+        "м"=>"m","н"=>"n","о"=>"o","п"=>"p","р"=>"r",
+        "с"=>"s","т"=>"t","у"=>"u","ф"=>"f","х"=>"h",
+        "ц"=>"ts","ч"=>"ch","ш"=>"sh","щ"=>"sch","ъ"=>"y",
+        "ы"=>"y","ь"=>"","э"=>"e","ю"=>"yu","я"=>"ya", 
+        " "=> "_", "/"=> "_"
+    );
+    return strtr($str,$tr);
+}
+
 ?>
