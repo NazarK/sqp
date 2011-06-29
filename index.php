@@ -78,6 +78,12 @@ if(!isset($_GET['q'])) {
 }
 
 
+//support for page names
+$page_id = page_id_by_title_trans($_GET['q']);
+if($page_id) { 
+	$_GET['q'] = 'p/'.$page_id;
+}
+
 $parts = explode('/',$_GET['q']);
 
 

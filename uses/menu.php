@@ -131,7 +131,40 @@ function menu_page_link($parent_id,$index) {
   return "<a class=menuItem href=$link>$item->title</a>";
 }
 
+function page_menu_no_page($menu_id) {
+  $menu = db_object_get("menu",$menu_id);
+  return "Страница с названием '$menu->title' не найдена. Создайте страницу с названием '$menu->title'.";
+}
+
 function menu_with_links($parent_id) {
+ $items = menu_items($parent_id);
+
+ foreach($items as &$item) {
+   if(!$item->link) {
+     $page = page_id_by_title($item->title);
+	 $item->altlink = "";
+	 if($page) {
+       $item->link = translit($item->title);
+	   $item->altlink = 'p/'.$page;
+	 } 
+   }
+ }
+
+ $o = "";
+
+ foreach($items as &$item) {
+   if(!$item->link) {
+     $item->link = "menu_no_page/".$item->id;    
+     $item->altlink = "menu_no_page/".$item->id;    
+   }
+   $o .= "<div class=menuItemDiv><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>";
+ }
+
+ return $o;
+}
+
+function menu_with_images_and_links($parent_id) {
+
  $items = menu_items($parent_id);
 
  foreach($items as &$item) {
@@ -141,15 +174,17 @@ function menu_with_links($parent_id) {
        $item->link = "p/$page";
 	 }
    }
+   $item->img = db_result(db_query("SELECT link FROM images WHERE title='%s'",$item->title));
  }
 
 
  $o = "";
 
  foreach($items as &$item) {
-   $o .= "<div class=menuItemDiv><a class=menuItem href={$item->link}>$item->title</a></div>";
+   $img = "";
+   if($item->img) $img = "<img src=$item->img>";
+   $o .= "<div class=menuItemDiv><a class=menuItem href={$item->link}>$img</a></div>";
  }
-
 
  return $o;
 
