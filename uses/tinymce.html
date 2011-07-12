@@ -4,10 +4,13 @@
 <title>Редактор</title>
 
 <!-- TinyMCE -->
+<style>
+</style>
 <script type="text/javascript" src="tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 	tinyMCE.init({
 		// General options
+		language: "ru",
 		mode : "textareas",
 		theme : "advanced",
 		plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,autosave",
@@ -23,7 +26,7 @@
 		theme_advanced_resizing : true,
 
 		// Example content CSS (should be your site CSS)
-		content_css : "css/content.css",
+		content_css : "{!base_url}/uses/tinymce.css",
 
 		// Drop lists for link/image/media/template dialogs
 		template_external_list_url : "lists/template_list.js",
