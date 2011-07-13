@@ -1,4 +1,5 @@
 <?php
+$tables['catalog']['liveedit'] = true;
 function page_catalog_vars() {
   db_query("CREATE TABLE [catalog] (
 [id] INTEGER  PRIMARY KEY NOT NULL,
@@ -43,19 +44,25 @@ function page_admin_catalog_edit($parent_id="",$act="",$id="") {
 }
 
 function on_catalog($id) {
-  $count = db_result(db_query("SELECT count(1) FROM catalog WHERE parent_id=%d",$id));
-  $o = "<a href=admin/catalog/edit/$id title='Подменю'>продукты</a>";
-  if($count) $o .= "($count)";
+  $o = "";
+  $obj = db_object_get("catalog",$id);
+  if(!$obj->parent_id) {
+    $count = db_result(db_query("SELECT count(1) FROM catalog WHERE parent_id=%d",$id));
+    $o .= "<a href=admin/catalog/edit/$id>продукты</a>";
+    if($count) $o .= "($count)";
+  }
+  if($obj->parent_id)
+  $o .= " <a href=admin/edit/catalog/specifications/$id><img src=images/text_edit.png></a>";
   return $o;
 }
 
 function catalog_path($sub_id) {
-	$o = "<a href=?q=admin/catalog/edit>Меню</a>&nbsp;";
+	$o = "<a href=?q=admin/catalog/edit>Каталогs</a>&nbsp;";
      $item = db_object_get("catalog",$sub_id);
      $path = "<a href=?q=admin/catalog/edit/$sub_id>$item->title</a>";
 	 while($item->parent_id) {
 	   $item = db_object_get("catalog",$item->parent_id);
-	   $path = "<a href=?q=admin/catalog/edit/$item->id>$item->title</a>"." > $menupath";
+	   $path = "<a href=?q=admin/catalog/edit/$item->id>$item->title</a>"." > $path";
 	 }
 	 $o .= "> $path<br>";
 	 return $o;

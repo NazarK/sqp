@@ -2357,7 +2357,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         
         $useract = "";
         if(function_exists($actionstring)) {
-          $useract = $actionstring($r['id']);
+          $useract = $actionstring($r['id'],$r);
         } else {
           $useract = $actionstring;
         }
