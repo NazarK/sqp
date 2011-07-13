@@ -13,3 +13,4 @@ Admin Email=Емейл администратора
 Email=Емейл
 Save=Сохранить
 Add record=Добавить запись
+Are you sure?=Вы уверены?

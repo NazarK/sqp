@@ -690,7 +690,7 @@ class TableBrowser {
                 echo "<a href=?$viewurl>Show</a>";
                 echo " ";
                 if(strpos($mode,"D")!==FALSE)
-                echo "<a onclick=\"return confirm('Are you sure?');\" href=?$deleteurl>Delete</a>";
+                echo "<a onclick=\"return confirm('{~Are you sure?}');\" href=?$deleteurl>Delete</a>";
             }
 
             //ACTION STRING
@@ -2289,7 +2289,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 	  }
     }
 	if($fields)
-      $fields_s = ", $field";
+      $fields_s = ", $fields";
 	else
 	  $fields_s = "";
     $q = "SELECT $tablename.id as id $fields_s FROM $joins $where $order";
@@ -2299,7 +2299,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
      $act .= "<a href=?q=$home/edit/[id]><img src=images/edit.png border=0></a>";
    }
    if($table_edit_props->del_record_show) {
-     $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('Are you sure?');\"src=images/del.png border=0></a>";
+     $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('{~Are you sure?}');\"src=images/del.png border=0></a>";
    }
     
    //up down arrows
