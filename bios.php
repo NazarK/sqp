@@ -2152,6 +2152,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
             //fixme: unsecure, sql injection
             $fields = "";
             $values = "";
+			if(isset($tables[$tablename]['fields']))
             foreach($tables[$tablename]['fields'] as $field) {
               if($fields) $fields .= ", ";
               $fields .= $field;
@@ -2189,7 +2190,9 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
             }
             
             if($masterfield) {
-                $fields .= ", $masterfield";
+				if($fields)
+                  $fields .= ", ";
+                $fields .= " $masterfield";
 				if(strtolower($mastervalue)=='null')
 					$values .= ", null ";
 				else
@@ -2197,9 +2200,12 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
             }
             
             if(isset($tables[$tablename]['weight'])) {
-                $fields .= ", weight";
+				if($fields)
+                  $fields .= ", ";
+				$fields .= " weight";
                 $values .= ", ".(db_result(db_query("SELECT max(id) FROM $tablename"))+1);
             }
+			if($values && $values[0]==',') $values = substr($values,1,strlen($values));
             db_query("INSERT INTO $tablename (id, $fields) VALUES (null, $values)");
             $id = db_last_id();
             $callback = "table_".$tablename."_edit";
@@ -2240,10 +2246,12 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
     }
     
       
-    $ff = $tables[$tablename]['fields'];
+	$ff = array();
+    $ff = @$tables[$tablename]['fields'];
     $fields = "";
     $joins = "$tablename";
     $titles = array();
+	if($ff)
     foreach($ff as $f) {
         if($fields) $fields .= ", ";
         $type = substr($f,strlen($f)-3,3);
@@ -2280,8 +2288,11 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
           $where = " WHERE $masterfield='$mastervalue' ";
 	  }
     }
-    
-    $q = "SELECT $tablename.id as id, $fields FROM $joins $where $order";
+	if($fields)
+      $fields_s = ", $field";
+	else
+	  $fields_s = "";
+    $q = "SELECT $tablename.id as id $fields_s FROM $joins $where $order";
 
    $act = "";
    if($table_edit_props->edit_record_show) {
@@ -2392,6 +2403,7 @@ function table_edit_form_generate($tablename,$r="") {
         //this is for add
         if(!$r) { $r = new stdClass(); }
 
+		if(isset($tables[$tablename]["fields"]))
 		foreach($tables[$tablename]["fields"] as $value) {
 			//this is for add
 			if(!isset($r->$value)) $r->$value = "";
@@ -3170,7 +3182,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 
     /* Don't execute PHP internal error handler */
 
-    if(!isset($_COOKIE['error_report']) || $_COOKIE['error_report']==0) {
+    if(false && (!isset($_COOKIE['error_report']) || $_COOKIE['error_report']==0)) {
 		
 		if(filesize("site_errors.txt")>500*1000) {
 			file_put_contents("site_errors.txt","");
