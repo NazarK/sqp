@@ -2291,9 +2291,10 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
      $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('Are you sure?');\"src=images/del.png border=0></a>";
    }
     
-    if(isset($tables[$tablename]['weight'])) {
+   //up down arrows
+/*    if(isset($tables[$tablename]['weight'])) {
         $act = " <a href=?q=$home/up/[id]><img src=images/up.png></a> <a href=?q=$home/down/[id]><img src=images/down.png></a> ".$act;
-    }
+    }*/
     
     $rr = db_query($q);
     
