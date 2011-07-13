@@ -2140,7 +2140,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 
 		table_edit_form_generate($tablename,$r);
         
-        form_submit("Save changes","edit");
+        form_submit("{~Save changes}","edit");
         form_end();
         
         return form();
