@@ -2135,15 +2135,16 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         }
         
         page_header("Edit $table_long_alias");
-        $r = db_object_get($tablename,$id);
-        form_start();
+		if(isset($tables[$tablename]['fields'])) {
+			$r = db_object_get($tablename,$id);
+			form_start();
 
-		table_edit_form_generate($tablename,$r);
-        
-        form_submit("{~Save changes}","edit");
-        form_end();
-        
-        return form();
+			table_edit_form_generate($tablename,$r);
+			
+			form_submit("{~Save changes}","edit");
+			form_end();
+            return form();
+		} else return "";
         
     }
     
@@ -3394,6 +3395,19 @@ function replace_files(&$html) {
 
 function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$varname3="",$varval3="") {
   if(!$name) $name = $GLOBALS['def_template'];
+
+  $dwoo_template = "uses/".$name.".dwoo.html";
+  if(file_exists($dwoo_template)) {
+      require_once "uses/dwoo/dwooAutoload.php";
+      $dwoo = new Dwoo();
+      $data = new Dwoo_Data();
+      foreach($GLOBALS as $key=>$value) {
+        $data->assign($key,$value);
+      }
+      $html =$dwoo->get($dwoo_template,$data); 
+      return $html;
+  }
+
   $fname = "uses/".$name.".tmpl.html";
   if(!file_exists($fname)) {
     $fname = "uses/".$name.".html";
