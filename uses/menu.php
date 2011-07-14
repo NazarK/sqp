@@ -157,7 +157,8 @@ function menu_with_links($parent_id) {
      $item->link = "menu_no_page/".$item->id;    
      $item->altlink = "menu_no_page/".$item->id;    
    }
-   $o .= "<div class=menuItemDiv><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>";
+   $sub = menu_with_links($item->id);
+   $o .= "<div class=menuItemDiv><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a><div class=subMenu>$sub</div></div>";
  }
 
  return $o;
