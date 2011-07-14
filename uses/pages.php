@@ -32,7 +32,7 @@ function page_id_by_title_trans($title) {
 	}
 }
 
-function page_p($id) {
+function page_p($id,$edit=true) {
   if(is_numeric($id)) {
     $page = db_object_get("pages",$id);
   } else {
@@ -42,7 +42,9 @@ function page_p($id) {
     $o = $page->content;
   else
     $o = "not defined";
-  $o .= p_quickedit_html($id);
+  if($edit) {
+    $o .= p_quickedit_html($id);
+  }
   replace_my_tags($o); // {href {f {call
   if(form_post("die")) {
     replace_files($o); // {!something.js} {!something.css}

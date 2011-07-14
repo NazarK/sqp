@@ -1,6 +1,11 @@
 <?php
 define("DEFAULT_LANG","orig");
 
+$lang_dir = "";
+if(form_post("lang")) {
+	$lang_dir = form_post("lang")."/";
+}
+
 function set_lang($value) {
   global $apptitle;
   $_SESSION[$apptitle.'lang'] = $value;
@@ -59,7 +64,44 @@ function _T($s) {
 }
 
 
-function fld_trans($s) {
+function fld_trans($s,$to_lang="") {
+  
+  global $lang_dir;
+  $lang = $lang_dir;
+  if($to_lang=="rus" || $to_lang=="ru") {
+     $lang = "ru/";
+  }
+
+
+  preg_match_all("|{([^}]*)}|",$s,$matches);
+  if(isset($matches[1]))
+  foreach($matches[1] as $value) {
+	  $t = fld_trans($value,$to_lang);
+	  $s = str_replace('{'.$value.'}',$t,$s);
+  }
+
+  if($lang=="" || $lang=="ru/") {
+   preg_match_all("/ru:([^$]+?)(?:en:|kz:|$)/",$s,$matches);
+   if(!isset($matches[1][0])) return $s;
+   else return trim($matches[1][0]);
+  }
+
+  if($lang=="en/") {
+   preg_match_all("/en:([^$]+?)(?:ru:|kz:|$)/",$s,$matches);
+   if(!isset($matches[1][0])) return $s;
+   else return trim($matches[1][0]);
+  }
+
+  if($lang=="kz/") {
+   preg_match_all("/kz:([^$]+?)(?:en:|ru:|$)/",$s,$matches);
+   if(!isset($matches[1][0])) return $s;
+   else return trim($matches[1][0]);
+  }
+
+  return $s;
+}
+
+function fld_trans_old($s) {
   $parts = explode("||",$s);
   if(count($parts)==1)  {
 	  $parts = explode("english=",$s);
@@ -68,6 +110,7 @@ function fld_trans($s) {
   if(count($parts)==1)  {
 	  $parts = explode("inenglish:",$s);
   }
+
   if(eng()) {
 	if(isset($parts[1])) return $parts[1];
 	else return $parts[0]; 

@@ -133,6 +133,7 @@ function menu_page_link($parent_id,$index) {
 
 function page_menu_no_page($menu_id) {
   $menu = db_object_get("menu",$menu_id);
+  $menu->title = fld_trans($menu->title,"rus");
   return "Страница с названием '$menu->title' не найдена. Создайте страницу с названием '$menu->title'.";
 }
 
@@ -141,10 +142,10 @@ function menu_with_links($parent_id) {
 
  foreach($items as &$item) {
    if(!$item->link) {
-     $page = page_id_by_title($item->title);
+     $page = page_id_by_title(fld_trans($item->title,"rus"));
 	 $item->altlink = "";
 	 if($page) {
-       $item->link = translit($item->title);
+       $item->link = translit(fld_trans($item->title,"rus"));
 	   $item->altlink = 'p/'.$page;
 	 } 
    }
@@ -158,7 +159,9 @@ function menu_with_links($parent_id) {
      $item->altlink = "menu_no_page/".$item->id;    
    }
    $sub = menu_with_links($item->id);
-   $o .= "<div class=menuItemDiv><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a><div class=subMenu>$sub</div></div>";
+   global $lang_dir;
+   $item->title = fld_trans($item->title);
+   $o .= "<div class=menuItemDiv><a class=menuItem href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a><div class=subMenu>$sub</div></div>";
  }
 
  return $o;
