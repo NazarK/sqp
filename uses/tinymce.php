@@ -13,7 +13,7 @@ function page_admin_edit($table,$field,$id) {
 	  die("can't edit this table tables[$table]['liveedit'] not set");
   }
 
-  if(form_post("editor1")) {
+  if(isset($_POST['editor1'])) {
      $html = form_post("editor1");
 	 $html = str_replace('\"','"',$html);
 	 $html = str_replace("\'","'",$html);
@@ -28,7 +28,12 @@ function page_admin_edit($table,$field,$id) {
 	 die("<script> window.close();</script>");
   }
   $content = db_result(db_query("SELECT %s FROM %s WHERE id=%d",$field,$table,$id));
-  $o = template("tinymce","content",$content);
+  $o = "";
+  if(form_post("back")) {
+	$back = form_post("back");
+    $o .= "<a href=$back><<Назад</a>";
+  }
+  $o .= template("tinymce","content",$content);
   return $o;
 }
 
