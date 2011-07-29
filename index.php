@@ -41,24 +41,6 @@ foreach(glob("uses/*.php") as $module) {
 }
 
 
-if(form_post("l")) {
-  if(form_post("l")=="rus") {
-	  $_SESSION['lang'] = "rus";
-  } else {
-	  $_SESSION['lang'] = "eng";
-  }
-  redir(form_post('q'));
-}
-
-
-if($_SESSION['lang']=='rus') {
-	$rus_highlight = "#C0BEBF";
-	$eng_highlight = "#515151";
-} else {
-	$rus_highlight = "#515151";
-	$eng_highlight = "#C0BEBF";
-}
-
 //LOGIN - different menus generation for different user's
 
 $menu_logout = "";
@@ -68,8 +50,7 @@ $menu_users = "";
 if(user_authorized() && $_SESSION['userid']==1) 
    $menu_users = ":: <a href=?q=users>Users</a>";
 
-
-if(!isset($_GET['q'])) {
+if(!isset($_GET['q']) || $_GET['q']=='') {
    if(function_exists("def_q")) {
       $_GET['q'] = def_q();
    } else {
@@ -78,36 +59,9 @@ if(!isset($_GET['q'])) {
 }
 
 
-//support for page names
-$page_id = page_id_by_title_trans($_GET['q']);
-if($page_id) { 
-	$_GET['q'] = 'p/'.$page_id;
-}
+page_check_by_name($_GET['q']);
 
 $parts = explode('/',$_GET['q']);
-
-
-//check for pages/sometext.txt file
-$pagename = $_GET['q'];
-$pagename = str_replace(".","",$pagename);
-
-$filename = "pages/$pagename".".txt";
-if(file_exists($filename)) {
-    $file = file_get_contents($filename);
-    $file = str_replace("\r","<br>",$file);
-
-
-    preg_match_all("|{![^}]*}|",$file,$matches);
-    foreach($matches[0] as $value) {
-        $varname = substr($value,2,strlen($value)-3);
-        if(file_exists($varname)) {
-          $file_content = file_get_contents($varname);
-          
-        }
-        $file = str_replace("{!$varname}",$file_content,$file);
-    }
-    $content .= $file;
-}
 
 
 //CHECK FOR page_function
@@ -139,24 +93,6 @@ foreach($parts as $i=>$part) {
 
 if($before_function) {
   $before_function();	
-}
-
-//CHECK FOR function_page
-$function = "";
-foreach($parts as $i=>$part) {
-   if($function!="")
-     $function .= "_";
-   $function .= "$part";
-   if(function_exists($function."_page") && $appropriate_index<$i) {
-      $appropriate_function = $function."_page";
-      $appropriate_index = $i;
-   }
-
-   if(function_exists($function."_pg") && $appropriate_index<$i) {
-      $appropriate_function = $function."_pg";
-      $appropriate_index = $i;
-   }
-   
 }
 
 //// self_q

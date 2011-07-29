@@ -8,7 +8,8 @@ function page_pages_vars() {
 [content] TEXT  NULL,
 [content_search] TEXT NULL,
 [fixed] BOOLEAN DEFAULT 'false' NULL,
-[weight] INTEGER  NULL
+[weight] INTEGER  NULL,
+[category] INTEGER  NULL
 )");
   die(" ");
 }
@@ -38,8 +39,11 @@ function page_p($id,$edit=true) {
   } else {
 
   }
-  if($page)
+  if($page) {
     $o = $page->content;
+	if(function_exists("on_page_content"))
+	   on_page_content($o);
+  }
   else
     $o = "not defined";
   if($edit) {
@@ -76,7 +80,7 @@ function page_admin_pages($act="",$id="") {
 //   $table_edit_props->del_record_show = false;
 //    $table_edit_props->edit_record_show = false;
     global $base_url;
-	$o .= table_edit("pages","admin/pages",$act,$id,"","","",
+	$o .= table_edit("pages","admin/pages",$act,$id,"category","null","",
 		"<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href={$base_url}p/[id]>{$base_url}p/[id]</a>");
 	return $o;
 }
@@ -132,7 +136,22 @@ function translit($str)
         "ы"=>"y","ь"=>"","э"=>"e","ю"=>"yu","я"=>"ya", 
         " "=> "_", "/"=> "_"
     );
-    return strtr($str,$tr);
+    return strtolower(strtr($str,$tr));
 }
 
+function page_admin_pages_new($title) {
+
+}
+
+$page_id = 0;
+$link_to_page_id = 0;
+function page_check_by_name(&$q) {
+	global $page_id, $link_to_page_id;
+	//support for page names
+	$page_id = page_id_by_title_trans($q);
+	$link_to_page_id = $page_id;
+	if($page_id) { 
+		$q = 'p/'.$page_id;
+	}
+}
 ?>
