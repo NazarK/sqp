@@ -63,6 +63,27 @@ page_check_by_name($_GET['q']);
 
 $parts = explode('/',$_GET['q']);
 
+//check for pages/sometext.txt file
+$pagename = $_GET['q'];
+$pagename = str_replace(".","",$pagename);
+
+$filename = "pages/$pagename".".txt";
+if(file_exists($filename)) {
+    $file = file_get_contents($filename);
+    $file = str_replace("\r","<br>",$file);
+
+
+    preg_match_all("|{![^}]*}|",$file,$matches);
+    foreach($matches[0] as $value) {
+        $varname = substr($value,2,strlen($value)-3);
+        if(file_exists($varname)) {
+          $file_content = file_get_contents($varname);
+          
+        }
+        $file = str_replace("{!$varname}",$file_content,$file);
+    }
+    $content .= $file;
+}
 
 //CHECK FOR page_function
 $function = "page";
