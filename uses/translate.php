@@ -153,4 +153,6 @@ function eng($s) {
 }
 
 $files['dictionary__.txt']['directedit'] = true;
+$template_call['__'] = 1;
+
 ?>

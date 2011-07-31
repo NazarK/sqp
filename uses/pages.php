@@ -154,4 +154,7 @@ function page_check_by_name(&$q) {
 		$q = 'p/'.$page_id;
 	}
 }
+
+$template_call['WebPageTitle'] = true;
+$template_call['page_p'] = true;
 ?>
