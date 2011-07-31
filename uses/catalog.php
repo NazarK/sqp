@@ -492,3 +492,7 @@ function page_catalog_import() {
   }
   die();
 }
+
+$template_call['CatalogPageTitle'] = true;
+$template_call['catalog_menu_with_links'] = true;
+$template_call['catalog_menu'] = true;
