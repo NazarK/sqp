@@ -3116,9 +3116,7 @@ function page_user_signup() {
 
                 $_SESSION['userid'] = db_last_id();
                 redir(""); 
-		die();
-
-
+		        die();
                 $o .= "Successfully signed up";
             }
       }
@@ -3139,6 +3137,7 @@ function uid() {
 function page_error() {
   setcookie("error_report",1);
   die("Error Reporting turned on");
+  
 }
 
 function page_error_off() {

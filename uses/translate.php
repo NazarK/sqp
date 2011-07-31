@@ -34,11 +34,11 @@ function lang() {
   return $_SESSION[$apptitle.'lang'];
 }
 
-function eng() {
+function is_eng() {
   return lang()=='eng';
 }
 
-function rus() {
+function is_rus() {
   return lang()=='rus';
 }
 
@@ -64,12 +64,34 @@ function _T($s) {
 }
 
 
+function __($key) {
+	global $dictionary__;
+	if(count($dictionary__)==0) {
+		$lines = file("dictionary__.txt");
+		foreach($lines as $line) {
+		  $parts = explode('=',$line);
+		  if(isset($parts[1]))
+		  $dictionary__[$parts[0]] = trim($parts[1]);
+		}
+	}
+
+	if(!isset($dictionary__[$key])) return $key;
+	return fld_trans($dictionary__[$key]);
+}
+
+function dict($key) {
+  return __($key);
+}
+
 function fld_trans($s,$to_lang="") {
   
   global $lang_dir;
   $lang = $lang_dir;
   if($to_lang=="rus" || $to_lang=="ru") {
      $lang = "ru/";
+  }
+  if($to_lang=="eng" || $to_lang=="en") {
+     $lang = "en/";
   }
 
 
@@ -111,7 +133,7 @@ function fld_trans_old($s) {
 	  $parts = explode("inenglish:",$s);
   }
 
-  if(eng()) {
+  if(is_eng()) {
 	if(isset($parts[1])) return $parts[1];
 	else return $parts[0]; 
   } else {
@@ -126,5 +148,9 @@ function obj_trans($o) {
   return $o;
 }
 
+function eng($s) {
+  return fld_trans($s,"eng");
+}
 
+$files['dictionary__.txt']['directedit'] = true;
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-$apptitle = "SQP Web Application";
+$apptitle = "Tenda";
 
 
 error_reporting(E_ALL | E_STRICT);
@@ -22,12 +22,16 @@ define("MYSQL_DB","nkcompsqp");
 define("SQLITE2_DB","sqlite2.db");
 define("FOLDER_SEPARATOR","/");
 define("HTTP_POST_DOUBLE_SLASH","1"); //used in HTTPPostValue, HTTPPostFix
+define("CART_NOTIFY","nazar.kuliev@gmail.com");
 
 
 $base_url = "http://".$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF'])."/";
 if(substr($base_url,strlen($base_url)-2,2)=='//') {
 	$base_url = substr($base_url,0,strlen($base_url)-1);
 }
-//date_default_timezone_set("Europe/Amsterdam");
+
+$base_url = str_replace("/en/","/",$base_url);
+
+date_default_timezone_set("Europe/Amsterdam");
 
 ?>

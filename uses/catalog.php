@@ -38,8 +38,10 @@ function page_admin_catalog_edit($parent_id="",$act="",$id="") {
     global $tables;
 
     $tables['catalog']['fields'][] = "title";
+    $tables['catalog']['fields'][] = "price";
+    $tables['catalog']['fields'][] = "count";
+    $tables['catalog']['fields'][] = "articul";
 	$tables['catalog']['weight'] = true;
-
 
     $o .= catalog_admin_path($parent_id);
 
@@ -229,8 +231,8 @@ function catalog_path($id) {
 	$parent = db_object_get("catalog",$obj->parent_id);
 	$grand = db_object_get("catalog",$parent->parent_id);
 
-	$o .= " / <a href={$lang_dir}catalog/".to_url($grand->title).">$grand->title</a>";
-	$o .= " / <a href={$lang_dir}catalog/".to_url($grand->title)."/".to_url($parent->title).">$parent->title</a>";
+	$o .= " / <a href={$lang_dir}catalog/".to_url(fld_trans($grand->title,"eng")).">".fld_trans($grand->title)."</a>";
+	$o .= " / <a href={$lang_dir}catalog/".to_url(fld_trans($grand->title,"eng"))."/".to_url(fld_trans($parent->title,"eng")).">".fld_trans($parent->title)."</a>";
 	return $o;
 }
 
@@ -243,23 +245,31 @@ function catalog_images($id) {
 }
 function page_catalog($folder="",$subfolder="") {
   $o = "";
+  global $CatalogPageTitle;
   if($folder) {
     $items = catalog_items(0);
 	foreach($items as $item) {
-      if(to_url($item->title)==$folder) {
+      if(to_url(fld_trans($item->title,"eng"))==$folder) {
+		   $CatalogPageTitle = fld_trans($item->title);
 		   if(!$subfolder) {
 			   $subfolders = catalog_items($item->id);
 			   foreach($subfolders as $subfolder) {
 			      $o .= "<div id=subfolder>";
-				  $subfolder->url = to_url($subfolder->title);
+				  $subfolder->url = to_url(fld_trans($subfolder->title,"eng"));
+				  $subfolder->title = fld_trans($subfolder->title);
                   $o .= "<div id=title><a href=catalog/$folder/$subfolder->url>$subfolder->title</a></div>";
                   $o .= "<div id=items>";
 				  $subfolder_items = catalog_items($subfolder->id);
 				  $count = 0;
                   foreach($subfolder_items as $item) {
-					  if($count>3) break;
+					  if($count>=3) break;
 					  $img = catalog_images($item->id);
-					  $img = $img[0]->image_file;
+					  if(count($img)) {
+					      $img = $img[0]->image_file;
+					  } else {
+						  $img = "";
+					  }
+					  $GLOBALS['item_url']=to_url(eng($item->title));
 					  $o .= template("catalog_item","title",$item->title,"img",$img,"item_id",$item->id);
 					  $count++;
 				  }
@@ -271,16 +281,22 @@ function page_catalog($folder="",$subfolder="") {
 			   $search = $subfolder;
 			   $subfolders = catalog_items($item->id);
 			   foreach($subfolders as $subfolder) {
-				   if(to_url($subfolder->title)==$search) {
+				   if(to_url(fld_trans($subfolder->title,"eng"))==$search) {
+		              $CatalogPageTitle = fld_trans($subfolder->title)." - ".$CatalogPageTitle;
 					  $o .= "<div id=subfolder>";
+					  $subfolder->title = fld_trans($subfolder->title);
 					  $o .= "<div id=title>$subfolder->title</div>";
                       $o .= "<div id=items>";
 					  $subfolder_items = catalog_items($subfolder->id);
 					  $count = 0;
 					  foreach($subfolder_items as $item) {
-						  if($count>3) break;
 						  $img = catalog_images($item->id);
-						  $img = $img[0]->image_file;
+						  if(count($img)) {
+							  $img = $img[0]->image_file;
+						  } else {
+							  $img = "";
+						  }
+						  $GLOBALS['item_url']=to_url(eng($item->title));
 						  $o .= template("catalog_item","title",$item->title,"img",$img,"item_id",$item->id);
 						  $count++;
 					  }
@@ -295,6 +311,9 @@ function page_catalog($folder="",$subfolder="") {
 	  }
 	}
   }
+  if(!$CatalogPageTitle) {
+   $CatalogPageTitle = fld_trans(db_result(db_query("SELECT title FROM menu WHERE link='catalog' LIMIT 1")));
+  }
 
   return template("catalog","items",$o);
 }
@@ -302,6 +321,10 @@ function page_catalog($folder="",$subfolder="") {
 function to_url($s) {
 	$s = strtolower($s);
 	$s = str_replace(" ","-",$s);
+	$s = str_replace("+","plus",$s);
+	$s = str_replace("/","-",$s);
+	$s = str_replace("\\","-",$s);
+	$s = str_replace("--","-",$s);
 	return $s;
 }
 function catalog_menu() {
@@ -310,15 +333,19 @@ function catalog_menu() {
 
   global $lang_dir;
   foreach($items as $item) {
-	$url = to_url($item->title);
-    $o .= "<div id=folder><div id=title><a href={$lang_dir}catalog/$url>$item->title</a></div>"; 
+	$url = to_url(fld_trans($item->title,"eng"));
+	$item->title = fld_trans($item->title);
+    $o .= "<div class='menuItemDiv level1'><div class=title><a href={$lang_dir}catalog/$url>$item->title</a></div>"; 
 
 	$sub_items = db_fetch_objects(db_query("SELECT id,title FROM catalog WHERE parent_id=$item->id ORDER BY weight"));
 
+    $o .= "<div class=subMenu>";
 	foreach($sub_items as $sub) {
-	   $sub_url = to_url($sub->title);
-       $o .= "<div id=subItem><a href={$lang_dir}catalog/$url/$sub_url>$sub->title</a></div>";
+	   $sub_url = to_url(fld_trans($sub->title,"eng"));
+	   $sub->title = fld_trans($sub->title);
+       $o .= "<div class='menuItemDiv level2'><div class=title><a href={$lang_dir}catalog/$url/$sub_url>$sub->title</a></div></div>";
 	}
+	$o .= "</div>";
 
 	$o .= "</div>";
 
@@ -328,8 +355,9 @@ function catalog_menu() {
 }
 
 function page_catalog_view($id) {
+  global $CatalogPageTitle;
   $GLOBALS["item"] = obj_trans(db_object_get("catalog",$id));
-
+  $CatalogPageTitle = $GLOBALS["item"]->title;
   $GLOBALS["images"] = catalog_images($id);
   return template("catalog_view");
 }
@@ -340,14 +368,15 @@ function catalog_menu_with_links($parent_id) {
 
  global $lang_dir;
  foreach($items as &$item) {
-   $item->link = "{$lang_dir}catalog/".to_url($item->title);
+   $item->link = "{$lang_dir}catalog/".to_url(fld_trans($item->title,"eng"));
    $item->altlink = $item->link;
  }
 
  $o = "";
 
  foreach($items as &$item) {
-   $o .= "<div class=menuItemDiv><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>";
+   $item->title = fld_trans($item->title);
+   $o .= "<div class='menuItemDiv level2'><div class=title><a class=menuItem href='{$item->link}'  althref='{$item->altlink}'>$item->title</a></div></div>";
  }
 
  return $o;
@@ -363,3 +392,103 @@ function catalog_edit_html($id) {
 
 }
 
+function CatalogPageTitle() {
+  if(isset($GLOBALS['CatalogPageTitle'])) 
+	  return $GLOBALS['CatalogPageTitle']." - ";
+}
+
+function objectsIntoArray($arrObjData, $arrSkipIndices = array())
+{
+    $arrData = array();
+    
+    // if input is object, convert into array
+    if (is_object($arrObjData)) {
+        $arrObjData = get_object_vars($arrObjData);
+    }
+    
+    if (is_array($arrObjData)) {
+        foreach ($arrObjData as $index => $value) {
+            if (is_object($value) || is_array($value)) {
+                $value = objectsIntoArray($value, $arrSkipIndices); // recursive call
+            }
+            if (in_array($index, $arrSkipIndices)) {
+                continue;
+            }
+            $arrData[$index] = $value;
+        }
+    }
+    return $arrData;
+}
+
+//IMPORT OFFERS
+function catalog_import_offers() {
+  $xml = file_get_contents("import/import_offers.xml.xml");
+  $xmlObj = simplexml_load_string($xml);
+  $arrXml = objectsIntoArray($xmlObj);
+  echo "<pre>";
+  $offers = $arrXml['ПакетПредложений']['Предложения']['Предложение'];
+//  print_r($offers);
+
+  foreach($offers as $offer) {
+     $title = $offer['Наименование'];
+	 $price = $offer['Цены']['Цена']['ЦенаЗаЕдиницу'];
+	 $count = $offer['Количество'];
+	 $articul = $offer['Артикул'];
+
+	 echo "$title<br>Articul: $articul<br>Price: $price<br>Count: $count<br>";
+
+	 $catalog_id = db_result(db_query("SELECT id FROM catalog WHERE articul='%s' LIMIT 1",$articul));
+
+	 if($catalog_id) {
+        db_query("UPDATE catalog SET count=%d, price='%s' WHERE id=%d",$count,$price,$catalog_id);
+	 } else {
+        echo "Товар не найден по артикулу '$articul'";
+	 }
+
+  }
+}
+
+
+function page_catalog_import() {
+  ob_start();
+
+  print_r($_GET);
+  print_r($_POST);
+  print_r($_FILES);
+
+
+  $s = ob_get_clean();
+
+  file_put_contents("import/import.log",  file_get_contents("import/import.log").$s);
+
+  if(@$_GET['mode']=='checkauth') {
+	echo "success\n";
+  }
+
+  if(@$_GET['mode']=='init') {
+    echo "zip=no\n";
+    echo "file_limit=10000000\n";
+  }
+
+  if(@$_GET['mode']=='file') {
+    echo "success\n";
+
+    ob_start();
+	print_r($GLOBALS['HTTP_RAW_POST_DATA']);
+    $s = ob_get_clean();
+
+    file_put_contents("import/import_".$_GET['filename'].".xml",$GLOBALS['HTTP_RAW_POST_DATA']);
+
+	if($_GET['filename']=='offers.xml') {
+	   ob_start();
+       catalog_import_offers();       
+	   $s = ob_get_clean();
+       file_put_contents("import/import.log",  file_get_contents("import/import.log").$s);
+	}
+  }
+
+  if(@$_GET['mode']=='import') {
+    echo "success\n";
+  }
+  die();
+}

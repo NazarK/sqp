@@ -1,7 +1,8 @@
 * {
-  font-family: Verdana;
+  font-family: Arial;
   margin: 0;
   padding: 0;
+  font-size: 13px;
 }
 
 a { 
@@ -12,3 +13,238 @@ img {
   border: 0;
 }
 
+
+#menu .menuItemDiv.level1 >.title {
+  padding-top: 10px;
+  margin-top: -10px;
+  padding-bottom: 10px;
+  margin-bottom: -10px;
+}
+
+#menu .menuItemDiv.level2 >.title {
+  padding-top: 10px;
+  margin-top: -14px;
+  padding-bottom: 2px;
+  margin-bottom: -2px;
+  padding-left: 4px;
+  margin-left: -4px;
+}
+
+body {
+  background: #d7d7d7;
+}
+#wrap {
+  width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#logo {
+  margin-top: 16px;
+  position: absolute;
+}
+
+#lang {
+  position: absolute;
+  margin-left: 829px;
+  margin-top: 22px;
+  width: 114px;
+  height:25px;
+  color: #000;
+}
+#lang a {
+  text-decoration: none;
+  color: #000;
+}
+#lang a.active {
+  color: #666;
+}
+
+#menu {
+  margin-top: 88px;
+  background: url(images/site/menu_back.png) no-repeat;
+  width: 940px;
+  height: 37px;
+  position: absolute;
+}
+
+#menu .menuItemDiv {
+  width: 105px;
+  height: 28px;
+  background: url(images/site/menudiv_back.png) no-repeat 12px 0px;
+  float: left;
+  text-align: center;
+  padding-top: 9px;
+  cursor: pointer;
+}
+
+#menu .subMenu .menuItemDiv {
+  height: 20px;
+  text-align: left;
+  padding-left: 4px;
+  width: 99px;
+}
+
+#menu .menuItemDiv.level1 .back.level1 {
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  padding: 10px;
+}
+
+#menu .menuItemDiv.level1:hover , #menu .menuItemDiv.level1.active {
+  background: url(images/site/menudiv_level1_active_back.png) no-repeat;
+}
+
+#menu .menuItemDiv:hover a, #menu .menuItemDiv.active a {
+  font-weight: bold;
+  text-shadow: none;
+}
+#menu .menuItemDiv.active >.title >a {
+  color: #fff !important;
+}
+
+#menu .menuItemDiv:hover a {
+  color: #fff;
+}
+
+#menu .menuItemDiv:hover >a {
+  color: #eee;
+}
+
+#menu .menuItemDiv .subMenu {
+  margin-top: 12px;
+  position: absolute;
+  z-index: 1000;
+  display: none;
+}
+
+#menu .menuItemDiv .subMenu .menuItemDiv:hover a {
+  color: #000;
+}
+#menu .menuItemDiv .subMenu .menuItemDiv:hover {
+  background: #ea5;
+}
+
+#menu .menuItemDiv .subMenu .menuItemDiv {
+  background: none;
+  float: none;
+}
+
+#menu .menuItemDiv .subMenu .menuItemDiv a {
+  font-size: 10px;  
+}
+
+#menu .menuItemDiv a {
+  color: #000;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 13px;
+  text-shadow: #eee 1px 1px 1px;
+}
+
+#menu #search {
+  width: 145px;
+  height: 27px;
+  background: url(images/site/search_back.png) no-repeat;
+  position: absolute;
+  margin-left: 770px;
+  margin-top: 6px;
+}
+
+#menu #search input {
+  border: none;
+  color: #fff;
+  margin-left: 5px;
+  margin-top: 5px;
+  width: 112px;
+  font-size: 11px;
+  background: none;
+}
+#content {
+  position: absolute;
+  margin-top: 130px;
+}
+
+#copyright {
+  color: #333;
+  font-size: 10px;
+  position: absolute;
+  margin-left: 600px;
+  height: 40px;
+  display: none;
+}
+#main_banner_bg {
+  position: absolute;
+  margin-top: 130px;
+  width: 970px;
+  height: 402px;
+  margin-left: -18px;
+  background: url(images/site/main_banner_bg.png) no-repeat;
+}
+#main_banner {
+  position: absolute;
+  margin-top: 9px;
+  margin-left: 26px;
+  width: 922px;
+  height: 362px;
+}
+#small_banners {
+  position: absolute;
+  margin-left: 0px;
+  margin-top: 530px;
+  width: 945px;
+  height:321px;
+}
+
+#small_banner {
+  width: 310px;
+  height:185px;
+  background: url(images/site/small_banner_bg.png) no-repeat;
+  float: left;
+  margin-left: 2px;
+}
+
+.subMenu .back {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background:#e92;
+  z-index:5;
+}
+
+.subMenu .cont {
+  position: relative;
+  z-index: 10;
+}
+
+#marquee {
+  position: absolute;
+  background: url(images/site/marquee_bg.png) no-repeat;
+  margin-top: 729px;
+  width: 942px;
+  height:41px;
+  margin-left: -3px;
+}
+#marquee marquee {
+  margin-top: 10px;
+}
+
+#path {
+  position: absolute;
+  margin-top: 314px;
+  height: 35px;
+  background: #eee;
+  width: 940px;
+  background: url(images/site/path_back.png) no-repeat;
+}
+#path #value {
+  margin-top: 8px;
+  margin-left: 10px;
+  color: #fff;
+}
+#path #value a {
+  color: #fff;
+  text-decoration: none;
+}

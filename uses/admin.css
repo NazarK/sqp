@@ -1,24 +1,30 @@
+* {
+  padding: 0;
+  margin: 0;
+}
 body {
   font-family:Trebuchet MS;
   font-size:14px;
 }
 
 a { color: #000; text-decoration: none; outline: none; }
-a:hover {color: #408EDB }
-.admin_menu { color: #fff; padding:4px; text-decoration:none;}
-.admin_menu:visited { color: #fff; }
-.admin_menu:hover { color:#fff; background: #666;}
+a:hover {border-bottom: 2px solid #fb7;}
 .table_edit {}
 .table_edit td {background: #eee;}
 .admin_menu {
   padding:10px;
-  background:#888;
-  line-height: 40px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 20px;
 }
+
+.admin_menu:hover {
+  border-bottom: 2px solid #fb7;
+  color: #000;
+  text-decoration: none;
+}
+
 .current_menu {
-  background: #444 !important;
+  border-bottom: 2px solid #fb7;
 }
 textarea {
   border: 1px solid #000;
@@ -26,4 +32,21 @@ textarea {
 
 img {
   border: 0;
+}
+
+
+
+#content .admin_menu { color: #fff; padding:4px; text-decoration:none;   
+border-bottom: none !important; }
+#content .admin_menu:visited { color: #fff; }
+#content .admin_menu:hover { color:#fff; background: #666;}
+#content .admin_menu {
+  padding:10px;
+  background:#888;
+  line-height: 40px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+#content .current_menu {
+  background: #444 !important;
 }

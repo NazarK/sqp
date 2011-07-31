@@ -2,24 +2,55 @@
 <base href="{!base_url}"/>
 {!admin.css}
 {!jquery.js}
-<h1>Панель администратора</h1>
-<a class=admin_menu href=admin/pages althref=admin/edit arg="">Страницы сайта</a>
+<style>
+#hr {
+  background:url(images/admin/hr_bg.png) repeat-x; 
+}
+</style>
+<div id=top style='background:#000;color:#fff;overflow:auto;padding:5px;'>
+CREATIVE EMPIRE - ПАНЕЛЬ АДМИНИСТРАТОРА
+</div>
+<div id=left style='position:absolute'>
+<img src=images/admin/logo.png><br>
+<div id=hr style='height:10px;width:220px;margin-left:60px;'></div>
+<div id=vert_menu style='margin-left:60px;width:220px;text-align:right;margin-top:10px;'>
+<a href='' />ПЕРЕЙТИ НА САЙТ</a>
+</div>
+</div>
+<div id=workarea style='margin-left:300px;'>
+
+<div id=menu style='height:40px;width:800px;margin-top:38px;margin-bottom:20px;'>
+<a class=admin_menu href=admin/carts>Заказы</a>
+<a class=admin_menu href=admin/catalog/edit althref=admin/catalog/images arg='' althref2=admin/edit arg2=catalog>Каталог</a>
+<a class=admin_menu href=admin/pages althref=admin/edit arg="pages">Страницы сайта</a>
 <a class=admin_menu href=admin/menu/edit>Меню</a>
 <a class=admin_menu href=admin/images>Картинки</a>
-
+<!--
 <a class=admin_menu href=admin/table/edit/rassilka althref=admin/table/edit arg=rassilka>Рассылка</a>
 <a class=admin_menu href=admin/table/edit/zayavka althref=admin/table/edit arg=zayavka>Заявки</a>
-
+-->
+<a class=admin_menu href=admin/map>Где купить</a>
+<a class=admin_menu href=admin/file/edit/dictionary__.txt althref=admin/file/edit>Словарь</a>
 <a class=admin_menu href=admin/pass>Пароль</a>
 <a class=admin_menu href=admin/email>Емейл</a>
-<a class=admin_menu href=admin/logout>Выйти</a>
-<div>
+<a class=admin_menu href=admin/logout>Выйти</a><br>
+<div id=hr style='background:url(images/admin/hr_bg.png) repeat-x; width:800px;height:10px;margin-top:20px;'></div>
+</div>
+
+<div id=content style='overflow:auto;'>
 {!content}
+</div>
+</div>
+<div id=bottom style='margin-left:60px;margin-right:40px;margin-top:60px;'>
+<div id=hr style='height:20px;margin-top:20px;margin-bottom:0px;'></div>
+<span style='color:#ccc'>TENDA.kz © 2011</span>
 </div>
 <script>
 $(function() {
-  $("a[href='{call self_q}']").addClass("current_menu");
+  $("a[href='{call self_q}'],a[althref='{call self_q}']").addClass("current_menu");
   $("a[althref='{call self_q}'][arg='']").addClass("current_menu");
   $("a[althref='{call self_q}'][arg='{call arg 0}']").addClass("current_menu");
+  $("a[althref2='{call self_q}'][arg2='']").addClass("current_menu");
+  $("a[althref2='{call self_q}'][arg2='{call arg 0}']").addClass("current_menu");
 });
 </script>

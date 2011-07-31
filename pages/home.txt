@@ -1,9 +1,0 @@
-SQP CMS system running...
-Simple PHP Framework for building simple web applications.
-
-this file is at pages/home.txt
-
-1. change .htaccess
-2. change apptitle
-
-<a href=admin/>Admin Panel</a> - password: 123

