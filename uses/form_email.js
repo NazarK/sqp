@@ -5,9 +5,9 @@ $(function() {
                         "<input mandatory="+$(this).attr("mandatory")+" name='uploadedfile' type='file'>");
    });
 
-  $("#SubmitForm").wrap("<form enctype='multipart/form-data' method=post></form>");
+  $("#form_email").wrap("<form enctype='multipart/form-data' method=post></form>");
 
-	$("#SubmitForm input, #SubmitForm textarea").each( function(index) {
+	$("#form_email input, #form_email textarea").each( function(index) {
 	   $(this).addClass("inputField");
 	   var type = $(this).attr("type");
        if(type == 'text' || type=='textarea') {
@@ -18,13 +18,13 @@ $(function() {
 	   }
     });
 
- $("#SubmitForm input[mandatory=1], #SubmitForm textarea[mandatory=1]").each( function() {
+ $("#form_email input[mandatory=1], #form_email textarea[mandatory=1]").each( function() {
 		   $(this).parents("tr").find("td:eq(0)").each( function() {
                $(this).html($(this).html()+"<span class=mandatoryStar>*</span>");
 		   });
   });
 
-  $("#SubmitForm input[hint], #SubmitForm textarea[hint]").blur( function() {
+  $("#form_email input[hint], #form_email textarea[hint]").blur( function() {
     if($(this).val()=='') { 
 	  $(this).val($(this).attr("hint"));
 	  $(this).addClass("hint");
@@ -42,10 +42,10 @@ $(function() {
   })
   ;
 
-  $("#SubmitForm input[type='submit']").attr("name","submit").click( function() {
+  $("#form_email input[type='submit']").attr("name","submit").click( function() {
 	  $(".mandatoryRemind").removeClass("mandatoryRemind");
       var ok = true;
-	  $("input[mandatory=1]").each( function() {
+	  $("#form_email input[mandatory=1], #form_email textarea[mandatory=1]").each( function() {
 
          var hintrestore = false;
 	     if($(this).attr("hint")) {
@@ -75,7 +75,7 @@ $(function() {
 
   });
 
-  $("#SubmitForm checkbox").each(function(index) {
+  $("#form_email checkbox").each(function(index) {
      $(this).replaceWith("<input class=inputCheckbox type=checkbox name=cb_"+index+" value='"+$(this).attr("value")+"'>"+$(this).attr("value"));
   });
 
