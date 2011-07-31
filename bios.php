@@ -3331,6 +3331,17 @@ function replace_my_tags(&$html) {
       $parts = explode(" ",trim($varname));
       if(function_exists($parts[0])) {
         $function = $parts[0];
+		global $template_call;
+		global $template_call_admin;
+        if(!isset($template_call[$function])) {
+          echo "template_call['$function'] is not set ";
+		  continue;
+		}
+
+		if(str_beg(self_q(),"admin") && !isset($template_call_admin[$function])) {
+          continue;
+		}
+
         $content = $function(isset($parts[1])?$parts[1]:null,isset($parts[2])?$parts[2]:null,isset($parts[3])?$parts[3]:null,isset($parts[4])?$parts[4]:null,isset($parts[5])?$parts[5]:null,isset($parts[6])?$parts[6]:null);
         $html = str_replace("{call$varname}",$content,$html);
       }
@@ -3636,4 +3647,10 @@ function assertFailedFirst() {
     return "<div class=assertError>$er</div>";  
 }
 
+
+$template_call['self_q'] = true;
+$template_call['arg'] = true;
+$template_call['form_post'] = true;
+$template_call_admin['self_q'] = true;
+$template_call_admin['arg'] = true;
 ?>
