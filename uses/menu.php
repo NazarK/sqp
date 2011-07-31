@@ -283,4 +283,5 @@ function menu_root_for_link($link) {
 
 
 $template_call['menu_with_links'] = true;
+$template_call['current_menu_path'] = true;
 ?>
