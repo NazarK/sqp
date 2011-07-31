@@ -33,18 +33,21 @@ function mail_attach($from,$to,$subject,$text,$attach_path,$attach_name) {
 	$message .= "\r\n";
 	$message .= "--".$mime_boundary."\r\n";
 
-	if(!mail($to, $subject, $message, $headers)) {
-	  die("error sending email");	
-	};
+
+	$parts = explode(";",$to);
+	foreach($parts as $to) {
+		if(!mail($to, $subject, $message, $headers)) {
+		  die("error sending email");	
+		};
+	}
 }
 
 
 function page_mail_test() {
 	echo "sending email";
-    mail_attach("no-reply@tradecity.kz","nazar.kuliev@gmail.com","mail attach test","test",
+    mail_attach("no-reply@tradecity.kz","nazar.kuliev@gmail.com;chilavek@mail.ru","mail attach test","test",
 		"bios.php","bios.php");
-    mail_attach("no-reply@tradecity.kz","chilavek@mail.ru","mail attach test","test",
-		"bios.php","bios.php");
+	mail_from("nazar.kuliev@gmail.com;chilavek@mail.ru","subj","message","noreply@nkcomp.com");
 
 }
 
@@ -53,8 +56,11 @@ function mail_from($to,$subject,$message,$from) {
 	     "Reply-To: $from" . "\r\n" .
 	     'X-Mailer: PHP/' . phpversion();
 
-  if(!mail($to,$subject,$message,$headers)) {
-    echo "error while sending email";
+  $parts = explode(";",$to);
+  foreach($parts as $to) {
+    if(!mail($to,$subject,$message,$headers)) {
+      echo "error while sending email";
+    }
   }
 }
 
