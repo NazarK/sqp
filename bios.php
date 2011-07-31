@@ -3487,15 +3487,6 @@ function session_get($name,$def="") {
   
 }
 
-function mail_from($to,$subject,$message,$from) {
-  $headers = "From: $from" . "\r\n" .
-	     "Reply-To: $from" . "\r\n" .
-	     'X-Mailer: PHP/' . phpversion();
-
-  if(!mail($to,$subject,$message,$headers)) {
-    echo "error while sending email";
-  }
-}
 function str_limit($s,$len,$ending=-1) {
 
     if (mb_strlen($s,"UTF-8")<$len) return $s;

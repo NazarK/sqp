@@ -40,11 +40,22 @@ function mail_attach($from,$to,$subject,$text,$attach_path,$attach_name) {
 
 
 function page_mail_test() {
+	echo "sending email";
     mail_attach("no-reply@tradecity.kz","nazar.kuliev@gmail.com","mail attach test","test",
 		"bios.php","bios.php");
     mail_attach("no-reply@tradecity.kz","chilavek@mail.ru","mail attach test","test",
 		"bios.php","bios.php");
 
+}
+
+function mail_from($to,$subject,$message,$from) {
+  $headers = "From: $from" . "\r\n" .
+	     "Reply-To: $from" . "\r\n" .
+	     'X-Mailer: PHP/' . phpversion();
+
+  if(!mail($to,$subject,$message,$headers)) {
+    echo "error while sending email";
+  }
 }
 
 
