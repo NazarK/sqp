@@ -44,29 +44,37 @@ function strip_for_search($s) {
    return $s;
 }
 
-function page_search() {
+function page_search($search="") {
   mb_internal_encoding("UTF-8");
-  $s = form_post("s");
-  $rr = db_fetch_objects(db_query("SELECT * FROM pages WHERE content_search like '%%%s%%' LIMIT 10",$s));
+  $s = $search;
+  if(!$s)
+    $s = form_post("s");
   $o = "";
+if($s) {
+  $rr = db_fetch_objects(db_query("SELECT * FROM pages WHERE content_search like '%%%s%%' LIMIT 10",$s));
 
   if(count($rr)==0) {
     $o .= "Под запрос <strong>$s</strong> не подходит ни одна страница.";
   } else
   
   foreach($rr as $r) {
-	 $r->content = strip_for_search($r->content);
-	 $p = mb_strpos($r->content_search,mb_strtolower($s),0);
-	 $r->content = mb_substr($r->content,0,$p)."<strong>".
-		 mb_substr($r->content,$p,mb_strlen($s))."</strong>".mb_substr($r->content,$p+mb_strlen($s),mb_strlen($r->content));
+	 $r->content = fld_trans(strip_for_search($r->content));
+	 $r->content_search = fld_trans($r->content_search);
+	 $p = 0;
+	 if(mb_strpos($r->content_search,mb_strtolower($s))!==FALSE) {
+		 $p = mb_strpos($r->content_search,mb_strtolower($s),0);
+		 $r->content = mb_substr($r->content,0,$p)."<strong>".
+			 mb_substr($r->content,$p,mb_strlen($s))."</strong>".mb_substr($r->content,$p+mb_strlen($s),mb_strlen($r->content));
+	 }
 	 $start = $p-200;
 	 if($start<0) $start = 0;
 	 $r->span = mb_substr($r->content,$start,400);
 	 $r->url = translit(fld_trans($r->short,"ru"));
+	 $r->short = fld_trans($r->short);
      $GLOBALS['r'] = $r;
      $o .= template("search");
   }
-
+}
   $o .= "<div style='padding-top:20px'><a href=search/google&s=".urlencode($s).">Использовать google поиск по сайту</a></div>";
   return $o;
 
@@ -77,5 +85,14 @@ function page_search_google() {
   global $base_url;
   Header("Location: http://www.google.com/search?q=".form_post('s')."&sitesearch=".$base_url);
   die();
+}
+
+$template_call['search_param'] = true;
+function search_param() {
+  if(self_q()=="search") {
+    return arg(0);
+  }
+
+
 }
 ?>
