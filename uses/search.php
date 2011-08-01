@@ -12,6 +12,13 @@ function page_search_prepare() {
 	die("DONE");
 }
 
+function on_pages_content_update($id,&$value) {
+   $s = $value;
+   $s = strip_for_search($s);
+   $s = mb_strtolower($s,"UTF-8");
+   db_query("UPDATE pages SET content_search='%s' WHERE id=%d",$s,$id);
+}
+
 function page_search_test() {
   echo "<META http-equiv='Content-Type' content='text/html; charset=UTF-8'>";
   $_REQUEST['s']='rack';
@@ -27,12 +34,7 @@ function page_search_test() {
 
 }
 
-function on_pages_content_update($id,&$value) {
-   $s = $value;
-   $s = strip_for_search($s);
-   $s = mb_strtolower($s,"UTF-8");
-   db_query("UPDATE pages SET content_search='%s' WHERE id=%d",$s,$id);
-}
+
 
 function strip_for_search($s) {
    $s = strip_tags($s);
@@ -43,6 +45,7 @@ function strip_for_search($s) {
 }
 
 function page_search() {
+  mb_internal_encoding("UTF-8");
   $s = form_post("s");
   $rr = db_fetch_objects(db_query("SELECT * FROM pages WHERE content_search like '%%%s%%' LIMIT 10",$s));
   $o = "";
@@ -53,12 +56,13 @@ function page_search() {
   
   foreach($rr as $r) {
 	 $r->content = strip_for_search($r->content);
-	 $p = mb_strpos($r->content_search,strtolower($s),0,"UTF-8");
-	 $r->content = mb_substr($r->content,0,$p,"UTF-8")."<strong>".
-		 mb_substr($r->content,$p,mb_strlen($s,"UTF-8"),"UTF-8")."</strong>".mb_substr($r->content,$p+mb_strlen($s,"UTF-8"),mb_strlen($r->content),"UTF-8");
+	 $p = mb_strpos($r->content_search,mb_strtolower($s),0);
+	 $r->content = mb_substr($r->content,0,$p)."<strong>".
+		 mb_substr($r->content,$p,mb_strlen($s))."</strong>".mb_substr($r->content,$p+mb_strlen($s),mb_strlen($r->content));
 	 $start = $p-200;
 	 if($start<0) $start = 0;
-	 $r->span = mb_substr($r->content,$start,400,"UTF-8");
+	 $r->span = mb_substr($r->content,$start,400);
+	 $r->url = translit(fld_trans($r->short,"ru"));
      $GLOBALS['r'] = $r;
      $o .= template("search");
   }

@@ -40,7 +40,7 @@ function page_p($id,$edit=true) {
 
   }
   if($page) {
-    $o = $page->content;
+    $o = fld_trans($page->content);
 	if(function_exists("on_page_content"))
 	   on_page_content($o);
   }
