@@ -1780,8 +1780,8 @@ function paginator($href, $page) {
 
 function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="submit") {
   page_header("$tablename: edit");
-  $ff = split(",",$fields);
-  $cc = split(",",$captions);
+  $ff = explode(",",$fields);
+  $cc = explode(",",$captions);
   
   if(form_post("submit")) {
     $set = "";
@@ -1831,7 +1831,7 @@ function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="su
 function form_object_add($tablename,$fields,$captions="",$submitcaption="Submit") {
    page_header("$tablename: add");
    if(form_post("submit")) {
-      $ff = split(',',$fields);
+      $ff = explode(',',$fields);
       $values = "";
       foreach($ff as $f) {
         $values .= ",'%s'";
@@ -1854,8 +1854,8 @@ function form_object_add($tablename,$fields,$captions="",$submitcaption="Submit"
    }
    
    form_start();
-   $fields = split(",",$fields);
-   $captions = split(",",$captions);
+   $fields = explode(",",$fields);
+   $captions = explode(",",$captions);
    foreach($fields as $i=>$field) {
      $caption = $field;
      if(!empty($captions[$i])) {
@@ -3513,7 +3513,7 @@ function replace_globals(&$template) {
   foreach($matches[0] as $value) {
     $varname = substr($value,2,strlen($value)-3);
     if(strpos($varname,"->")) {
-      $parts = split("->",$varname);
+      $parts = explode("->",$varname);
       if(isset($GLOBALS[$parts[0]]->$parts[1])) {
          $template = str_replace("{!$varname}",$GLOBALS[$parts[0]]->$parts[1],$template);
       } else {
