@@ -1,6 +1,7 @@
 <?php
 
-$apptitle = "Tenda";
+$apptitle = "Vipromotion - CA Franchise Expo";
+$admin_branding = "vipromotion.kz - CA Franchise Expo";
 
 
 error_reporting(E_ALL | E_STRICT);
