@@ -89,9 +89,9 @@ function on_menu($id) {
   $o .= "<a href=admin/menu/edit/$id title='Подменю'>--> </a>";//<img src=images/menu.png>
   if($count) $o .= "($count)";
   if($page_id)
-    $o .= " <a href=admin/edit/pages/content/$page_id&back=admin/menu/edit/$obj->parent_id><img src='images/text_edit.png'></a>";
+    $o .= " <a href=admin/edit/pages/content/$page_id&back=admin/menu/edit/$obj->parent_id><img src='images/admin/text_edit.png'></a>";
   else
-	$o .= " <a href=admin/menu/page_attach/$id&back=admin/menu/edit/$obj->parent_id><img src='images/text_edit.png'></a>";
+	$o .= " <a href=admin/menu/page_attach/$id&back=admin/menu/edit/$obj->parent_id><img src='images/admin/text_edit.png'></a>";
   return $o;
 }
 

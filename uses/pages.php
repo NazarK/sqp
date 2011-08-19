@@ -81,7 +81,7 @@ function page_admin_pages($act="",$id="") {
 //    $table_edit_props->edit_record_show = false;
     global $base_url;
 	$o .= table_edit("pages","admin/pages",$act,$id,"category","null","",
-		"<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href={$base_url}p/[id]>{$base_url}p/[id]</a>");
+		"<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/admin/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href={$base_url}p/[id]>{$base_url}p/[id]</a>");
 	return $o;
 }
 

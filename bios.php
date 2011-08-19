@@ -2297,10 +2297,10 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 
    $act = "";
    if($table_edit_props->edit_record_show) {
-     $act .= "<a href=?q=$home/edit/[id]><img src=images/edit.png border=0></a>";
+     $act .= "<a href=?q=$home/edit/[id]><img src=images/bios/edit.png border=0></a>";
    }
    if($table_edit_props->del_record_show) {
-     $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('{~Are you sure?}');\"src=images/del.png border=0></a>";
+     $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('{~Are you sure?}');\"src=images/bios/del.png border=0></a>";
    }
     
    //up down arrows
@@ -2389,7 +2389,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 
     }
     if($table_edit_props->new_record_show && $table_edit_props->add_records) {
-       $html = "<img src=images/add.png border=0>&nbsp;{~Add a new record}";
+       $html = "<img src=images/bios/add.png border=0>&nbsp;{~Add a new record}";
        if($table_edit_props->new_record_html) $html = $table_edit_props->new_record_html;
        $s .= "<br><a href=?q=$home/add>$html</a>";
     }
