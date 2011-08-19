@@ -16,7 +16,7 @@ function page_pages_vars() {
 
 
 function p_quickedit_html($id) {
-	  if(admin()) return  "<a style='z-index:9000' target=_blank href=admin/edit/pages/content/$id><img style='z-index:9000' src=images/edit.png></a>";
+	  if(admin()) return  "<a style='z-index:9000' target=_blank href=admin/edit/pages/content/$id><img style='z-index:9000' src=images/bios/edit.png></a>";
 	  return "";
 }
 

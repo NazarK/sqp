@@ -385,7 +385,7 @@ function catalog_menu_with_links($parent_id) {
 function catalog_edit_html($id) {
   if(admin()) {
     $parent_id = db_object_get("catalog",$id)->parent_id;
-    return "<a target=_blank href=admin/catalog/edit/$parent_id/edit/$id><img src=images/edit.png></a>";
+    return "<a target=_blank href=admin/catalog/edit/$parent_id/edit/$id><img src=images/bios/edit.png></a>";
   } else {
 	return "";
   }
