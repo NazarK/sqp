@@ -6,7 +6,7 @@
 
 define("CLOSE_ON_SAVE",false);
 function page_admin_edit($table,$field,$id) {
-  use_template("admin");
+  use_layout("admin");
   requires_admin();
   global $tables;
   if(!isset($tables[$table]['liveedit'])) {

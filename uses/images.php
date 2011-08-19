@@ -11,7 +11,7 @@ CREATE TABLE [images] (
 }
 function page_admin_images($act="",$id="") {
   requires_admin();
-  use_template("admin");
+  use_layout("admin");
 
   form_start("","post"," enctype='multipart/form-data' ");
   form_file("Файл","file");

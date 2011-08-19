@@ -3531,6 +3531,18 @@ function use_template($template_name) {
   $GLOBALS['template'] = file_get_contents("uses/{$template_name}.html");
 }
 
+function use_layout($template_name) {
+  $fn = "uses/{$template_name}.layout.html";
+  if(file_exists($fn)) {
+    $GLOBALS['template'] = file_get_contents($fn);
+	return;
+  }
+
+  $fn = "uses/{$template_name}.html";
+  if(file_exists($fn))
+    $GLOBALS['template'] = file_get_contents($fn);
+}
+
 function translate_parse(&$template) {
   preg_match_all("|{~[^}]*}|",$template,$matches);
   foreach($matches[0] as $value) {

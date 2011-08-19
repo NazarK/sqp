@@ -44,7 +44,7 @@ function news_text($ofs,$limit=800) {
 
 function page_admin_news($act="",$id="") {
   requires_admin();
-  use_template("admin");
+  use_layout("admin");
   $o = table_edit("news","admin/news",$act,$id);
   return $o;
 }

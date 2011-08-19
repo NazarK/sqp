@@ -65,7 +65,7 @@ $tables["pages"]["weight"] = 1;
 
 function page_admin_pages($act="",$id="") {
 	requires_admin();
-	use_template("admin");
+	use_layout("admin");
 	$o = "";
 	if($act=="del") {
 		$p = db_object_get("pages",$id);

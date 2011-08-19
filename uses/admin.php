@@ -20,7 +20,7 @@ function page_admin_logout() {
 }
 
 function page_admin_email() {
-  use_template("admin");
+  use_layout("admin");
   if(form_post("save")) {
     db_query("UPDATE settings SET admin_email='%s'",form_post("email"));
 //    die("<script>window.close()</script>");
@@ -37,7 +37,7 @@ function page_admin_email() {
 }
 
 function page_admin_pass() {
-  use_template("admin");
+  use_layout("admin");
 
   $o = "";
   $o .= "<h1>{~Admin Pass}</h1>";
@@ -118,7 +118,7 @@ function admin() {
 
 function page_admin_table_edit($tablename,$act="",$id="") {
   requires_admin();
-  use_template("admin");
+  use_layout("admin");
   global $tables;
   if(!isset($tables[$tablename]['directedit'])) {
      die("tables[$tablename]['directedit'] missing");
@@ -129,7 +129,7 @@ function page_admin_table_edit($tablename,$act="",$id="") {
 
 function page_admin_file_edit($filename) {
   requires_admin();
-  use_template("admin");
+  use_layout("admin");
   global $files;
   if(!isset($files[$filename]['directedit'])) {
 	  die("files[$filename]['directedit'] missing");
@@ -169,7 +169,7 @@ function requires_admin() {
 function page_admin_edit_file($filename) {
   $filename = str_replace("-","/",$filename);
   requires_admin();
-  use_template('admin');
+  use_layout('admin');
   global $files;
   if(!isset($files[$filename]['directedit'])) {
 	  die("not set files[$filename]['directedit']");
@@ -193,7 +193,7 @@ function page_admin_edit_file($filename) {
 
 function page_admin() {
   requires_admin();
-  use_template('admin');
+  use_layout('admin');
   return;
 }
 
@@ -201,7 +201,7 @@ function page_admin() {
 /* edit table settings */  
 function page_admin_settings() {
   requires_admin();
-  use_template("admin");
+  use_layout("admin");
   global $tables;
   $o = "";
   if(form_post("save")) {

@@ -23,7 +23,7 @@ CREATE TABLE [catalog_images] (
 
 function page_admin_catalog_edit($parent_id="",$act="",$id="") {
 	requires_admin();
-	use_template("admin");
+	use_layout("admin");
     if(!$parent_id) $parent_id = 0;
 
 	$o = "";
@@ -102,7 +102,7 @@ $(function() {
 
 function page_admin_catalog_images($catalog_id="",$act="",$id="") {
 	  requires_admin();
-	  use_template("admin");
+	  use_layout("admin");
 	  global $tables;
   	  $tables['catalog_images']['weight'] = 1;
 	  $o = "";

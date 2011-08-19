@@ -33,7 +33,7 @@ function menu_path($sub_id) {
 function page_admin_menu_edit($parent_id="",$act="",$id="") {
 	requires_admin();
 	set_lang("other");
-	use_template("admin");
+	use_layout("admin");
     if(!$parent_id) $parent_id = 0;
 
 	$o = "";
