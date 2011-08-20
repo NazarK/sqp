@@ -21,13 +21,13 @@ function p_quickedit_html($id) {
 }
 
 function PageTitle($id) {
-	return db_result(db_query("SELECT short FROM pages WHERE id=%d",$id));
+	return fld_trans(db_result(db_query("SELECT short FROM pages WHERE id=%d",$id)));
 }
 
 function page_id_by_title_trans($title) {
     $pages = db_fetch_objects(db_query("SELECT id, short FROM pages"));
 	foreach($pages as $p) {
-      if(translit($p->short)==$title) {
+      if(translit(fld_trans($p->short,"rus"))==$title) {
 		  return $p->id;
 	  }
 	}
@@ -114,8 +114,14 @@ function ContentTitle() {
 
 }
 
-function page_id_by_title($title) {
-   return db_result(db_query("SELECT id FROM pages WHERE short='%s'",$title));
+function page_id_by_title($title,$lang="rus") {
+   $pages = db_fetch_objects(db_query("SELECT id,short FROM pages"));
+   foreach($pages as $page) {
+	 if(fld_trans($page->short,$lang)==$title) {
+		 return $page->id;
+	 }
+   }
+   return 0;
 }
 
 function translit($str) 
