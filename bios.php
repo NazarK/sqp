@@ -3364,10 +3364,10 @@ function replace_my_tags(&$html) {
 	  }
 	  if(!str_beg($loc,"http") && !str_beg($loc,"javascript")) $loc = $base_url.$loc;
 	  if($blank)  {
-      $content = "<div style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.open(\"$loc\")'><a target=_blank href={$loc}></a></div>";
+      $content = "<div class=href_sensor style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.open(\"$loc\")'><a target=_blank href={$loc}></a></div>";
 	  } else {
 	
-      $content = "<div style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.location=\"$loc\"'><a href={$parts[4]}></a></div>";
+      $content = "<div class=href_sensor style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.location=\"$loc\"'><a href={$parts[4]}></a></div>";
 	  }
       $html = str_replace("{href$varname}",$content,$html);
     }
