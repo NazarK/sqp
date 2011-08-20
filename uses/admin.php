@@ -137,16 +137,11 @@ function page_admin_file_edit($filename) {
 
   if(form_post('save')) {
      file_put_contents($filename,form_post('text'));
-//	 die("<script> window.close(); </script>");
+	 flash("message","Изменения сохранены");
   }
 
   $txt = file_get_contents($filename);
-  
-  $o = "<form method=post><textarea name=text style='width:100%;height:80%'>$txt</textarea>";
-
-  $o.= "<br><input type=submit name=save value={~save}><input type=button name=cancel value={~cancel} onclick='window.close()'></form>";
-
-
+  $o = template("admin_file_edit","txt",$txt);
   return $o;
 
 }
