@@ -64,9 +64,10 @@ function page_admin_menu_edit($parent_id="",$act="",$id="") {
 	  $o .= menu_path($parent_id);
 	}
     
-    $o .= table_edit("menu","admin/menu/edit/$parent_id",$act,$id,"parent_id",$parent_id,"","on_menu"
-
-	  );
+    $o .= table_edit("menu","admin/menu/edit/$parent_id",$act,$id,"parent_id",$parent_id,"","on_menu");
+	$o .= "<style> input[type='submit'] { padding: 5px 10px; width: auto;} 
+	  input{ width:400px; }
+	</style>";
 
 
 	return $o;
@@ -160,6 +161,24 @@ function page_menu_no_page($menu_id) {
   $menu = db_object_get("menu",$menu_id);
   $menu->title = fld_trans($menu->title,"rus");
   return "Страница с названием '$menu->title' не найдена. Создайте страницу с названием '$menu->title'.";
+}
+
+function menu_first_link($parent_id) {
+ $items = menu_items($parent_id);
+
+ foreach($items as &$item) {
+   if(!$item->link) {
+     $page = page_id_by_title(fld_trans($item->title,"rus"));
+	 $item->altlink = "";
+	 if($page) {
+       $item->link = translit(fld_trans($item->title,"rus"));
+	   $item->altlink = 'p/'.$page;
+	 } 
+   }
+   break;
+ }
+
+ return $items[0]->link;
 }
 
 function menu_with_links($parent_id,$level=0) {
