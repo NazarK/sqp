@@ -1,7 +1,15 @@
 $(function() {
 	if(!shortcut) alert("add shortcut.js");
-	if($(".bot").length==0) return;
+//	if($(".bot").length==0) return;
 	$(".bot").css("border","1px dotted red");
+	shortcut.add("Ctrl+Alt+Enter", function() {
+	
+	   var id = prompt("Enter Div ID to move");
+	   $(".bot").removeClass("bot");
+	   $("#"+id).addClass("bot");
+	   $(id).addClass("bot");
+	   status_update();
+	});
     shortcut.add("Ctrl+Right", function() {
 	   var v = parseInt($(".bot").css("margin-left").replace("px",""))+1;
        $(".bot").css("margin-left",v);
