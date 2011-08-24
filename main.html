@@ -4,72 +4,130 @@
 </HEAD>
 <base href={!base_url}>
 {!jquery.js}
+{!jquery.easing.js}
 {!shortcuts.js}
 {!cssbot.js}
 {!main.js}
 <link rel="stylesheet" href="main.css" /> 
 <style>
 #lang {
-  text-shadow: #fff 1px 1px 0px;
-  filter:dropshadow(color=#ffffff,offx=1,offy=1,positive=1,enabled=1);
 }
-body {
-  display:none;
+#menu >.menuItemDiv {
+  float: left;
+  padding-left: 16px;
+  padding-right: 16px;
+  background: url(images/site/menu_delim.png) no-repeat;
+  height: 32px;
+  padding-top: 8px;
+  text-transform: uppercase;
+}
+#menu >.menuItemDiv.first {
+  background: none;
+}
+#menu .menuItemDiv a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+.menuItemDiv a:hover {
+  border-bottom: 2px dotted #fff;
+}
+
+.menuItemDiv.active >.title .menuItem {
+  border-bottom: 2px solid #fff;
+}
+#menu {
+  margin-top: 306px;
+  position: absolute;
+}
+
+#menu .menuItemDiv.level1 .subMenu {
+  margin-top: 6px;
+  margin-left: -5px;
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  background: #f2242e;
+  padding: 10px;
+}
+
+#menu .menuItemDiv.level1 .subMenu .menuItemDiv{
+  padding: 10px;
+}
+
+#top_title {
+  position: absolute;
+  font-family: "Myriad Pro Bold Cond", Arial;
+  font-size: 40px;
+  margin-top: 240px;
+  right: 18px;
+  font-weight: bold;
+}
+
+#sub_title {
+  position: absolute;
+  font-size: 22px;
+  margin-top: 200px;
+  right: 18px;
+  font-weight: bold;
+}
+
+#top {
+  position: relative;
+  width: 100%;
+}
+#organizer {
+  position: absolute;
+  right: 250px;
+  margin-top: 26px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#copyright {
+  color: #e12;
+  font-family: Arial;
+  font-size: 13px;
+  position: absolute;
+  margin-left: 41px;
+  margin-top: 72px;
+  font-weight: bold;
 }
 </style>
-<script>
-$(function() {
-  $('body').show();
-});
-</script>
 
-<title>{call CatalogPageTitle}{call WebPageTitle}{!apptitle}</title>
+<title>{call WebPageTitle}{!apptitle}</title>
 <body>
 <div id=wrap>
-  <div id=lang><a href="{!base_url}{call form_post q}">РУС</a> | <a href="{!base_url}en/{call form_post q}">ENG</a> | <a href="{!base_url}kz/{call form_post q}">КАЗ</a></div>
-  <div id=menu>
-    <div id=search><input value='{call __ поиск}'></div>
-    {call menu_with_links 1}
+  <div id=top>
+    {href 660 10 230 50 blank:http://vipromotion.kz #fff}
+    {href 170 270 30 30 # #fff}
+    <div id=sub_title>{call dict Подзаголовок}</div>
+	<div id=top_title>{call dict Слоган}</div>
+	<div id=organizer>{call dict Организатор}</div>
+	<div id=menu>
+	{call menu_with_links 1}
+	</div>
+  <div id=lang><a href="{!base_url}{call form_post q}">РУС</a> | <a href="{!base_url}en/{call form_post q}">ENG</a></div>
+	<img src=images/site/top.png alt="Central Asian Franchise Expo 2011">
   </div>
-  <div id=copyright>Copyright © 1999-2011 All Rights Reserved Tenda</div>
-  <div id=logo><a href=/><img src=images/site/logo.png></a></div>
-  <div id=glavnaya style='display:none'>
-	  <div id=main_banner_bg><div id=main_banner><img src=images/site/main_banner_def.jpg></div></div>
-	  <div id=small_banners>
-		<div id=small_banner></div>
-		<div id=small_banner></div>
-		<div id=small_banner></div>
-	  </div>
-	  <div id=marquee><marquee scrollamount=2>{call page_p 6}</marquee></div>
-  </div>
-  <div id=content>
-  <div id=catalog_banner style='display:none'>
-    <img src=images/site/catalog_banner.jpg>
-  </div>
-  {call vert_menu_if_needed}
-  {!content}
-  </div>
-</div>
 
-<div id=catalogMenu style='display:none'><div class=subMenu>{call catalog_menu_with_links}</div></div>
+  <section id=content>
+  {!content}
+  </section>
+
+  <section id=footer>
+    {href 540 40 300 80 blank:http://creativem.kz #fff}
+    <div id=copyright>{call dict copyright}</div>
+    <img src=images/site/bottom.png>
+  </section>
+</div>
 </body>
+
 <script>
 $(function() {
-  $("#marquee").hover( function() {$(this).find("marquee").attr("scrollamount",0)},
-  function() {$(this).find("marquee").attr("scrollamount",2)});
-
-  var origval = $("#search input").val();
-  $("#search input").focus( function() {
-       if($(this).val()==origval) {
-	     $(this).val("");
-	   }
-  })
-  .blur( function() {
-    if($(this).val()=="") {
-	  $(this).val(origval);
-	}
-  })
-
+  $(".href_sensor").css("opacity",0);
+  $(".menuItemDiv").first().addClass("first");
   $(".menuItem[href='{!lang_dir}catalog']").parent().parent().append($("#catalogMenu").html());
   $("#menu .menuItemDiv .title").click( function() {
     window.location = "{!base_url}"+$(this).find("a").attr("href");
@@ -81,17 +139,11 @@ $(function() {
  
   
   $("#menu .menuItemDiv").hover( function() {
-     $(this).find(".subMenu").slideDown(100);
+     $(this).find(".subMenu").slideDown(150,"easeOutSine");
   },
      function() { $(this).find(".subMenu").hide(); }
   );
 
-
-/*  $(".menuItemDiv .subMenu ").hover( function() {
-     $(this).show();
-  },
-     function() { $(this).hide(); }
-  );*/
 
   var q = "{call self_q}/{call arg 0}";
 
@@ -121,7 +173,5 @@ $(function() {
    $("#lang a:eq(2)").addClass("active");
   }
 
-  $("#copyright").css("margin-top",$(document).height()+20).show();
-  $("#menu .subMenu .subMenu").remove();
 });
 </script>

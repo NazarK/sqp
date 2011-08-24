@@ -5,6 +5,11 @@
 
 <!-- TinyMCE -->
 <style>
+.but {
+  padding: 5px 10px;
+  margin: 3px;
+}
+
 </style>
 <script type="text/javascript" src="tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
@@ -70,8 +75,13 @@ font_size_style_values : "8pt,9pt,10pt,11pt,12pt,13pt,14pt,16pt,18pt,20pt"
 		</div>
 
 		<br />
-		<input type="submit" name="save" value="Сохранить" />
+		<input class=but type="submit" name="save" value="Сохранить" />
+<div id=flash_div style='position: absolute; margin-left: 200px;margin-top:-32px;'>
+{call flash_show}
+</div>
+
 <!--		<input onclick="window.close()" type=button value="Отмена" >	<font style='font-size:8px'>TinyMCE</font> -->
+
 	</div>
 </form>
 
@@ -80,5 +90,15 @@ if (document.location.protocol == 'file:') {
 	alert("The examples might not work properly on the local file system due to security settings in your browser. Please use a real webserver.");
 }
 </script>
+
+{!shortcuts.js}
+<script>
+  $(function() {
+	shortcut.add("Ctrl+S", function() {
+	  $("input[name='save']").trigger("click");
+	});
+  });
+</script>
+
 </body>
 </html>

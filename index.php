@@ -174,6 +174,7 @@ replace_globals($template); // {!global} {!global}
 translate_parse($template); // {~rus} {~eng}
 
 echo $template;
+unset($_SESSION['flash']);
 
 //don't show mysql not freed etc
 ini_set("display_errors",0);

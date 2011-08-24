@@ -1,6 +1,6 @@
 <?php
 
-$apptitle = "Vipromotion - CA Franchise Expo";
+$apptitle = "Central Asian Franchise Expo 2011";
 $admin_branding = "vipromotion.kz - CA Franchise Expo";
 
 

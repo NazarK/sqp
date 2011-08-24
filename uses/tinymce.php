@@ -26,6 +26,8 @@ function page_admin_edit($table,$field,$id) {
 
 	 if(CLOSE_ON_SAVE)
 	 die("<script> window.close();</script>");
+
+	 flash("message","Изменения сохранены");
   }
   $content = db_result(db_query("SELECT %s FROM %s WHERE id=%d",$field,$table,$id));
   $o = "";

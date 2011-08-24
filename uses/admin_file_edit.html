@@ -1,0 +1,29 @@
+<style>
+.but {
+  padding: 5px 10px;
+  margin: 3px;
+}
+.flash {
+  float: right;
+}
+</style>
+
+<form method=post><textarea name=text style='width:90%'>{!txt}</textarea>
+<br>
+
+<input class=but type=submit name=save value={~save}>
+<input class=but type=button name=cancel value={~cancel} onclick='window.close()'></form>
+
+<div id=flash_div style='position: absolute; margin-left: 200px;margin-top:-32px;'>
+{call flash_show}
+</div>
+
+{!shortcuts.js}
+<script>
+  $(function() {
+    $("textarea[name='text']").css("height",$(window).height()*0.6);
+	shortcut.add("Ctrl+S", function() {
+	  $("input[name='save']").trigger("click");
+	});
+  });
+</script>
