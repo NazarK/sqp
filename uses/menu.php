@@ -206,7 +206,10 @@ function menu_with_links($parent_id,$level=0) {
    global $lang_dir;
    $item->title = fld_trans($item->title);
    $lv = $level+1;
-   $o .= "<div class='menuItemDiv level{$lv}'><div class=title><a class='menuItem caption' href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></div><div class=subMenu>$sub</div></div>";
+   if($sub) $sub = "<div class=subMenu>$sub</div>";
+   else $sub = "";
+   
+   $o .= "<div class='menuItemDiv level{$lv}'><div class=title><a class='menuItem caption' href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>$sub</div>";
  }
 
  return $o;
