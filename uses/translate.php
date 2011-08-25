@@ -102,7 +102,6 @@ function fld_trans($s,$to_lang="") {
 	  $s = str_replace('{'.$value.'}',$t,$s);
   }
 
-  global $fld_trans_debug;
   if($lang=="" || $lang=="ru/") {
    preg_match_all("/ru:(.*?)(en:|kz:|$)/s",$s,$matches);
    if(!isset($matches[1][0])) return $s;
