@@ -102,20 +102,21 @@ function fld_trans($s,$to_lang="") {
 	  $s = str_replace('{'.$value.'}',$t,$s);
   }
 
+  global $fld_trans_debug;
   if($lang=="" || $lang=="ru/") {
-   preg_match_all("/ru:([^$]+?)(?:en:|kz:|$)/",$s,$matches);
+   preg_match_all("/ru:(.*?)(en:|kz:|$)/s",$s,$matches);
    if(!isset($matches[1][0])) return $s;
    else return trim($matches[1][0]);
   }
 
   if($lang=="en/") {
-   preg_match_all("/en:([^$]+?)(?:ru:|kz:|$)/",$s,$matches);
+   preg_match_all("/en:(.*?)(ru:|kz:|$)/s",$s,$matches);
    if(!isset($matches[1][0])) return $s;
    else return trim($matches[1][0]);
   }
 
   if($lang=="kz/") {
-   preg_match_all("/kz:([^$]+?)(?:en:|ru:|$)/",$s,$matches);
+   preg_match_all("/kz:(.*?)(en:|ru:|$)/s",$s,$matches);
    if(!isset($matches[1][0])) return $s;
    else return trim($matches[1][0]);
   }
