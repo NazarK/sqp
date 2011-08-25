@@ -17,13 +17,14 @@
   padding-left: 16px;
   padding-right: 16px;
   background: url(images/site/menu_delim.png) no-repeat;
-  height: 32px;
+  height: 24px;
   padding-top: 8px;
   text-transform: uppercase;
 }
 #menu >.menuItemDiv.first {
-  background: none;
+  background: url(images/site/blank.png) no-repeat;
 }
+
 #menu .menuItemDiv a {
   color: #fff;
   text-decoration: none;
@@ -139,7 +140,7 @@ $(function() {
  
   
   $("#menu .menuItemDiv").hover( function() {
-     $(this).find(".subMenu").slideDown(150,"easeOutSine");
+     $(this).find(".subMenu").slideDown(150,"easeInSine");
   },
      function() { $(this).find(".subMenu").hide(); }
   );
