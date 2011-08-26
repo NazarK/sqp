@@ -23,17 +23,18 @@ CREATE TABLE [catalog_images] (
 
 function page_admin_catalog_edit($parent_id="",$act="",$id="") {
 	requires_admin();
-	use_layout("admin");
+	use_template("admin");
     if(!$parent_id) $parent_id = 0;
 
 	$o = "";
 	if($act=="del") {
-		$rec = db_object_get("menu",$id);
+		$rec = db_object_get("catalog",$id);
 		if($rec->fixed=='Y') {
            $act = "-";
 		   $o .= '<script>alert("Эту запись нельзя удалить.")</script>';
 		}
-	}
+   }
+
 
     global $tables;
 
@@ -62,7 +63,24 @@ function page_admin_catalog_edit($parent_id="",$act="",$id="") {
 	}
   }
 	
+    if(form_post("edit")) {
+      search_table_update("catalog",$id,"title",$_REQUEST['title']);
+	}
+
+	if($act=="del") {
+      search_table_delete("catalog",$id);
+	}
+
+	global $table_edit_props;
+	$table_edit_props->add_redir = false;
+
+
     $o .= table_edit("catalog","admin/catalog/edit/$parent_id",$act,$id,"parent_id",$parent_id,"","on_catalog" );
+
+    if(form_post("add")) {
+      search_table_update("catalog",db_last_id(),"title",$_REQUEST['title']);
+	  redir("admin/catalog/edit/$parent_id");
+	}
 
    
 	if($act=="edit" && catalog_item_level($id)==2) {
@@ -102,7 +120,7 @@ $(function() {
 
 function page_admin_catalog_images($catalog_id="",$act="",$id="") {
 	  requires_admin();
-	  use_layout("admin");
+	  use_template("admin");
 	  global $tables;
   	  $tables['catalog_images']['weight'] = 1;
 	  $o = "";
@@ -243,6 +261,36 @@ function catalog_items($parent_id) {
 function catalog_images($id) {
   return db_fetch_objects(db_query("SELECT * FROM catalog_images WHERE catalog_id=%d ORDER BY weight",$id));
 }
+
+function catalog_item_url($catalog_item_object) {
+  return "catalog/view/{$catalog_item_object->id}/".to_url(eng($catalog_item_object->title));
+}
+
+function catalog_page_url($catalog_item) {
+  $parent = 0;
+  $parent_parent = 0;
+  $self_url = to_url(fld_trans($catalog_item->title,"eng"));
+  if($catalog_item->parent_id) {
+     $parent = db_object_get("catalog",$catalog_item->parent_id);
+	 $parent_url = to_url(fld_trans($parent->title,"eng"));
+	 if($parent->parent_id) {
+       $parent_parent = db_object_get("catalog",$parent->parent_id);
+	   $parent_parent_url = to_url(fld_trans($parent_parent->title,"eng"));
+	 }
+  }
+
+  if($parent_parent && $parent) {
+    return catalog_item_url($catalog_item);
+  }
+
+  if($parent) {
+	return "catalog/$parent_url/$self_url";
+  }
+
+  return "catalog/$self_url";
+
+}
+
 function page_catalog($folder="",$subfolder="") {
   $o = "";
   global $CatalogPageTitle;
@@ -270,7 +318,7 @@ function page_catalog($folder="",$subfolder="") {
 						  $img = "";
 					  }
 					  $GLOBALS['item_url']=to_url(eng($item->title));
-					  $o .= template("catalog_item","title",$item->title,"img",$img,"item_id",$item->id);
+					  $o .= template("catalog_item","title",fld_trans($item->title),"img",$img,"item_id",$item->id);
 					  $count++;
 				  }
     			  $o .= "</div>";
@@ -297,7 +345,7 @@ function page_catalog($folder="",$subfolder="") {
 							  $img = "";
 						  }
 						  $GLOBALS['item_url']=to_url(eng($item->title));
-						  $o .= template("catalog_item","title",$item->title,"img",$img,"item_id",$item->id);
+						  $o .= template("catalog_item","title",fld_trans($item->title),"img",$img,"item_id",$item->id);
 						  $count++;
 					  }
 					  $o .= "</div>";
@@ -385,7 +433,7 @@ function catalog_menu_with_links($parent_id) {
 function catalog_edit_html($id) {
   if(admin()) {
     $parent_id = db_object_get("catalog",$id)->parent_id;
-    return "<a target=_blank href=admin/catalog/edit/$parent_id/edit/$id><img src=images/bios/edit.png></a>";
+    return "<a target=_blank href=admin/catalog/edit/$parent_id/edit/$id><img src=images/edit.png></a>";
   } else {
 	return "";
   }
@@ -496,3 +544,25 @@ function page_catalog_import() {
 $template_call['CatalogPageTitle'] = true;
 $template_call['catalog_menu_with_links'] = true;
 $template_call['catalog_menu'] = true;
+
+
+function on_catalog_description_update($id,&$value) {
+   search_table_update("catalog",$id,"description",$value);
+}
+
+function on_catalog_overview_update($id,&$value) {
+   search_table_update("catalog",$id,"overview",$value);
+}
+
+
+function on_catalog_specifications_update($id,&$value) {
+   search_table_update("catalog",$id,"specifications",$value);
+}
+
+function on_catalog_download_update($id,&$value) {
+   search_table_update("catalog",$id,"download",$value);
+}
+
+function on_catalog_support_update($id,&$value) {
+   search_table_update("catalog",$id,"support",$value);
+}
