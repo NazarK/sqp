@@ -58,7 +58,6 @@ function page_admin_menu_edit($parent_id="",$act="",$id="") {
 
     $tables['menu']['fields'][] = "title";
     $tables['menu']['fields'][] = "link";
-    $tables['menu']['fields'][] = "page_id";
 	  $tables['menu']['weight'] = true;
 
 
