@@ -34,7 +34,7 @@ function page_admin_menu_edit($parent_id="",$act="",$id="") {
 	requires_admin();
 	set_lang("other");
 	use_layout("admin");
-    if(!$parent_id) $parent_id = 0;
+  if(!$parent_id) $parent_id = 0;
 
 	$o = "";
 	if($act=="del") {
@@ -45,24 +45,26 @@ function page_admin_menu_edit($parent_id="",$act="",$id="") {
 		}
 	}
 
-	if($act=="edit" && form_post("edit")) {
+/*	if($act=="edit" && form_post("edit")) {
 		$obj = db_object_get("menu",$id);
-        $page_id = page_id_by_title(fld_trans($obj->title,"rus"));
+    $page_id = page_id_by_title(fld_trans($obj->title,"rus"));
 		if($page_id) {
-          db_query("UPDATE pages SET short='%s' WHERE id=%d",fld_trans(form_post("title"),"rus"),$page_id);
+			 $page = db_object_get("page",$page_id);
+       db_query("UPDATE pages SET short='%s' WHERE id=%d",fld_trans(form_post("title"),"rus"),$page_id);
 		}
-	}
+	}*/
 
     global $tables;
 
     $tables['menu']['fields'][] = "title";
     $tables['menu']['fields'][] = "link";
-	$tables['menu']['weight'] = true;
+    $tables['menu']['fields'][] = "page_id";
+	  $tables['menu']['weight'] = true;
 
 
     if($parent_id) { 
-	  $o .= menu_path($parent_id);
-	}
+	    $o .= menu_path($parent_id);
+	  }
     
     $o .= table_edit("menu","admin/menu/edit/$parent_id",$act,$id,"parent_id",$parent_id,"","on_menu");
 	$o .= "<style> input[type='submit'] { padding: 5px 10px; width: auto;} 
@@ -74,17 +76,46 @@ function page_admin_menu_edit($parent_id="",$act="",$id="") {
 
 }
 
+function menu_page_title($id) {
+	$res = "";
+	while(true) {
+    $menu = db_object_get("menu",$id);
+    $add_title = fld_trans($menu->title,"rus");  
+
+    $id = $menu->parent_id;
+    if(!$id) break;
+
+    if($res) $res = "{$add_title} | {$res}";
+    else $res = $add_title;
+  }
+  return $res;
+}  
+
 function page_admin_menu_page_attach($id) {
-  $menu = db_object_get("menu",$id);
-  $page_title = fld_trans($menu->title,"rus");
+  $page_title = menu_page_title($id);
   db_query("INSERT INTO pages (short) VALUES ('%s')",$page_title);
   $page_id = db_last_id();
+  db_query("UPDATE menu SET page_id=%d WHERE id=%d",$page_id,$id);
   redir("admin/edit/pages/content/$page_id&back=".form_post("back"));
 }
 
 function on_menu($id) {
   $obj = db_object_get("menu",$id);
-  $page_id = page_id_by_title(fld_trans($obj->title,"rus"));
+  if(!$obj->page_id) {
+    $page_id = page_id_by_title(fld_trans($obj->title,"rus"));
+    if($page_id) {
+    	db_query("UPDATE menu SET page_id=%d WHERE id=%d",$page_id,$id);
+    	$obj->page_id = $page_id;
+    }
+  } else {
+  	if(!db_object_get("pages",$obj->page_id)) {
+  		  $obj->page_id = 0;
+    	  db_query("UPDATE menu SET page_id=0 WHERE id=%d",$id);
+  	}
+  }
+
+  $page_id = $obj->page_id;
+  
   $count = db_result(db_query("SELECT count(1) FROM menu WHERE parent_id=%d",$id));
   $o = "";
   $o .= "<a href=admin/menu/edit/$id title='Подменю'>--> </a>";//<img src=images/menu.png>
@@ -181,17 +212,34 @@ function menu_first_link($parent_id) {
  return $items[0]->link;
 }
 
+
+function menu_url($id) {
+	$res = "";
+	while(true) {
+    $menu = db_object_get("menu",$id);
+    $add_url = translit(fld_trans($menu->title,"rus"));  
+
+    $id = $menu->parent_id;
+    if(!$id) break;
+
+    if($res) $res = "{$add_url}/{$res}";
+    else $res = $add_url;
+  }
+  return $res;
+}
+
 function menu_with_links($parent_id,$level=0) {
  $items = menu_items($parent_id);
+ $menu_path = menu_url($parent_id);
+ if($menu_path) $menu_path = $menu_path."/";
 
  foreach($items as &$item) {
    if(!$item->link) {
-     $page = page_id_by_title(fld_trans($item->title,"rus"));
-	 $item->altlink = "";
-	 if($page) {
-       $item->link = translit(fld_trans($item->title,"rus"));
-	   $item->altlink = 'p/'.$page;
-	 } 
+     $item->link = $menu_path.translit(fld_trans($item->title,"rus"));
+	   $item->altlink = "";
+	   if($item->page_id) {
+	     $item->altlink = 'p/'.$item->page_id;
+	   } 
    }
  }
 
@@ -303,7 +351,47 @@ function menu_root_for_link($link) {
   return 0;
 }
 
+function menu_id_by_title_trans($title,$parent_id=-1) {
+	if($parent_id==-1)
+    $menu = db_fetch_objects(db_query("SELECT id, title FROM menu"));
+  else
+    $menu = db_fetch_objects(db_query("SELECT id, title FROM menu WHERE parent_id=%d",$parent_id));
+	foreach($menu as $m) {
+      if(translit(fld_trans($m->title,"rus"))==$title) {
+		  return $m->id;
+	  }
+	}
+	return false;
+}
+
 
 $template_call['menu_with_links'] = true;
 $template_call['current_menu_path'] = true;
+
+function menu_check_by_name(&$q) {
+	global $page_id, $link_to_page_id;
+	$parts = explode("/",$q);
+	
+	$parent_menu = -1;
+	$i = 0;
+	while(true) {
+		$menu_id = menu_id_by_title_trans($parts[$i],$parent_menu);
+		$i++;
+		if(!$menu_id) return;
+    $obj = db_object_get("menu",$menu_id);
+    $parent_menu = $menu_id;
+		if($i==count($parts)) {
+		   if($obj->page_id) {
+		   	$page_id = $obj->page_id;
+		   	$link_to_page_id = $page_id;
+		    $q = 'p/'.$page_id;
+		    break;
+		  } else {
+		  	return;
+		  }
+		}		
+	}
+	
+}
+
 ?>

@@ -59,6 +59,7 @@ if(!isset($_GET['q']) || $_GET['q']=='') {
 }
 
 
+menu_check_by_name($_GET['q']);
 page_check_by_name($_GET['q']);
 
 $parts = explode('/',$_GET['q']);

@@ -40,7 +40,10 @@ function page_p($id,$edit=true) {
 
   }
   if($page) {
+  	file_put_contents("content.txt",$page->content);
     $o = fld_trans($page->content);
+    
+    
 	if(function_exists("on_page_content"))
 	   on_page_content($o);
   }
