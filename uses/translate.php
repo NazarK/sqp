@@ -84,6 +84,8 @@ function dict($key) {
 }
 
 function fld_trans($s,$to_lang="") {
+
+  ini_set("pcre.backtrack_limit",2000000);
   
   global $lang_dir;
   $lang = $lang_dir;
@@ -94,6 +96,8 @@ function fld_trans($s,$to_lang="") {
      $lang = "en/";
   }
 
+  
+  
 
   preg_match_all("|{([^}]*)}|",$s,$matches);
   if(isset($matches[1]))
@@ -123,6 +127,20 @@ function fld_trans($s,$to_lang="") {
   return $s;
 }
 
+function page_trans_test() {
+  	$s = "en: english
+	ru: russian $";
+	$trans = fld_trans($s,"en");
+	if($trans != 'english') echo "failed";
+	else echo "passed";
+	$s = file_get_contents("transtest.txt");
+	echo preg_last_error();echo "<br>";
+	echo strlen($s);
+	$trans = fld_trans($s,"en");
+	
+	echo $trans;
+	die("HERE");
+}
 function fld_trans_old($s) {
   $parts = explode("||",$s);
   if(count($parts)==1)  {
