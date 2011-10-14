@@ -3665,30 +3665,5 @@ $template_call['form_post'] = true;
 $template_call_admin['self_q'] = true;
 $template_call_admin['arg'] = true;
 
-function flash($type,$message) {
-  if(isset($_SESSION['flash'])) {
-    $flash = $_SESSION['flash'];
-  } else {
-	$flash = array();
-  }
-  $flash[$type] = $message;
-
-  $_SESSION['flash'] = $flash;
-}
-
-$template_call['flash_show'] = 1;
-$template_call_admin['flash_show'] = 1;
-function flash_show() {
-  $o = "";
-  if(isset($_SESSION['flash'])) {
-    $flash = $_SESSION['flash'];
-	foreach($flash as $key=>$value) {
-      $o .= "<div id=flash_{$key} class='flash $key'>$value</div>";
-	}
-  }
-  $o .= "<style> .flash {border: 1px solid #aaa; background: #eee; padding: 5px 10px;} </style>";
-  $o .= "<script> $(function() { $('.flash').delay(2000).fadeOut(); }) </script>";
-  return $o;
-}
 
 ?>
