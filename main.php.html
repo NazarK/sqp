@@ -110,11 +110,16 @@ body {
 
 #login {
   width: 158px;
-  height: 446px;
-  background: url(images/site/login_back.png) no-repeat;
+  height: auto;
   margin-left: 560px;
   margin-top: 20px;
   position: absolute;
+}
+
+#login_top {
+  background: url(images/site/login_back.png) no-repeat;
+  width: 158px;
+  height: 380px;
 }
 
 #bannerMain {
@@ -143,6 +148,8 @@ body {
     <?= menu_banner() ?>
     </div>
     <div id=login>
+      <div id=login_top></div>
+      <div id=login_vert_menu></div>
     </div>
 
     <div id=bannerMain></div>  
@@ -202,7 +209,6 @@ $(function() {
   $("#menu .menuItemDiv").hover( function() {
     i = $(this).index()+1;
     $("#menu_back_hover").css("background","url(images/site/menu_back_hover_"+i+".png?4) no-repeat");
-    
   },
   function() {
     $("#menu_back_hover").css("background","none");

@@ -35,7 +35,6 @@ function flash_show($delay=4) {
   $delay = $delay*1000;
   $o .= "<script> $(function() { $('.flash').delay($delay).fadeOut(); }) </script>";
   unset($_SESSION['flash']);
-  die("HERE")
   return $o;
 }
 

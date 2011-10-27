@@ -369,6 +369,7 @@ $template_call['current_menu_path'] = true;
 
 function menu_check_by_name(&$q) {
 	global $page_id, $link_to_page_id;
+	global $menu_id;
 	$parts = explode("/",$q);
 	
 	$parent_menu = -1;

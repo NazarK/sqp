@@ -1,6 +1,7 @@
 <?php
 $tables["images"]["fields"][] = "link";
 $tables["images"]["fields"][] = "title";
+$tables["images"]["weight"] = true;
 
 function page_images_vars() {
 	db_query("
@@ -9,6 +10,7 @@ CREATE TABLE [images] (
 [link] VARCHAR(80)  NULL)");
 
 }
+
 function page_admin_images($act="",$id="") {
   requires_admin();
   use_layout("admin");
@@ -68,6 +70,11 @@ function page_admin_images($act="",$id="") {
 function image_func($id) {
   $image = db_object_get("images",$id);
   return "<img height=40 src=$image->link>";
+}
+
+function image_by_name($like_name) {
+	$res = db_result(db_query("SELECT link FROM images WHERE title like '%%%s%%' LIMIT 1",$like_name));
+	return $res;
 }
 
 ?>

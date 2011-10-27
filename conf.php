@@ -1,7 +1,7 @@
 <?php
 
-$apptitle = "Central Asian Franchise Expo 2011";
-$admin_branding = "vipromotion.kz - CA Franchise Expo";
+$apptitle = "Bookmark";
+$admin_branding = "Bookmark";
 
 
 error_reporting(E_ALL | E_STRICT);
@@ -20,7 +20,7 @@ define("MYSQL_PASS","SuperPass123");
 define("MYSQL_DB","nkcompsqp");
 
 
-define("SQLITE2_DB","sqlite2.db");
+define("SQLITE2_DB","db/sqlite2.db");
 define("FOLDER_SEPARATOR","/");
 define("HTTP_POST_DOUBLE_SLASH","1"); //used in HTTPPostValue, HTTPPostFix
 define("CART_NOTIFY","nazar.kuliev@gmail.com");

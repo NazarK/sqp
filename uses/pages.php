@@ -104,6 +104,7 @@ function WebPageTitle() {
   }
 }
 
+$template_call['ContentTitle'] = true;
 function ContentTitle() {
   if(self_q()=="p") {
 	  $t = PageTitle(arg(0));
