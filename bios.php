@@ -3551,15 +3551,16 @@ function use_template($template_name) {
 }
 
 function use_layout($template_name) {
-  $fn = "uses/{$template_name}.layout.html";
+  $GLOBALS['layout'] = $template_name;
+/*  $fn = "uses/{$template_name}.layout.html";
   if(file_exists($fn)) {
     $GLOBALS['template'] = file_get_contents($fn);
-	return;
+	  return;
   }
 
   $fn = "uses/{$template_name}.html";
   if(file_exists($fn))
-    $GLOBALS['template'] = file_get_contents($fn);
+    $GLOBALS['template'] = file_get_contents($fn);*/
 }
 
 function translate_parse(&$template) {

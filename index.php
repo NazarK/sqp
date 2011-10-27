@@ -138,8 +138,10 @@ if(!$content && !$appropriate_function) {
     $content = "<h1>ERROR:<br> Can't render '".$_GET['q']."'</h1>";
 }
 
-if(!isset($template)) {
-  $template = template("main");
+if(isset($GLOBALS['layout'])) {
+	$layout = template($GLOBALS['layout']);
+} elseif(!isset($template)) {
+  $layout = template("main");
 }
 
 /*if(function_exists("before_template_parse")) {
@@ -151,9 +153,9 @@ replace_files($template); // {!something.js} {!something.css}
 replace_my_tags($template); // {href {f {call
 replace_globals($template); // {!global} {!global}*/
 
-translate_parse($template); // {~rus} {~eng}
+translate_parse($layout); // {~rus} {~eng}
 
-echo $template;
+echo $layout;
 unset($_SESSION['flash']);
 
 //don't show mysql not freed etc
