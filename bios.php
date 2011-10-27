@@ -3405,6 +3405,26 @@ function replace_files(&$html) {
 function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$varname3="",$varval3="") {
   if(!$name) $name = $GLOBALS['def_template'];
 
+  $php_template = $name.".php.html";
+  if(!file_exists($php_template))
+    $php_template = "uses/".$name.".php.html";
+  
+  if(!file_exists($php_template)) 
+    $php_template = "views/".$name.".php.html";
+  
+  
+  if(file_exists($php_template)) {
+  	  ob_start();
+      foreach($GLOBALS as $key=>$value) {
+        $$key = $value;
+      }
+  	  require_once($php_template);
+  	  $contents = ob_get_contents();
+  	  ob_end_clean();
+  	  return $contents;
+  }
+
+
   $dwoo_template = "uses/".$name.".dwoo.html";
   if(file_exists($dwoo_template)) {
       require_once "uses/dwoo/dwooAutoload.php";
@@ -3665,5 +3685,38 @@ $template_call['form_post'] = true;
 $template_call_admin['self_q'] = true;
 $template_call_admin['arg'] = true;
 
+
+function uses() {
+    $files = func_get_args();
+    
+    $o = "";
+    foreach($files as $file) {
+      $o .= uses_file($file);
+    }
+    
+    return $o;
+}
+
+function uses_file($file) {
+    
+  
+      if(str_end(strtolower($file),".js") && file_exists("uses/".$file)) {
+        $filetime = filemtime("uses/".$file);
+        $content = "<script src='uses/$file?$filetime'></script>";
+        return $content;
+      }	
+      
+      if(str_end(strtolower($file),".html") && file_exists("uses/".$file)) {
+        return file_get_contents("uses/".$file);
+      }	
+
+      if(str_end(strtolower($file),".css") && file_exists("uses/".$file)) {
+      	$fname = "uses/".$file;
+        $filetime = filemtime($fname);
+       	$content = "<link rel='stylesheet' href='$fname?$filetime' type='text/css' />";
+       	return $content;
+      }
+      
+}
 
 ?>

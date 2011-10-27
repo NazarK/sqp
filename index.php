@@ -60,31 +60,9 @@ if(!isset($_GET['q']) || $_GET['q']=='') {
 
 
 menu_check_by_name($_GET['q']);
-page_check_by_name($_GET['q']);
+//page_check_by_name($_GET['q']);
 
 $parts = explode('/',$_GET['q']);
-
-//check for pages/sometext.txt file
-$pagename = $_GET['q'];
-$pagename = str_replace(".","",$pagename);
-
-$filename = "pages/$pagename".".txt";
-if(file_exists($filename)) {
-    $file = file_get_contents($filename);
-    $file = str_replace("\r","<br>",$file);
-
-
-    preg_match_all("|{![^}]*}|",$file,$matches);
-    foreach($matches[0] as $value) {
-        $varname = substr($value,2,strlen($value)-3);
-        if(file_exists($varname)) {
-          $file_content = file_get_contents($varname);
-          
-        }
-        $file = str_replace("{!$varname}",$file_content,$file);
-    }
-    $content .= $file;
-}
 
 //CHECK FOR page_function
 $function = "page";
@@ -99,7 +77,7 @@ foreach($parts as $i=>$part) {
     if(function_exists($function)) {
         $appropriate_function = $function;
         $appropriate_index = $i;
-	$def_template = $temp_template;
+	      $def_template = $temp_template;
     }
 }
 
@@ -161,17 +139,18 @@ if(!$content && !$appropriate_function) {
 }
 
 if(!isset($template)) {
-  $template = file_get_contents("main.html");
+  $template = template("main");
 }
 
-if(function_exists("before_template_parse")) {
+/*if(function_exists("before_template_parse")) {
 	before_template_parse($template);
 }
 
 /// SQP TEMPLATE ENGINE
 replace_files($template); // {!something.js} {!something.css}
 replace_my_tags($template); // {href {f {call
-replace_globals($template); // {!global} {!global}
+replace_globals($template); // {!global} {!global}*/
+
 translate_parse($template); // {~rus} {~eng}
 
 echo $template;
