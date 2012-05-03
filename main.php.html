@@ -1,188 +1,221 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <base href=<?= $base_url ?>>
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <title>Index | Welcome Inn</title>
-      <meta name="author" content="ThemeFuse" />
-      <meta name="description" content="A short description of your company" />
-      <meta name="keywords" content="Some keywords that best describes your businee" />
+<!DOCTYPE html>
+<HEAD>
+<META http-equiv='Content-Type' content='text/html; charset=UTF-8'> 
+<title><?= WebPageTitle() ?><?= $apptitle ?></title>
+<base href=<?= $base_url ?>>
+<style>
+html { min-width: 980px; }
+* {
+  margin: 0;
+  padding: 0;
+}
 
-      <link rel="stylesheet" type="text/css" href="styles.css" />
-      <script type="text/javascript" src="js/jquery.min.js"></script>
+a {
+  outline: none;
+}
+body {
+  background: url(images/site/back_new.jpg) no-repeat center top #000;
+  color: #fff;
+  font-family: Arial;
+  display: none;
+}
 
-      <script type="text/javascript" src="js/slides.jquery.js"></script>
-      <link rel="stylesheet" type="text/css" href="css/slides.css" />
-      <script type="text/javascript">
-        $(function(){
-          $('#slides').slides({
-            width: 960,
-            height: 379,
-            preload: true,
-            preloadImage: 'images/loading.gif',
-            play: 5000,
-            pause: 2500,
-            effect: 'fade, fade',
-            hoverPause: true,
-            animationStart: function(){
-              $('.caption').animate({
-                bottom:-96
-              },100);
-            },
-            animationComplete: function(current){
-              $('.caption').animate({
-                bottom:0
-              },200);
-            }
-          });
-			
-        });
-      </script>
+#wrap {
+  width: 920px;
+  margin-left:auto;
+  margin-right:auto;
+  position: relative;
+  height: 994px;
+  overflow: hidden;
+  
+}
 
-  </head>
+#menu_back, #menu_back_hover {
+  position: absolute;
+  width: 752px;
+  height: 40px;
+  overflow: hidden;
+  margin-left: 116px;
+  margin-top: 32px;
+  z-index: 10;
+  background: url(images/site/menu_back_1.png) no-repeat;
+}
 
-  <body>
-    <div class="head">
-      <div class="container">
+#menu_back_hover {
+  z-index: 5;
+  background: none;
+  height: 35px;
+}
 
-        <div class="logo"><a href="index.html"><img src="images/logo.png" alt="" width="240" height="56" border="0" /></a></div>
+#menu {
+  width: 920px;
+  height: 40px;
+  overflow: hidden;
+  margin-left:126px;
+  margin-top: 36px;
+  position: absolute;
+  z-index: 20;
+}
 
-        <div class="head_right">
-          <div class="icon-top icon-phone">Call us directly: <span>1-800-643-4300</span></div>
-          <div class="icon-top icon-map">Via Ludovisi 39, Rome, <a href="location.html"><span>View on Map</span></a></div>
-        </div>
-      </div>
+#menu a {
+  color: #fff;
+  font-size: 9.2px;
+  font-weight: bold;
+  text-decoration: none;
+  text-shadow: black 1px 1px 2px, black 0 0 1em;
+  filter: Shadow(Color=#000000, Direction=120, Strength=2);
+}
+#menu a.active {
+}
+#menu .menuItem {
+  float: left;
+  width: 92px;
+  text-align: center;
+  padding: 10px 0px;
+}
+
+#yield {
+  left:110px;
+  top: 70px;
+  position: relative;
+}
+#yield #banner img {
+  margin-top: 20px;
+  margin-left: 10px;
+  width: 702px;
+  border: 3px solid #372a19;
+}
+#content {
+  width: 445px;
+  height: 333px;
+  background: url(images/site/content_back.jpg) no-repeat;
+  margin-left: 50px;
+  overflow: auto;
+  padding: 10px;
+  font-size: 12px;
+  float: left;  
+}
+
+#contentTitle {
+  background: url(images/site/content_title_back.png?2) no-repeat;
+  height: 16px;
+  width: 455px;
+  margin-left: 50px;
+  padding: 5px;
+  font-size: 10pt;
+  margin-top: 20px;
+  text-shadow: black 1px 1px 2px, black 0 0 1em;
+  filter: Shadow(Color=#000000, Direction=120, Strength=2);
+}
+
+#login {
+  width: 158px;
+  height: auto;
+  margin-left: 560px;
+  margin-top: 20px;
+  position: absolute;
+}
+
+#login_top {
+  background: url(images/site/login_back.png) no-repeat;
+  width: 158px;
+  height: 380px;
+}
+
+#bannerMain {
+  background: url(images/site/banner_main.png) no-repeat;
+  width: 486px;
+  height: 164px;
+  margin-left: 50px;
+  margin-top: 20px;
+  display: none;
+}
+
+</style>
+<?= uses("jquery.js","jquery.easing.js","shortcuts.js","cssbot.js") ?>
+</HEAD>
+
+
+
+<body>
+<div id=wrap>
+   <div id=menu_back></div>
+   <div id=menu_back_hover></div>
+   <div id=menu><?= menu_with_links(1) ?></div> 
+  
+  <div id=yield>
+    <div id=banner>  
+    <?= menu_banner() ?>
+    </div>
+    <div id=login>
+      <div id=login_top></div>
+      <div id=login_vert_menu></div>
     </div>
 
-    <!-- topmenu -->
-    <div class="menu-header">
-      <div class="container">
+    <div id=bannerMain></div>  
+  
+    <div id=contentTitle><?= ContentTitle() ?></div>
 
-        <ul class="topmenu">
-          <?= menu_with_links(1) ?>
-        </ul>
-      </div>
+    <div id=content>
+     <section>
+      <?= $content ?>
+    </section>
     </div>
-    <!--/ topmenu -->
+  
+  
+  </div>
+</div>  
 
-    <div class="header homepage">
-      <!-- header slider -->
-      <div class="container">
+<script>
+$(function() {
 
-        <div id="slides">
-          <div class="slides_container">
-            <div>
-              <a href="#"><img src="images/temp_slide_1.jpg" width="960" height="379" alt="Enjoy the breath-taking views from our Hotel" /></a>
-              <div class="caption"><p>Enjoy the breath-taking views from our Hotel</p></div>
-            </div>
-            <div>
-              <img src="images/temp_slide_2.jpg" width="960" height="379" alt="Great panaromic mountain view makes the best place to admire nature." />
-              <div class="caption"><p>Great panaromic mountain view makes the best place to admire nature.</p></div>
-            </div>
-            <div>
-              <a href="#"><img src="images/temp_slide_3.jpg" width="960" height="379" alt="Sea with a very beautiful view to the sea and Sunny Beach Resort." /></a>
-              <div class="caption"><p>Sea with a very beautiful view to the sea and Sunny Beach Resort.</p></div>
-            </div>
-            <div>
-              <a href="#"><img src="images/temp_slide_4.jpg" width="960" height="379" alt="We offer a choice of comfortable rooms and great rates" /></a>
-              <div class="caption"><p>We offer a choice of comfortable rooms and great rates</p></div>
-            </div>
-          </div>
-          <a href="#" class="prev">Previous</a>
-          <a href="#" class="next">Next</a>		</div>
-      </div>
-      <!--/ header slider -->
-    </div>
-    <div class="header-line"></div>
+  var q = "<?= self_q() ?>/<?= arg(0) ?>";
+  var qq = "<?= arg(0) ?>";
 
-    <div class="middle">
-      <div class="container">
-
-        <!-- baners top -->
-        <div class="baners_top">
-          <div class="baner-item">
-            <div class="baner-img"><a href="reservations.html"><img src="images/baner_top_1.jpg" alt="" width="230" height="73" border="0" /></a></div>
-            <h2><span>Make a</span> Reservation</h2>
-          </div>
-
-          <div class="baner-item">
-            <div class="baner-img"><a href="rooms.html"><img src="images/baner_top_2.jpg" alt="" width="230" height="73" border="0" /></a></div>
-            <h2><span>View the</span> Rooms</h2>
-          </div>
-
-          <div class="baner-item">
-            <div class="baner-img"><a href="news.html"><img src="images/baner_top_3.jpg" alt="" width="230" height="73" border="0" /></a></div>
-            <h2><span>Latest</span> Promos</h2>
-          </div>
-        </div>
-
-        <!--/ baners top -->
-
-        <!-- middle content -->
-        <div class="container_24">
-
-          <?= $content ?>
-          <div class="clear"></div>
-        </div>
-        <!--/ middle content -->
-
-        <div class="newsletter_box newsletter_index">
-          <h3>Sign up for Newsletter:</h3>
-          <form action="" method="post">
-            <input type="text" value="Enter your e-mail address" onfocus="if (this.value == 'Enter your e-mail address') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Enter your e-mail address';}" name="" class="inputField" />
-            <input type="submit" value="Submit" class="btn-submit" />
-          </form>
-          <div class="clear"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">
-
-      <div class="container_24">
-
-        <div class="grid_3">
-          <img src="images/logo_footer.png" width="110" height="72" alt="" />
-        </div>
-
-        <div class="grid_8">
-          <div class="address">
-            <p>Welcome Inn Resort Ltd,<br />
-              Via Ludovisi 39-45, Rome, 54267, Italy<br />
-              Phone: 1-800-245.356  / Fax: 1-800-245.357<br />
-              Email: <a href="mailto:guests@welcomeinn.com">guests@welcomeinn.com</a></p>
-          </div>
-        </div>
-
-        <div class="grid_13">
-
-          <div class="botmenu">
-            <ul>
-              <li class="first current-menu-item"><a href="index.html">Home</a></li>
-              <li><a href="about.html">About us</a></li>
-              <li><a href="rooms.html">Rooms</a></li>
-              <li><a href="rates.html">Rates</a></li>
-              <li><a href="location.html">Location</a></li>
-              <li><a href="reservations.html">Reservations</a></li>
-              <li class="last"><a href="contacts.html">Contact</a></li>
-            </ul>
-          </div>
-
-          <div class="fallow">
-            <span>Follow us on:</span> <a href="#" class="link_social link_fb">Facebook</a> <a href="#" class="link_social link_twitter">Twitter</a> <a href="#" class="link_social link_rss">RSS</a>
-          </div>
-
-          <div class="copyright">
-            <p>copy; 2010 - 2011 Welcome Inn</p>
-          </div>
-
-        </div>
-
-        <div class="clear"></div>
-
-      </div>
-
-    </div>
-
-  </body>
-</html>
+  $("#menu a[althref^='"+q+"']").addClass("active");
+  $("#menu a[href^='"+qq+"']").addClass("active");
+  
+  $("#menu a.active").each( function() {
+    i = $(this).parents(".menuItemDiv").index()+1;
+    $("#menu_back").css("background","url(images/site/menu_back_"+i+".png?2) no-repeat");
+    
+    back = 0;
+    switch(i) {
+      case 2: back='#edb225';break;
+      case 3: back="#eccb17";break;
+      case 4: back="#27c01b";break;
+      case 5: back="#15bde8";break;
+      case 6: back="#6e7cbb";break;
+      case 7: back="#830fc1";break;
+      case 8: back="#c269b4";break;
+    }
+    
+    if(back!=0) {
+      $("#contentTitle")
+      .css("background",back)
+    }
+    
+    if(i==1) {
+      $("#bannerMain").show();
+      $("#contentTitle").css("margin-top","5px")
+      $("#content").css("height","165px")
+    } else {
+      $("#yield #banner img").css("margin-left","48px")
+      .css("width","667px")
+      .css("border: 3px solid #000");
+    }
+  });
+  
+  $("#menu .menuItemDiv").hover( function() {
+    i = $(this).index()+1;
+    $("#menu_back_hover").css("background","url(images/site/menu_back_hover_"+i+".png?4) no-repeat");
+  },
+  function() {
+    $("#menu_back_hover").css("background","none");
+  });
+  
+  $("body").show();
+  
+})
+</script>
+</body>
