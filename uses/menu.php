@@ -256,7 +256,7 @@ function menu_with_links($parent_id,$level=0) {
    if($sub) $sub = "<div class=subMenu>$sub</div>";
    else $sub = "";
    
-   $o .= "<div class='menuItemDiv level{$lv}'><div class=title><a class='menuItem caption' href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>$sub</div>";
+   $o .= "<li><a href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></li>";
  }
 
  return $o;
