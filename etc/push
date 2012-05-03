@@ -1,0 +1,4 @@
+git add .
+git commit -am "$1"
+echo "PUSHING TO ORIGIN"
+git push origin master
