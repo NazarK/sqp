@@ -266,7 +266,27 @@ function menu_with_links($parent_id, $level=0) {
 
 
     #$o .= "<div class='menuItemDiv level{$lv}'><div class=title><a class='menuItem caption' href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></div>$sub</div>";
-    $o .= "<li><a href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></li>";
+    $class = array();
+    if ($item==$items[count($items)-1]) {
+      $class[] = "last";
+    }
+
+    if ($item==$items[0]) {
+      $class[] = "first";
+    }
+
+    global $menu_id;
+
+    if($item->id == $menu_id) {
+      $class[] = "current-menu-item";
+    }
+
+    if(count($class))
+      $class = " class='".implode(" ",$class)."' ";
+    else
+      $class = "";
+
+    $o .= "<li$class><a href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></li>";
   }
 
   return $o;
