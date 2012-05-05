@@ -32,6 +32,15 @@ function page_id_by_title_trans($title) {
   }
 }
 
+function page_by_title($title,$edit=false) {
+  $ret = db_fetch_object(db_query("SELECT * FROM pages WHERE short='%s' LIMIT 1",$title));
+  if($edit && admin()) {
+    $ret->content = p_quickedit_html($ret->id) . $ret->content;
+  }
+
+  return $ret->content;
+}
+
 function page_p($id, $edit=true) {
   if (is_numeric($id)) {
     $page = db_object_get("pages", $id);
@@ -82,7 +91,7 @@ function page_admin_pages($act="", $id="") {
 //   $table_edit_props->del_record_show = false;
 //    $table_edit_props->edit_record_show = false;
   global $base_url;
-  $o .= table_edit("pages", "admin/pages", $act, $id, "category", "null", "",
+  $o .= table_edit("pages", "admin/pages", $act, $id, "category", "null", "weight",
                   "<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/admin/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href={$base_url}p/[id]>{$base_url}p/[id]</a>");
   return $o;
 }
