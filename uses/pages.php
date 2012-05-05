@@ -91,9 +91,14 @@ function page_admin_pages($act="", $id="") {
 //   $table_edit_props->del_record_show = false;
 //    $table_edit_props->edit_record_show = false;
   global $base_url;
-  $o .= table_edit("pages", "admin/pages", $act, $id, "category", "null", "weight",
-                  "<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/admin/text_edit.png atl='Редактировать' title='Редактировать'></a> <a href={$base_url}p/[id]>{$base_url}p/[id]</a>");
+  $o .= table_edit("pages", "admin/pages", $act, $id, "category", "null", "weight", "admin_on_page");
   return $o;
+}
+function admin_on_page($id,$obj) {
+  global $base_url;
+  $nice_ref = translit($obj["pages.short"]);
+  $ret = "<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/admin/text_edit.png atl='Редактировать' title='Редактировать'></a> ссылка: <a href={$base_url}p/[id]>/p/[id]</a> или <a href=$base_url$nice_ref>/$nice_ref</a>";
+  return $ret;
 }
 
 function WebPageTitle() {
@@ -139,13 +144,13 @@ function translit($str) {
   $tr = array(
       "А" => "a", "Б" => "b", "В" => "v", "Г" => "g",
       "Д" => "d", "Е" => "e", "Ж" => "j", "З" => "z", "И" => "i",
-      "Й" => "y", "К" => "k", "Л" => "l", "М" => "m", "Н" => "n",
+      "Й" => "i", "К" => "k", "Л" => "l", "М" => "m", "Н" => "n",
       "О" => "o", "П" => "p", "Р" => "r", "С" => "s", "Т" => "t",
       "У" => "u", "Ф" => "f", "Х" => "h", "Ц" => "ts", "Ч" => "ch",
       "Ш" => "sh", "Щ" => "sch", "Ъ" => "", "Ы" => "y", "Ь" => "",
       "Э" => "e", "Ю" => "yu", "Я" => "ya", "а" => "a", "б" => "b",
       "в" => "v", "г" => "g", "д" => "d", "е" => "e", "ж" => "j",
-      "з" => "z", "и" => "i", "й" => "y", "к" => "k", "л" => "l",
+      "з" => "z", "и" => "i", "й" => "i", "к" => "k", "л" => "l",
       "м" => "m", "н" => "n", "о" => "o", "п" => "p", "р" => "r",
       "с" => "s", "т" => "t", "у" => "u", "ф" => "f", "х" => "h",
       "ц" => "ts", "ч" => "ch", "ш" => "sh", "щ" => "sch", "ъ" => "y",
