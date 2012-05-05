@@ -129,6 +129,12 @@ function on_menu($id) {
 
 function menu_items($parent_id) {
   $items = db_fetch_objects(db_query("SELECT * FROM menu WHERE parent_id=%d ORDER BY weight", $parent_id));
+
+  foreach($items as $item) {
+    if(!$item->link) {
+      $item->link = translit($item->title);
+    }
+  }
   return $items;
 }
 
