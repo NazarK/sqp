@@ -43,14 +43,6 @@ function page_admin_menu_edit($parent_id="", $act="", $id="") {
     }
   }
 
-  /* 	if($act=="edit" && form_post("edit")) {
-    $obj = db_object_get("menu",$id);
-    $page_id = page_id_by_title(fld_trans($obj->title,"rus"));
-    if($page_id) {
-    $page = db_object_get("page",$page_id);
-    db_query("UPDATE pages SET short='%s' WHERE id=%d",fld_trans(form_post("title"),"rus"),$page_id);
-    }
-    } */
 
   global $tables;
 
@@ -62,6 +54,9 @@ function page_admin_menu_edit($parent_id="", $act="", $id="") {
   if ($parent_id) {
     $o .= menu_path($parent_id);
   }
+
+  global $table_edit_props;
+  $table_edit_props->use_rename_icon_for_edit = true;
 
   $o .= table_edit("menu", "admin/menu/edit/$parent_id", $act, $id, "parent_id", $parent_id, "", "on_menu");
   $o .= "<style> input[type='submit'] { padding: 5px 10px; width: auto;}

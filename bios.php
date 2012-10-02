@@ -1992,6 +1992,7 @@ class ctable_edit_props {
   public $add_redir = true;
   public $add_records = true;
   public $add_record_button_show = true;
+  public $use_rename_icon_for_edit = false;
 }
 
 $table_edit_props = new ctable_edit_props();
@@ -2296,7 +2297,11 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 
    $act = "";
    if($table_edit_props->edit_record_show) {
-     $act .= "<a href=?q=$home/edit/[id]><img src=images/bios/edit.png border=0></a>";
+	 $edit_image = "edit.png";
+	 if($table_edit_props->use_rename_icon_for_edit) {
+	   $edit_image = "rename.png";	
+	 }
+     $act .= "<a href=?q=$home/edit/[id]><img src=images/bios/$edit_image border=0></a>";
    }
    if($table_edit_props->del_record_show) {
      $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('{~Are you sure?}');\"src=images/bios/del.png border=0></a>";

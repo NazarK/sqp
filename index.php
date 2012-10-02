@@ -40,7 +40,6 @@ foreach(glob("uses/*.php") as $module) {
 	}	
 }
 
-
 //LOGIN - different menus generation for different user's
 
 $menu_logout = "";

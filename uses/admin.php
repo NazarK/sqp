@@ -92,7 +92,7 @@ function page_admin_login() {
 		 $_SESSION[$apptitle."admin"]=1;
 		 redir("admin");
 	 } else {
-         $o .="Sorry, wrong password.";
+         $o .="Неправильный пароль.";
 		 sleep(2);
 	 }
   }

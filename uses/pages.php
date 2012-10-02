@@ -90,6 +90,7 @@ function page_admin_pages($act="", $id="") {
 //	$table_edit_props->new_record_show = false;
 //   $table_edit_props->del_record_show = false;
 //    $table_edit_props->edit_record_show = false;
+  $table_edit_props->use_rename_icon_for_edit = true;
   global $base_url;
   $o .= table_edit("pages", "admin/pages", $act, $id, "category", "null", "weight", "admin_on_page");
   return $o;
