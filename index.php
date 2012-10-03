@@ -143,15 +143,6 @@ if(isset($GLOBALS['layout'])) {
   $layout = template("main");
 }
 
-/*if(function_exists("before_template_parse")) {
-	before_template_parse($template);
-}
-
-/// SQP TEMPLATE ENGINE
-replace_files($template); // {!something.js} {!something.css}
-replace_my_tags($template); // {href {f {call
-replace_globals($template); // {!global} {!global}*/
-
 translate_parse($layout); // {~rus} {~eng}
 
 echo $layout;
