@@ -245,13 +245,14 @@ function menu_with_links($parent_id, $level=0) {
       
       $item->altlink = "";
       if ($item->page_id) {
-        $item->altlink = 'p/' . $item->page_id;
+        $item->altlink = '/p/' . $item->page_id;
       }
     }
   }
 
   $o = "";
-
+  
+  $site_folder = site_folder();
   foreach ($items as &$item) {
     if (!$item->link) {
       $item->link = "menu_no_page/" . $item->id;
@@ -288,7 +289,8 @@ function menu_with_links($parent_id, $level=0) {
     else
       $class = "";
 
-    $o .= "<li$class><a href='$lang_dir{$item->link}'  althref='{$item->altlink}'>$item->title</a></li>";
+    
+    $o .= "<li$class><a href='$site_folder$lang_dir{$item->link}'  data-althref='{$item->altlink}'>$item->title</a></li>";
   }
 
   return $o;
