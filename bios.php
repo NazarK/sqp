@@ -3725,4 +3725,8 @@ function uses_file($file) {
       
 }
 
+function site_folder() {
+	if(!isset($GLOBALS['site_folder']) || $GLOBALS['site_folder']=='') return "/";
+	return "/".$GLOBALS['site_folder']."/";
+}
 ?>

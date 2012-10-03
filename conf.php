@@ -2,7 +2,7 @@
 
 $apptitle = "Bookmark";
 $admin_branding = "Bookmark";
-
+$site_folder = "";
 
 error_reporting(E_ALL | E_STRICT);
 
