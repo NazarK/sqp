@@ -58,10 +58,12 @@ if(!isset($_GET['q']) || $_GET['q']=='') {
 }
 
 
+//converts /about link to /p/34
 menu_check_by_name($_GET['q']);
 page_check_by_name($_GET['q']);
 
 $parts = explode('/',$_GET['q']);
+
 
 //CHECK FOR page_function
 $function = "page";
@@ -80,6 +82,8 @@ foreach($parts as $i=>$part) {
     }
 }
 
+
+
 //CHECK FOR before_function
 $function = "before";
 $before_function = "";
@@ -88,10 +92,6 @@ foreach($parts as $i=>$part) {
     if(function_exists($function)) {
         $before_function = $function;
     }
-}
-
-if($before_function) {
-  $before_function();	
 }
 
 //// self_q
@@ -143,6 +143,7 @@ if(isset($GLOBALS['layout'])) {
   $layout = template("main");
 }
 
+//used in admin
 translate_parse($layout); // {~rus} {~eng}
 
 echo $layout;
