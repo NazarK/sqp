@@ -30,22 +30,6 @@ body {
   
 }
 
-#menu_back, #menu_back_hover {
-  position: absolute;
-  width: 752px;
-  height: 40px;
-  overflow: hidden;
-  margin-left: 116px;
-  margin-top: 32px;
-  z-index: 10;
-  background: url(images/site/menu_back_1.png) no-repeat;
-}
-
-#menu_back_hover {
-  z-index: 5;
-  background: none;
-  height: 35px;
-}
 
 #menu {
   width: 920px;
@@ -74,63 +58,19 @@ body {
   padding: 10px 0px;
 }
 
-#yield {
-  left:110px;
-  top: 70px;
-  position: relative;
+#lang_switch a {
+  color: #888;
 }
-#yield #banner img {
-  margin-top: 20px;
-  margin-left: 10px;
-  width: 702px;
-  border: 3px solid #372a19;
+
+#lang_switch a.active {
+  color: #fff;
 }
 #content {
-  width: 445px;
-  height: 333px;
-  background: url(images/site/content_back.jpg) no-repeat;
-  margin-left: 50px;
-  overflow: auto;
-  padding: 10px;
-  font-size: 12px;
-  float: left;  
+	margin-top: 400px;
 }
-
-#contentTitle {
-  background: url(images/site/content_title_back.png?2) no-repeat;
-  height: 16px;
-  width: 455px;
-  margin-left: 50px;
-  padding: 5px;
-  font-size: 10pt;
-  margin-top: 20px;
-  text-shadow: black 1px 1px 2px, black 0 0 1em;
-  filter: Shadow(Color=#000000, Direction=120, Strength=2);
+#menu li {
+	float: left;
 }
-
-#login {
-  width: 158px;
-  height: auto;
-  margin-left: 560px;
-  margin-top: 20px;
-  position: absolute;
-}
-
-#login_top {
-  background: url(images/site/login_back.png) no-repeat;
-  width: 158px;
-  height: 380px;
-}
-
-#bannerMain {
-  background: url(images/site/banner_main.png) no-repeat;
-  width: 486px;
-  height: 164px;
-  margin-left: 50px;
-  margin-top: 20px;
-  display: none;
-}
-
 </style>
 <?= uses("jquery.js","jquery.easing.js","shortcuts.js","cssbot.js") ?>
 </HEAD>
