@@ -41,15 +41,23 @@ body {
   z-index: 20;
 }
 
+#menu li {
+	list-style-type: none;
+	float: left;
+	padding: 0 10px;
+	font-size: 10px;
+}
+
 #menu a {
   color: #fff;
-  font-size: 9.2px;
+  font-size: 20px;
   font-weight: bold;
   text-decoration: none;
   text-shadow: black 1px 1px 2px, black 0 0 1em;
   filter: Shadow(Color=#000000, Direction=120, Strength=2);
 }
 #menu a.active {
+	
 }
 #menu .menuItem {
   float: left;
@@ -60,14 +68,23 @@ body {
 
 #lang_switch a {
   color: #888;
+  text-decoration: none;
 }
 
 #lang_switch a.active {
   color: #fff;
+  text-decoration: underline;
+}
+#contentTitle {
+	position: absolute;
+	margin-top: 300px;
 }
 #content {
+	position: absolute;
 	margin-top: 400px;
 }
+
+
 #menu li {
 	float: left;
 }
