@@ -260,6 +260,12 @@ function menu_with_links($parent_id, $level=0) {
     }
     $sub = menu_with_links($item->id, $level + 1);
     global $lang_dir;
+    $active_class = "";
+
+	if($item->title==$GLOBALS['menu__active_item__title_full']) {
+		$active_class = "active";
+	}
+
     $item->title = fld_trans($item->title);
     $lv = $level + 1;
     if ($sub) 
@@ -289,8 +295,7 @@ function menu_with_links($parent_id, $level=0) {
     else
       $class = "";
 
-    
-    $o .= "<li$class><a href='$site_folder$lang_dir{$item->link}'  data-althref='{$item->altlink}'>$item->title</a></li> $sub";
+    $o .= "<li$class><a class='$active_class' href='$site_folder$lang_dir{$item->link}'  data-althref='{$item->altlink}'>$item->title</a></li> $sub";
   }
 
   return $o;
