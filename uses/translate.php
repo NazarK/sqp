@@ -2,8 +2,13 @@
 define("DEFAULT_LANG","orig");
 
 if(!isset($lang_dir)) {
-  $_GLOBALS['lang_dir'] = "";
+  $GLOBALS['lang_dir'] = "";
 }
+
+function lang_is($lang) {
+	return (($GLOBALS['lang_dir']=="$lang/") || ($GLOBALS['lang_dir']==$lang));
+}
+
 if(form_post("lang")) {
 	$lang_dir = form_post("lang")."/";
 }
