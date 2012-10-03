@@ -140,7 +140,10 @@ body {
    <div id=menu_back></div>
    <div id=menu_back_hover></div>
     <div id=lang_switch>
-	  <a href=/>rus</a> | <a href=/en/>en</a>
+	  <div id=lang_switch>
+		<a class='<?= lang_is('') ? 'active' : '' ?>' href=/>RUS</a> / 
+		<a class='<?= lang_is('en') ? 'active' : '' ?>' href=/en/>ENG</a>
+	  </div>
     </div>
 
    <div id=menu><?= menu_with_links(1) ?></div> 
