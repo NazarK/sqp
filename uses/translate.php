@@ -1,7 +1,9 @@
 <?php
 define("DEFAULT_LANG","orig");
 
-$lang_dir = "";
+if(!isset($lang_dir)) {
+  $_GLOBALS['lang_dir'] = "";
+}
 if(form_post("lang")) {
 	$lang_dir = form_post("lang")."/";
 }
@@ -108,7 +110,12 @@ function fld_trans($s,$to_lang="") {
 
   if($lang=="" || $lang=="ru/") {
    preg_match_all("/ru:(.*?)(en:|kz:|$)/s",$s,$matches);
-   if(!isset($matches[1][0])) return $s;
+   if(!isset($matches[1][0])) {
+	 preg_match_all("/^(.*?)(en:|kz:|$)/s",$s,$matches);
+	 if(isset($matches[1][0])) {
+	   return trim($matches[1][0]);
+	 } else return $s;
+   }
    else return trim($matches[1][0]);
   }
 

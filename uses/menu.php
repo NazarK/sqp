@@ -127,7 +127,7 @@ function menu_items($parent_id) {
 
   foreach($items as $item) {
     if(!$item->link) {
-      $item->link = translit($item->title);
+      $item->link = translit(fld_trans($item->title));
     }
   }
   return $items;
@@ -242,6 +242,7 @@ function menu_with_links($parent_id, $level=0) {
   foreach ($items as &$item) {
     if (!$item->link) {
       $item->link = $menu_path . translit(fld_trans($item->title, "rus"));
+      
       $item->altlink = "";
       if ($item->page_id) {
         $item->altlink = 'p/' . $item->page_id;
@@ -388,7 +389,7 @@ function menu_id_by_title_trans($title, $parent_id=-1) {
   else
     $menu = db_fetch_objects(db_query("SELECT id, title FROM menu WHERE parent_id=%d", $parent_id));
   foreach ($menu as $m) {
-    if (translit(fld_trans($m->title, "rus")) == $title) {
+    if (translit(fld_trans($m->title)) == $title) {
       return $m->id;
     }
   }
