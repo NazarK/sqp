@@ -98,8 +98,8 @@ body {
    <div id=menu_back_hover></div>
     <div id=lang_switch>
 	  <div id=lang_switch>
-		<a class='<?= lang_is('') ? 'active' : '' ?>' href=/<?= other_lang_url('ru') ?>>RUS</a> / 
-		<a class='<?= lang_is('en') ? 'active' : '' ?>' href=/en/<?= other_lang_url('en')?>>ENG</a>
+		<a class='<?= lang_is('') ? 'active' : '' ?>' href=<?= site_folder() ?><?= other_lang_url('ru') ?>>RUS</a> / 
+		<a class='<?= lang_is('en') ? 'active' : '' ?>' href=<?= site_folder() ?>en/<?= other_lang_url('en') ?>>ENG</a>
 	  </div>
     </div>
 
