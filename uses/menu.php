@@ -390,10 +390,17 @@ function menu_id_by_title_trans($title, $parent_id=-1) {
     $menu = db_fetch_objects(db_query("SELECT id, title FROM menu WHERE parent_id=%d", $parent_id));
   foreach ($menu as $m) {
     if (translit(fld_trans($m->title)) == $title) {
+	  $GLOBALS['menu__active_item__title_full'] = $m->title;
       return $m->id;
     }
   }
   return false;
+}
+
+function other_lang_url($lang) {
+	if(!isset($GLOBALS['menu__active_item__title_full'])) return "";
+	$menu_title = $GLOBALS['menu__active_item__title_full'];
+	return translit(fld_trans($menu_title,$lang));
 }
 
 $template_call['menu_with_links'] = true;
