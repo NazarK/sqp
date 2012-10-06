@@ -16,10 +16,10 @@ CREATIVE EMPIRE - ПАНЕЛЬ АДМИНИСТРАТОРА
 <div id=hr style='height:10px;width:220px;margin-left:60px;'></div>
 <div id=vert_menu style='margin-left:60px;width:220px;text-align:right;margin-top:10px;height:400px'>
 <a href='' />ПЕРЕЙТИ НА САЙТ</a>
-	<div style='text-align:right;height:400px;text-transform:uppercase;line-height:20px;margin-top:40px'>
+	<div style='text-align:right;height:400px;text-transform:uppercase;line-height:16px;margin-top:40px;font-size:11px'>
 	<span style='color:#f01'>Creative Empire Support</span>
 	<div id="hr" style="height:20px;margin-top:0px;margin-bottom:0px;"></div>
-	<span style='color:#666'>
+	<span style='color:#888'>
 	Дизайн Студия:<br>
 	designstudio@creativem.kz<br>
 	<br>
@@ -53,12 +53,12 @@ CREATIVE EMPIRE - ПАНЕЛЬ АДМИНИСТРАТОРА
 <a class=admin_menu href=admin/menu/edit>Меню</a>
 <a class=admin_menu href=admin/pages althref=admin/edit arg="pages">Страницы сайта</a>
 <a class=admin_menu href=admin/images>Картинки</a>
-<!--
 <a class=admin_menu href=admin/table/edit/rassilka althref=admin/table/edit arg=rassilka>Рассылка</a>
+<!--
 <a class=admin_menu href=admin/table/edit/zayavka althref=admin/table/edit arg=zayavka>Заявки</a>
 -->
 <!-- <a class=admin_menu href=admin/map>Где купить</a> -->
-<!-- <a class=admin_menu href=admin/file/edit/dictionary__.txt althref=admin/file/edit>Словарь</a> -->
+<a class=admin_menu href=admin/file/edit/dictionary__.txt althref=admin/file/edit>Словарь</a>
 <a class=admin_menu href=admin/news>Новости</a>
 <a class=admin_menu href=admin/pass>Пароль</a>
 <a class=admin_menu href=admin/email>Емейл</a>
@@ -72,10 +72,12 @@ CREATIVE EMPIRE - ПАНЕЛЬ АДМИНИСТРАТОРА
 {!content}
 </div>
 </div>
-<div id=bottom style='margin-left:60px;margin-right:40px;margin-top:60px;'>
-<div id=hr style='height:20px;margin-top:20px;margin-bottom:0px;'></div>
-<span style='color:#ccc'>{!admin_branding} © 2011</span>
+<div id=bottom style='background:#fff;position:fixed;bottom:0px;width:100%;'>
+  <div id=hr style='margin-left:60px;margin-right:60px;height:20px;margin-top:0px;margin-bottom:0px;'></div>
+  <span style='margin-left:60px;color:#ccc'>{!admin_branding} © 2010-2012</span>
 </div>
+
+
 <script>
 $(function() {
   $("a[href='{call self_q}'],a[althref='{call self_q}']").addClass("current_menu");
