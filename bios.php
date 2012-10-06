@@ -3423,7 +3423,7 @@ function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$va
       foreach($GLOBALS as $key=>$value) {
         $$key = $value;
       }
-  	  require_once($php_template);
+  	  require($php_template);
   	  $contents = ob_get_contents();
   	  ob_end_clean();
   	  return $contents;
