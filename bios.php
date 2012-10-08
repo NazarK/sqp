@@ -1026,6 +1026,15 @@ function db_query($query) {
             $db_query_error_function("<h1>SQL ERROR</h1><br> $query<br>".sqlite_error_string($dbhandle));
         }
     }
+
+    if(sqlite3) {
+        global $dbhandle;
+        $res = $dbhandle->query($query);
+        if($res==FALSE) {
+            $db_query_error_function("<h1>SQL ERROR</h1><br> $query<br>".sqlite_error_string($dbhandle));
+        }
+    }
+
     global $sqllog;
     $sqllog .= $query."<br>";
 	@prf_end();
@@ -1049,6 +1058,9 @@ function db_query_callback($match, $init = FALSE) {
         return mysql_real_escape_string(array_shift($args));
         if(sqlite2)
         return sqlite_escape_string(array_shift($args));
+        if(sqlite3) 
+        return $GLOBALS['dbhandle']->escapeString(array_shift($args));
+
         case '%%':
         return '%';
         case '%f':
@@ -1064,12 +1076,26 @@ function db_num_rows($result) {
         }
         if(sqlite2)
           return sqlite_num_rows($result);
+        if(sqlite3) {
+	      $ret = 0;
+	      while($result->fetchArray()) {
+		    $ret++;
+	      }
+	      $result->reset();
+	      return $ret;
+        }
     } else return 0;
 }
 
 function db_result($result, $row = 0) {
     if(sqlite2) {
         return sqlite_fetch_single($result);
+    }
+
+    if(sqlite3) {
+	    $rec = $result->fetchArray(SQLITE3_NUM);
+	    if($rec===FALSE) return FALSE;
+	    return $rec[0];
     }
 
     if(mysql) {
@@ -1084,8 +1110,15 @@ function db_fetch_object($result) {
     if ($result) {
         if(mysql)
         return mysql_fetch_object($result);
-        if(sqlite2)
+        else if(sqlite2)
         return sqlite_fetch_object($result);
+        else if(sqlite3) {
+          $rec = $result->fetchArray(SQLITE3_ASSOC);
+          if($rec===FALSE) return FALSE;
+          $rec = (object)$rec;
+          return $rec;
+        }
+         
     }
 }
 
@@ -1093,8 +1126,10 @@ function db_fetch_array($result) {
     if ($result) {
         if(mysql)
         return mysql_fetch_array($result, MYSQL_ASSOC);
-        if(sqlite2)
+        else if(sqlite2)
         return sqlite_fetch_array($result, SQLITE_ASSOC);
+        else if(sqlite3)
+        return $result->fetchArray(SQLITE3_ASSOC);
     }
 }
 
@@ -1660,9 +1695,12 @@ function ln($s) {
 function db_last_id() {
     if(mysql)
     return mysql_insert_id();
-    if(sqlite2) {
+    else if(sqlite2) {
         global $dbhandle;
         return sqlite_last_insert_rowid($dbhandle);
+    }
+    else if(sqlite3) {
+	    return $dbhandle->lastInsertRowID();
     }
 }
 
@@ -2117,6 +2155,9 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
                        $p = mysql_real_escape_string($p);
                   if(sqlite2)
                        $p = sqlite_escape_string($p);
+		          if(sqlite3) 
+		               $p = $GLOBALS['dbhandle']->escapeString($p);
+
                   if($p=="null") 
                     $sets .= "$value=null";
                   else
@@ -2180,8 +2221,10 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 				$p = SlashSymbolsFix($p);
                 if(mysql)
                      $p = mysql_real_escape_string($p);
-                if(sqlite2)
+                else if(sqlite2)
                      $p = sqlite_escape_string($p);
+                else if(sqlite3)
+			         $p = $GLOBALS['dbhandle']->escapeString(array_shift($args));
 
                 if($p == 'null')
                   $values .= "null";
@@ -2587,9 +2630,16 @@ function db_connect() {
 
   if(sqlite2) {
     global $dbhandle;
-    $dbhandle = sqlite_open(SQLITE2_DB);
+    $dbhandle = new sqlite_open(SQLITE2_DB);
     if(!$dbhandle) ln("can't connect to sqlite database");
   }
+
+  if(sqlite3) {
+    global $dbhandle;
+    $dbhandle = new SQLite3(SQLITE3_DB);
+    if(!$dbhandle) ln("can't connect to sqlite database");
+  }
+
 }
 
 function db_exists($res) {
@@ -2628,7 +2678,10 @@ function db_table($tablename,$fields = "",$long_alias="") {
       ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8");
     else
     if(sqlite2)
-    sql("CREATE TABLE $tablename (id INTEGER  PRIMARY KEY NOT NULL)");
+      sql("CREATE TABLE $tablename (id INTEGER  PRIMARY KEY NOT NULL)");
+    else if(sqlite3)
+	  sql("CREATE TABLE $tablename (id INTEGER  PRIMARY KEY NOT NULL)");
+    
     
   } else {
     global $tables;
@@ -3406,7 +3459,9 @@ function replace_files(&$html) {
       
     }
 }
-
+function render($name) {
+	return template($name);
+}
 function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$varname3="",$varval3="") {
   if(!$name) $name = $GLOBALS['def_template'];
 
