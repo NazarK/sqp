@@ -200,7 +200,6 @@ function page_menu_no_page($menu_id) {
 
 function menu_first_link($parent_id) {
   $items = menu_items($parent_id);
-
   foreach ($items as &$item) {
     if (!$item->link) {
       $item->link = translit(fld_trans($item->title, "rus"));
@@ -215,11 +214,11 @@ function menu_first_link($parent_id) {
   return $items[0]->link;
 }
 
-function menu_url($id) {
+function menu_url($id,$lang=null) {
   $res = "";
   while (true) {
     $menu = db_object_get("menu", $id);
-    $add_url = translit(fld_trans($menu->title, "rus"));
+    $add_url = translit(fld_trans($menu->title,$lang));
 
     $id = $menu->parent_id;
     if (!$id)
@@ -240,14 +239,14 @@ function menu_with_links($parent_id, $level=0) {
     $menu_path = $menu_path . "/";
 
   foreach ($items as &$item) {
-    if (!$item->link) {
-      $item->link = $menu_path . translit(fld_trans($item->title, "rus"));
+//    if (!$item->link) {
+      $item->link = $menu_path . translit(fld_trans($item->title));
       
       $item->altlink = "";
       if ($item->page_id) {
         $item->altlink = '/p/' . $item->page_id;
       }
-    }
+//    }
   }
 
   $o = "";
@@ -397,6 +396,7 @@ function menu_id_by_title_trans($title, $parent_id=-1) {
     $menu = db_fetch_objects(db_query("SELECT id, title FROM menu WHERE parent_id=%d", $parent_id));
   foreach ($menu as $m) {
     if (translit(fld_trans($m->title)) == $title) {
+	  $GLOBALS['menu__active'] = $m;
 	  $GLOBALS['menu__active_item__title_full'] = $m->title;
       return $m->id;
     }
@@ -405,9 +405,9 @@ function menu_id_by_title_trans($title, $parent_id=-1) {
 }
 
 function other_lang_url($lang) {
-	if(!isset($GLOBALS['menu__active_item__title_full'])) return "";
-	$menu_title = $GLOBALS['menu__active_item__title_full'];
-	return translit(fld_trans($menu_title,$lang));
+	if(!isset($GLOBALS['menu__active'])) return "";
+	$menu = $GLOBALS['menu__active'];
+	return menu_url($menu->id,$lang);
 }
 
 $template_call['menu_with_links'] = true;
