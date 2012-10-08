@@ -1700,6 +1700,7 @@ function db_last_id() {
         return sqlite_last_insert_rowid($dbhandle);
     }
     else if(sqlite3) {
+        global $dbhandle;
 	    return $dbhandle->lastInsertRowID();
     }
 }
@@ -2224,7 +2225,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
                 else if(sqlite2)
                      $p = sqlite_escape_string($p);
                 else if(sqlite3)
-			         $p = $GLOBALS['dbhandle']->escapeString(array_shift($args));
+			         $p = $GLOBALS['dbhandle']->escapeString($p);
 
                 if($p == 'null')
                   $values .= "null";
