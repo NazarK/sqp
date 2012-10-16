@@ -17,7 +17,10 @@ function page_admin_images($act="",$id="") {
 
   form_start("","post"," enctype='multipart/form-data' ");
   form_file("Файл","file");
-  form_submit("Загрузить картинку","submit");
+  $caption = "Загрузить картинку";
+  if($act=="edit") {
+	$caption = "Изменить картинку"; }
+  form_submit($caption,"submit");
   form_end();
 
   $upload = form();
@@ -40,7 +43,7 @@ function page_admin_images($act="",$id="") {
 
 		form_file_uploaded_move("file","img/".$fname);
 		db_query("UPDATE images SET link='img/$fname' WHERE id=%d",$id);
-		redir("admin/images");
+		redir("admin/images/edit/$id");
 	}
   }
 
