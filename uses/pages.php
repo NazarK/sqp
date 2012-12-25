@@ -97,7 +97,7 @@ function page_admin_pages($act="", $id="") {
 }
 function admin_on_page($id,$obj) {
   global $base_url;
-  $nice_ref = translit($obj["pages.short"]);
+  $nice_ref = translit($obj["short"]);
   $ret = "<a href=admin/edit/pages/content/[id]&back=admin/pages><img src=images/admin/text_edit.png atl='Редактировать' title='Редактировать'></a> ссылка: <a href={$base_url}p/[id]>/p/[id]</a> или <a href=$base_url$nice_ref>/$nice_ref</a>";
   return $ret;
 }

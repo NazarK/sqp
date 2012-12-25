@@ -6,7 +6,7 @@
 */
 
 /*
-  application part 
+  application part
 */
 
 function page_pi() {
@@ -22,16 +22,16 @@ function def_q() {
 
 $template_call['menu_banner'] = true;
 function menu_banner() {
-   
+
    global $menu_id;
    if($menu_id) {
       $menu = db_object_get("menu",$menu_id);
       $image = image_by_name(mb_strtolower($menu->title,"UTF-8"));
       if($image) return "<img class=banner src=$image>";
    }
-   
+
    return "";
-   
+
 }
 
 ?>
