@@ -241,7 +241,7 @@ function menu_with_links($parent_id, $level=0) {
   foreach ($items as &$item) {
 //    if (!$item->link) {
       $item->link = $menu_path . translit(fld_trans($item->title));
-      
+
       $item->altlink = "";
       if ($item->page_id) {
         $item->altlink = '/p/' . $item->page_id;
@@ -250,7 +250,7 @@ function menu_with_links($parent_id, $level=0) {
   }
 
   $o = "";
-  
+
   $site_folder = site_folder();
   foreach ($items as &$item) {
     if (!$item->link) {
@@ -267,7 +267,7 @@ function menu_with_links($parent_id, $level=0) {
 
     $item->title = fld_trans($item->title);
     $lv = $level + 1;
-    if ($sub) 
+    if ($sub)
       $sub = "<div class=subMenu>$sub</div>";
     else
       $sub = "";
@@ -327,24 +327,46 @@ function menu_with_images_and_links($parent_id) {
   return $o;
 }
 
-function site_menu_path($sub_id) {
+function menu_path_items($sub_id) {
   $item = db_object_get("menu", $sub_id);
-  $menupath = "";
+  $items = array();
   while ($item->parent_id) {
-    $page = page_id_by_title(fld_trans($item->title, "rus"));
-    $item->altlink = "";
-    if ($page) {
-      $item->link = translit(fld_trans($item->title, "rus"));
-      $item->altlink = 'p/' . $page;
-    }
+    $item->link = translit(fld_trans($item->title, "rus"));
     $item->title = fld_trans($item->title);
-    $menupath = " / <a href=$item->link>$item->title</a>" . $menupath;
+    array_unshift($items,$item);
     $item = db_object_get("menu", $item->parent_id);
   }
-  if ($menupath) {
-    $menupath = substr($menupath, 2);
+  //fixing for full paths
+  $path = "";
+  foreach($items as $item) {
+	$path = $path."/".$item->link;
+	$item->link = $path;
   }
-  return $menupath;
+  return $items;
+}
+
+function content_path_with_links_html() {
+ if(isset($GLOBALS['menu__active'])) {
+  $items = menu_path_items($GLOBALS['menu__active']->id);
+  $html = "";
+  foreach($items as $item) {
+	if($html) $html .= " / ";
+    $html .= "<a href=$item->link>$item->title</a>";
+  }
+  return $html;
+ }
+}
+
+function content_path_html() {
+ if(isset($GLOBALS['menu__active'])) {
+  $items = menu_path_items($GLOBALS['menu__active']->id);
+  $html = "";
+  foreach($items as $item) {
+	if($html) $html .= " / ";
+    $html .= "$item->title";
+  }
+  return $html;
+ }
 }
 
 function current_menu_path() {

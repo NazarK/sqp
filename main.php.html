@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <HEAD>
-<META http-equiv='Content-Type' content='text/html; charset=UTF-8'> 
+<META http-equiv='Content-Type' content='text/html; charset=UTF-8'>
 <title><?= WebPageTitle() ?><?= $apptitle ?></title>
 <base href=<?= $base_url ?>>
 <style>
@@ -27,7 +27,7 @@ body {
   position: relative;
   height: 994px;
   overflow: hidden;
-  
+
 }
 
 
@@ -57,7 +57,7 @@ body {
   filter: Shadow(Color=#000000, Direction=120, Strength=2);
 }
 #menu a.active {
-	
+
 }
 #menu .menuItem {
   float: left;
@@ -98,15 +98,15 @@ body {
    <div id=menu_back_hover></div>
     <div id=lang_switch>
 	  <div id=lang_switch>
-		<a class='<?= lang_is('') ? 'active' : '' ?>' href=<?= site_folder() ?><?= other_lang_url('ru') ?>>RUS</a> / 
+		<a class='<?= lang_is('') ? 'active' : '' ?>' href=<?= site_folder() ?><?= other_lang_url('ru') ?>>RUS</a> /
 		<a class='<?= lang_is('en') ? 'active' : '' ?>' href=<?= site_folder() ?>en/<?= other_lang_url('en') ?>>ENG</a>
 	  </div>
     </div>
 
-   <div id=menu><?= menu_with_links(1) ?></div> 
-  
+   <div id=menu><?= menu_with_links(1) ?></div>
+
   <div id=yield>
-    <div id=banner>  
+    <div id=banner>
     <?= menu_banner() ?>
     </div>
     <div id=login>
@@ -114,19 +114,19 @@ body {
       <div id=login_vert_menu></div>
     </div>
 
-    <div id=bannerMain></div>  
-  
-    <div id=contentTitle><?= ContentTitle() ?></div>
+    <div id=bannerMain></div>
+
+    <div id=contentTitle><?= content_path_with_links_html() ?> <?= ContentTitle() ?></div>
 
     <div id=content>
      <section>
       <?= $content ?>
     </section>
     </div>
-  
-  
+
+
   </div>
-</div>  
+</div>
 
 <script>
 $(function() {
@@ -136,48 +136,9 @@ $(function() {
 
   $("#menu a[althref^='"+q+"']").addClass("active");
   $("#menu a[href^='"+qq+"']").addClass("active");
-  
-  $("#menu a.active").each( function() {
-    i = $(this).parents(".menuItemDiv").index()+1;
-    $("#menu_back").css("background","url(images/site/menu_back_"+i+".png?2) no-repeat");
-    
-    back = 0;
-    switch(i) {
-      case 2: back='#edb225';break;
-      case 3: back="#eccb17";break;
-      case 4: back="#27c01b";break;
-      case 5: back="#15bde8";break;
-      case 6: back="#6e7cbb";break;
-      case 7: back="#830fc1";break;
-      case 8: back="#c269b4";break;
-    }
-    
-    if(back!=0) {
-      $("#contentTitle")
-      .css("background",back)
-    }
-    
-    if(i==1) {
-      $("#bannerMain").show();
-      $("#contentTitle").css("margin-top","5px")
-      $("#content").css("height","165px")
-    } else {
-      $("#yield #banner img").css("margin-left","48px")
-      .css("width","667px")
-      .css("border: 3px solid #000");
-    }
-  });
-  
-  $("#menu .menuItemDiv").hover( function() {
-    i = $(this).index()+1;
-    $("#menu_back_hover").css("background","url(images/site/menu_back_hover_"+i+".png?4) no-repeat");
-  },
-  function() {
-    $("#menu_back_hover").css("background","none");
-  });
-  
+
   $("body").show();
-  
+
 })
 </script>
 </body>
