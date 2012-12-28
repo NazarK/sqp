@@ -71,7 +71,7 @@ assert_options(ASSERT_BAIL,true);
 
 function T($s) {
   global $DICT;
-  
+
   if(empty($DICT) || empty($DICT[$s])) {
     return $s;
   } else {
@@ -80,20 +80,20 @@ function T($s) {
 }
 
 //*
-//*  validate tables array - database structure, check if all fields do exist in database 
+//*  validate tables array - database structure, check if all fields do exist in database
 //*
 
 function db_models_validate() {
  global $tables;
  foreach($tables as $tablename=>$table) {
    ln("table:".$tablename);
-   ln_inc(); 
+   ln_inc();
    foreach($table["fields"] as $field) {
      //ln($field);
      //ln("running query");
      $res = db_query("SELECT $field FROM $tablename LIMIT 1");
    }
-   ln_dec(); 
+   ln_dec();
  }
 }
 
@@ -361,7 +361,7 @@ class TableBrowser {
 
 
     }
-    
+
     function fieldaliases($fields) {
         $result = array();
 
@@ -829,7 +829,7 @@ function connected_table($tablename,$subtable) {
     $res = str_prefix($tablename).$subtable;
   }
   if(!isset($tables[$res])) return "";
-  else 
+  else
   return $res;
 }
 
@@ -843,7 +843,7 @@ function db_fetch_objects($rr) {
     $res[] = $r;
   }
   return $res;
-  
+
 }
 
 function db_fetch_key_value_list($rr,$value_field_name) {
@@ -861,9 +861,9 @@ function table_fields($tablename) {
         $fields = array_merge($fields,$tables[$tablename]['fields']);
       if(isset($tables[$tablename]['fields_hidden']))
         $fields = array_merge($fields,$tables[$tablename]['fields_hidden']);
-        
+
         return $fields;
-  
+
 }
 
 $fields_stack = array();
@@ -873,7 +873,7 @@ function database_object_get($tablename,$idvalue,$props=false) {
   $o = db_fetch_object(db_query("SELECT * FROM $tablename WHERE id=%d",$idvalue));
   if($o)
   if($props) {
-  
+
     ///get objects for _id fields
     $fields = table_fields($tablename);
     foreach($o as $field=>$field_value) {
@@ -893,17 +893,17 @@ function database_object_get($tablename,$idvalue,$props=false) {
          }
       }
     }
-    
+
     ///get linked tables
-    
+
     global $tables;
     foreach($tables as $table=>$tableobject) {
       $this_object_link = str_start($tablename,"s")."_id";
       $this_object_prefix = str_prefix($tablename);
       $link_table_prefix = str_prefix($table);
       $table_no_prefix = $table;
-    
-      
+
+
       if($this_object_prefix == $link_table_prefix) {
         $this_object_link = str_no_prefix($this_object_link,$this_object_prefix);
         $table_no_prefix = str_no_prefix($table_no_prefix,$this_object_prefix);
@@ -922,11 +922,11 @@ function database_object_get($tablename,$idvalue,$props=false) {
             }
           }
       }
-          
+
       if($ignore_the_table===true) {
         continue;
       }
-          
+
       $fields = table_fields($table);
       foreach($fields as $fieldname) {
         if($fieldname == $this_object_link) {
@@ -938,7 +938,7 @@ function database_object_get($tablename,$idvalue,$props=false) {
              $propname = str_no_prefix($table,$this_object_prefix);
           }
           $subobjects = array();
-      
+
           while($r = db_fetch_object($rr)) {
             $subobject = database_object_get($table,$r->id,true);
             $subobjects[] = $subobject;
@@ -948,11 +948,11 @@ function database_object_get($tablename,$idvalue,$props=false) {
           $o->$propname = $subobjects;
         }
       }
-      
-      
-      
+
+
+
     }
-  }  
+  }
   return $o;
 }
 
@@ -969,19 +969,19 @@ function db_sqlite2mysql_sql($query) {
         $query = str_ireplace("values (null, ","values (",$query);
         $query = str_ireplace("(id, ","(",$query);
     }
-    
+
     if(strpos($low,"values(null,") && strpos($low,"(id,")) {
         $query = str_ireplace("values(null,","values(",$query);
         $query = str_ireplace("(id,","(",$query);
     }
-    
+
     if(strpos($low,"values(null)") && strpos($low,"(id)")) {
         $query = str_ireplace("values(null)","",$query);
         $query = str_ireplace("(id)","",$query);
     }
-    
+
   }
-  return trim($query);  
+  return trim($query);
 
 }
 
@@ -998,7 +998,7 @@ function db_query($query) {
 	@prf_start("db_query");
 	@prf_start(substr($query,0,20));
     global $db_query_error_function;
-    
+
     $args = func_get_args();
     array_shift($args);
     if (isset($args[0]) and is_array($args[0])) { // 'All arguments in one array' syntax
@@ -1011,7 +1011,7 @@ function db_query($query) {
     }
 
     if($query=="") return;
-    
+
     $query = preg_replace_callback('/(%d|%s|%%|%f|%b)/', 'db_query_callback', $query);
 
     if(mysql) {
@@ -1019,8 +1019,8 @@ function db_query($query) {
         if(!$res) $db_query_error_function("<h1>MYSQL ERROR</h1><br> $query<br>".mysql_error());
     }
 
+    global $dbhandle;
     if(sqlite2) {
-        global $dbhandle;
         $res = sqlite_query($dbhandle,$query);
         if($res==FALSE) {
             $db_query_error_function("<h1>SQL ERROR</h1><br> $query<br>".sqlite_error_string($dbhandle));
@@ -1028,11 +1028,14 @@ function db_query($query) {
     }
 
     if(sqlite3) {
-        global $dbhandle;
         $res = $dbhandle->query($query);
         if($res==FALSE) {
             $db_query_error_function("<h1>SQL ERROR</h1><br> $query<br>".sqlite_error_string($dbhandle));
         }
+    }
+
+    if(pdo_sqlite) {
+        $res = $dbhandle->query($query);
     }
 
     global $sqllog;
@@ -1054,12 +1057,12 @@ function db_query_callback($match, $init = FALSE) {
         case '%d': // We must use type casting to int to convert false/null/(true?)
         return (int) array_shift($args); // We don't need db_escape_string as numbers are db-safe
         case '%s':
-        if(mysql)
-        return mysql_real_escape_string(array_shift($args));
+        if(mysql || pdo_sqlite)
+          return mysql_real_escape_string(array_shift($args));
         if(sqlite2)
-        return sqlite_escape_string(array_shift($args));
-        if(sqlite3) 
-        return $GLOBALS['dbhandle']->escapeString(array_shift($args));
+          return sqlite_escape_string(array_shift($args));
+        if(sqlite3)
+          return $GLOBALS['dbhandle']->escapeString(array_shift($args));
 
         case '%%':
         return '%';
@@ -1073,9 +1076,10 @@ function db_num_rows($result) {
         if(mysql) {
           $n = mysql_num_rows($result);
           return $n;
-        }
+        } else
         if(sqlite2)
           return sqlite_num_rows($result);
+        else
         if(sqlite3) {
 	      $ret = 0;
 	      while($result->fetchArray()) {
@@ -1083,6 +1087,12 @@ function db_num_rows($result) {
 	      }
 	      $result->reset();
 	      return $ret;
+        } else
+        if(pdo_sqlite) {
+          $row_num = $result->fetch(PDO::FETCH_NUM);
+          return $row_num;
+        } else {
+            die("db_num_rows unknown database");
         }
     } else return 0;
 }
@@ -1098,6 +1108,12 @@ function db_result($result, $row = 0) {
 	    return $rec[0];
     }
 
+    if(pdo_sqlite) {
+        $rec = $result->fetch(PDO::FETCH_ASSOC);
+        if($rec===FALSE) return FALSE;
+        return $rec[0];
+    }
+
     if(mysql) {
         if ($result && mysql_num_rows($result) > $row) {
             return mysql_result($result, $row);
@@ -1109,27 +1125,37 @@ function db_result($result, $row = 0) {
 function db_fetch_object($result) {
     if ($result) {
         if(mysql)
-        return mysql_fetch_object($result);
+          return mysql_fetch_object($result);
         else if(sqlite2)
-        return sqlite_fetch_object($result);
+          return sqlite_fetch_object($result);
         else if(sqlite3) {
           $rec = $result->fetchArray(SQLITE3_ASSOC);
           if($rec===FALSE) return FALSE;
           $rec = (object)$rec;
           return $rec;
+        } else if(pdo_sqlite) {
+           return $result->fetchObject();
         }
-         
+        else
+          die("db_fetch_object: unknown database");
     }
 }
 
 function db_fetch_array($result) {
     if ($result) {
         if(mysql)
-        return mysql_fetch_array($result, MYSQL_ASSOC);
+          return mysql_fetch_array($result, MYSQL_ASSOC);
         else if(sqlite2)
-        return sqlite_fetch_array($result, SQLITE_ASSOC);
+          return sqlite_fetch_array($result, SQLITE_ASSOC);
         else if(sqlite3)
-        return $result->fetchArray(SQLITE3_ASSOC);
+          return $result->fetchArray(SQLITE3_ASSOC);
+        else if(pdo_sqlite) {
+          $ret = $result->fetch(PDO::FETCH_ASSOC);
+          var_dump($ret);
+          return $ret;
+        }
+        else
+          die("db_fetch_array unknown database");
     }
 }
 
@@ -1204,7 +1230,7 @@ function page_user_login() {
             $output .= errormsg("Login failed");
 			sleep(1);
         }
-    } 
+    }
 
     $GOBALS['log']="&nbsp;";
     form_start("?q=user/login","post"," name=user_login_form ");
@@ -1331,10 +1357,10 @@ if(!function_exists("file_put_contents")) {
 
 function l($caption,$link) {
     global $base_url;
-	if(NICE_URLS) 
+	if(NICE_URLS)
 	   $res = "<a href='$base_url$link'>$caption</a>";
 	else
-   	   $res = "<a href='$base_url?q=$link'>$caption</a>"; 
+   	   $res = "<a href='$base_url?q=$link'>$caption</a>";
     return $res;
 }
 
@@ -1528,12 +1554,12 @@ function form_timestamp($caption,$name,$value="") {
   $year = @date("Y",$value);
   $month = @date("m",$value);
   $day = @date("d",$value);
-  
+
   $hour = @date("H",$value);
   $min = @date("i",$value);
   $sec = @date("s",$value);
   $form .= "<tr><td>$caption (Y/M/D H:M:S)<td>
-  
+
     year<input name=".$name."_year value='$year' size=2>
     month<input name=".$name."_month value='$month' size=1>
     day<input name=".$name."_day value='$day' size=1>
@@ -1542,7 +1568,7 @@ function form_timestamp($caption,$name,$value="") {
     min<input name=".$name."_min value='$min' size=1>
     sec<input name=".$name."_sec value='$sec' size=1>
   ";
-   return @date("Y/m/d H:i:s",$time);    
+   return @date("Y/m/d H:i:s",$time);
 }
 
 function form_input($caption,$name,$value="",$size="",$attributes="") {
@@ -1648,7 +1674,7 @@ function ln_inc($value=1) {
 function ln_dec($value=1) {
   global $ln_margin;
   $ln_margin -= $value;
-  
+
 }
 
 
@@ -1669,7 +1695,7 @@ function inbrowser() {
 }
 //*
 //* show line
-//* 
+//*
 
 $ln_margin_step = 2;
 function ln_margin_step($v) {
@@ -1693,15 +1719,17 @@ function ln($s) {
 
 
 function db_last_id() {
+    global $dbhandle;
     if(mysql)
-    return mysql_insert_id();
+      return mysql_insert_id();
     else if(sqlite2) {
-        global $dbhandle;
-        return sqlite_last_insert_rowid($dbhandle);
+      return sqlite_last_insert_rowid($dbhandle);
     }
     else if(sqlite3) {
-        global $dbhandle;
-	    return $dbhandle->lastInsertRowID();
+	  return $dbhandle->lastInsertRowID();
+    }
+    else if(pdo_sqlite) {
+      return $dbhandle->lastInsertId();
     }
 }
 
@@ -1808,9 +1836,9 @@ function paginator($href, $page) {
        $s .= " $page ";
      else
        $s .= " <a href=$href$i>$i</a> ";
-  
+
   }
-  
+
   $s .= "<a href=$href".($page+1).">next -> </a>";
   return $s;
 }
@@ -1820,7 +1848,7 @@ function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="su
   page_header("$tablename: edit");
   $ff = explode(",",$fields);
   $cc = explode(",",$captions);
-  
+
   if(form_post("submit")) {
     $set = "";
     foreach($ff as $f) {
@@ -1828,7 +1856,7 @@ function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="su
         $set .= ",";
       $set .= "$f='%s'";
     }
-    
+
     assert(is_numeric($id));
     assert(count($ff)<=10);
     db_query("UPDATE $tablename SET $set WHERE id=$id",
@@ -1843,7 +1871,7 @@ function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="su
              empty($ff[8])?"":form_post($ff[8]),
              empty($ff[9])?"":form_post($ff[9]));
   }
-  
+
   $r = db_object_get($tablename,$id);
   form_start();
   foreach($ff as $i=>$f) {
@@ -1852,8 +1880,8 @@ function form_object_edit($tablename,$id,$fields,$captions="",$submitcaption="su
   form_submit($submitcaption,"submit");
   form_end();
 
-  return form();    
-    
+  return form();
+
 }
 
 /*
@@ -1890,7 +1918,7 @@ function form_object_add($tablename,$fields,$captions="",$submitcaption="Submit"
       $id = db_last_id();
       return "";
    }
-   
+
    form_start();
    $fields = explode(",",$fields);
    $captions = explode(",",$captions);
@@ -1937,7 +1965,7 @@ function TRACE($var,$comment="") {
   if(filesize("trace")>1024*100) {
     file_put_contents("trace","");
   }
-  
+
   $f = @fopen("trace","a");
   if($f) {
     if($comment) $comment = " ".$comment;
@@ -1945,7 +1973,7 @@ function TRACE($var,$comment="") {
     fwrite($f,$s);
     fclose($f);
   }
-  
+
 }
 
 
@@ -1960,7 +1988,7 @@ $action - action parameter passed to link
 $id - id parameter passed to link
 $masterfield - for master fields
 $mastervalue - for master value
-$order - value for ORDER BY 
+$order - value for ORDER BY
 $actionstring - example: <a href=preview/[ID]>preview</a>
 $actionstring - may be function name, id is passed to it
 
@@ -1984,7 +2012,7 @@ $tables["playlist_videos"]["weight"] = 1;
 
 USAGE: table_edit("playlist","playlist",$action,$id,"parent_id","2");
 
-EXAMPLE 1: 
+EXAMPLE 1:
 function page_playlists($action,$id="") {
   return table_edit("playlists","playlists",$action,$id);
 }
@@ -2037,7 +2065,7 @@ class ctable_edit_props {
 $table_edit_props = new ctable_edit_props();
 
 function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$mastervalue="", $order="", $actionstring_or_function="") {
-  
+
     if(!$home) $home = self_q();
     if(!$action) $action = arg(0);
     if(!$id) $id = arg(1);
@@ -2048,10 +2076,10 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
     ////////////// PREPARE
     $table_long_alias = $tablename;
     global $tables;
-    
+
     if(isset($tables[$tablename]['weight']))
       weight_fix($tablename);
-	
+
     $table_long_alias = table_long_alias($tablename);
     /////////////////////////////////////
 
@@ -2062,22 +2090,22 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 	  else
           $master_cond =  " AND $masterfield='$mastervalue' ";
 	}
-    
+
     global $tables;
-    
+
     if(!isset($tables[$tablename])) {
       die("error, table_edit - tables[$tablename] not set");
     }
-    
+
     if(isset($tables[$tablename]['weight'])) {
         if($order) $order .= ",";
         $order .= " $tablename.weight ";
     }
-    
+
     if($order) {
         $order = " ORDER BY $order ";
     }
-    
+
 
     //this is reaction on drag and drop reorder
 	if($action=="move") {
@@ -2089,7 +2117,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 	  }
 	  if($d<0) {
 		$d = -$d;
-		for($i=0;$i<$d;$i++) 
+		for($i=0;$i<$d;$i++)
           table_edit($tablename,"return!","up",$id,$masterfield,$mastervalue);
 	  }
 	  die("");
@@ -2103,9 +2131,9 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
        db_query("UPDATE $tablename SET weight=%f WHERE id=%d $master_cond",$prevweight,$id);
        db_query("UPDATE $tablename SET weight=%f WHERE id=%d $master_cond",$weight,$previd);
 	   if($home=='return!') return;
-	   redir($home);            
+	   redir($home);
     }
-    
+
     if($action=="down") {
         $weight = db_result(db_query("SELECT weight FROM $tablename WHERE id=%d $master_cond",$id));
         $prevweight = db_result(db_query("SELECT min(weight) FROM $tablename WHERE weight>%f $master_cond",$weight));
@@ -2116,23 +2144,23 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
           db_query("UPDATE $tablename SET weight=%f WHERE id=%d $master_cond",$weight,$previd);
         }
 	    if($home=='return!') return;
-        redir($home);    
+        redir($home);
     }
-    
+
     if($action=="del") {
         db_query("DELETE FROM $tablename WHERE id=%d $master_cond",$id);
     }
     if($action=="edit") {
-        
+
         if(form_post("edit")) {
-            
+
             $sets = "";
             foreach($tables[$tablename]['fields'] as $value) {
                 if($sets)
                   $sets .= ", ";
 
                 if(str_end($value,"_check")) {
-				   if(form_post($value)) 
+				   if(form_post($value))
 				     $sets .= "$value=1";
 				   else
 					 $sets .= "$value=0";
@@ -2147,26 +2175,26 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
                           form_post($f."_day"),
                           form_post($f."_year"));
                    $sets .= "$value=$ts";
-                   
+
                 } else {
                   $p = form_post($value);
 
 				  $p = SlashSymbolsFix($p);
-                  if(mysql)
+                  if(mysql || pdo_sqlite)
                        $p = mysql_real_escape_string($p);
                   if(sqlite2)
                        $p = sqlite_escape_string($p);
-		          if(sqlite3) 
+		          if(sqlite3)
 		               $p = $GLOBALS['dbhandle']->escapeString($p);
 
-                  if($p=="null") 
+                  if($p=="null")
                     $sets .= "$value=null";
                   else
                     $sets .= "$value = '".$p."' ";
                 }
             }
-            
-            
+
+
             $s = "UPDATE $tablename SET $sets WHERE id=$id $master_cond";
             db_query($s);
             $callback = "table_".$tablename."_edit";
@@ -2175,21 +2203,21 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
             }
             redir($home);
         }
-        
+
         page_header("Edit $table_long_alias");
 		if(isset($tables[$tablename]['fields'])) {
 			$r = db_object_get($tablename,$id);
 			form_start();
 
 			table_edit_form_generate($tablename,$r);
-			
+
 			form_submit("{~Save changes}","edit");
 			form_end();
             return form();
 		} else return "";
-        
+
     }
-    
+
     if($action=="add" && $table_edit_props->add_records) {
         if(form_post("add")) {
             //fixme: unsecure, sql injection
@@ -2202,7 +2230,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
               if($values) $values .= ", ";
 
 			  if(str_end($field,"_check")) {
-				   if(form_post($field)) 
+				   if(form_post($field))
 				     $values .= "1";
 				   else
 					 $values .= "0";
@@ -2216,11 +2244,11 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
                           form_post($f."_month"),
                           form_post($f."_day"),
                           form_post($f."_year"));
-                   $values .= "$ts";              
+                   $values .= "$ts";
               } else {
                 $p = form_post($field);
 				$p = SlashSymbolsFix($p);
-                if(mysql)
+                if(mysql || pdo_sqlite)
                      $p = mysql_real_escape_string($p);
                 else if(sqlite2)
                      $p = sqlite_escape_string($p);
@@ -2233,7 +2261,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
                   $values .= "'".$p."'";
               }
             }
-            
+
             if($masterfield) {
 				if($fields)
                   $fields .= ", ";
@@ -2243,7 +2271,7 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 				else
                     $values .= ", '$mastervalue'";
             }
-            
+
             if(isset($tables[$tablename]['weight'])) {
 				if($fields)
                   $fields .= ", ";
@@ -2262,26 +2290,26 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         }
         page_header("Add $table_long_alias");
         form_start("","post"," name=add_form ");
-        
+
 		table_edit_form_generate($tablename);
 
         if($table_edit_props->add_record_html) {
           global $form;
           $form .= "<tr><td><td>".$table_edit_props->add_record_html;
         }
-        
+
         if($table_edit_props->add_record_button_show) {
           form_submit("{~Add record}","add");
         } else {
           form_hidden("add","1");
         }
         form_end();
-        
+
         return form();
-        
-        
+
+
     }
-    
+
     if(strlen($GLOBALS['pageheader']==0)) {
       if(!str_end($table_long_alias,"s")) {
         page_header("$table_long_alias"."s List");
@@ -2289,8 +2317,8 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         page_header($table_long_alias);
       }
     }
-    
-      
+
+
 	$ff = array();
     $ff = @$tables[$tablename]['fields'];
     $fields = "";
@@ -2300,15 +2328,15 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
     foreach($ff as $f) {
         if($fields) $fields .= ", ";
         $type = substr($f,strlen($f)-3,3);
-                               
+
         if($type == "_id") {
-            
+
            $cap = substr($f,0,strlen($f)-3);
            $table = $cap."s";
            if(!isset($tables[$table])) {
               $table = str_prefix($tablename).$table;
            }
-           
+
            $titlefield = "";
            foreach($tables[$table]['fields'] as $v) {
              $titlefield = $v;
@@ -2317,14 +2345,14 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
            $fields .= " $table.$titlefield as $cap ";
            $joins .= " LEFT JOIN $table ON $tablename.$f = $table.id ";
            $titles[] = $cap;
-           
+
         } else {
            $fields .= "$tablename.$f";
            $titles[] = $f;
         }
     }
 
-    
+
     $where = "";
     if($masterfield) {
 	  if(strtolower($mastervalue)=='null') {
@@ -2343,32 +2371,32 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
    if($table_edit_props->edit_record_show) {
 	 $edit_image = "edit.png";
 	 if($table_edit_props->use_rename_icon_for_edit) {
-	   $edit_image = "rename.png";	
+	   $edit_image = "rename.png";
 	 }
      $act .= "<a href=?q=$home/edit/[id]><img src=images/bios/$edit_image border=0></a>";
    }
    if($table_edit_props->del_record_show) {
      $act .= "<a href=?q=$home/del/[id]><img onclick=\"return confirm('{~Are you sure?}');\"src=images/bios/del.png border=0></a>";
    }
-    
+
    //up down arrows
 /*    if(isset($tables[$tablename]['weight'])) {
         $act = " <a href=?q=$home/up/[id]><img src=images/up.png></a> <a href=?q=$home/down/[id]><img src=images/down.png></a> ".$act;
     }*/
-    
+
     $rr = db_query($q);
-    
+
     $s = "";
 
     if(!db_num_rows($rr)) {
       $s .= "{~no records}<br>";
-      
+
     } else {
       if($table_edit_props->action_string_left) {
         table_start(count($ff)+2);
-        if($table_edit_props->col_title_show) 
+        if($table_edit_props->col_title_show)
           table_add(""," class=table_edit_header ");
-      } else 
+      } else
         table_start(count($ff)+1);
 
 		///HEADERS
@@ -2414,19 +2442,19 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
           if($key!='id')
           table_add($value," class=table_edit_cell ");
         }
-        
+
         $useract = "";
         if(function_exists($actionstring)) {
           $useract = $actionstring($r['id'],$r);
         } else {
           $useract = $actionstring;
         }
-        
+
         $acts = str_replace("[id]",$r['id'],$act." ".$useract);
-        
+
         table_add($acts);
       }
-    
+
       $s = "";
       $s .= table_flush(" class=table_edit ");
 
@@ -2442,8 +2470,9 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
        $s .= "<br><a href=?q=$home/add>$html</a>";
     }
 
+
     return $s;
-    
+
 }
 
 function table_edit_form_generate($tablename,$r="") {
@@ -2468,16 +2497,16 @@ function table_edit_form_generate($tablename,$r="") {
                 $cap = substr($value,0,strlen($value)-3);
                 $table = $cap."s";
                 if(!isset($tables[$table])) $table = str_prefix($tablename).$table;
-                
+
                 $fields = "id";
-                
+
                 //use first field as list value
                 foreach($tables[$table]['fields'] as $list_value) {
                     $fields .= ", $list_value";
                     break;
                 }
                 $list = db_list(db_query("SELECT $fields FROM $table"));
-                $table = table_long_alias($table);                
+                $table = table_long_alias($table);
                 form_list($table,$value,$list,$r->$value);
             } else {
 //              $r->$value = htmlentities($r->$value,ENT_QUOTES);
@@ -2565,15 +2594,15 @@ function HTTPPostFix() {
    if(!HTTP_POST_DOUBLE_SLASH) return;
 
    foreach($_REQUEST as &$v) {
-     $v = HTTPPost($v); 
+     $v = HTTPPost($v);
    }
 
    foreach($_GET as &$v) {
-     $v = HTTPPost($v); 
+     $v = HTTPPost($v);
    }
 
    foreach($_POST as &$v) {
-     $v = HTTPPost($v); 
+     $v = HTTPPost($v);
    }
 
 }
@@ -2582,7 +2611,7 @@ function HTTPPostFix() {
 function str_itest($s1,$s2) {
     $s1 = strtolower($s1);
     $s2 = strtolower($s2);
-    return str_test($s1,$s2);    
+    return str_test($s1,$s2);
 }
 
 function test_ok() {
@@ -2594,7 +2623,7 @@ function test_ok() {
 }
 function test_failed() {
   if(inbrowser()) {
-     return "<font color=red>FAILED</font>: ";    
+     return "<font color=red>FAILED</font>: ";
   } else {
     return "FAILED: ";
   }
@@ -2607,7 +2636,7 @@ function str_test($s1,$s2) {
       ln(test_ok()."$s1");
     }
     return true;
-    
+
 }
 
 function test_not_equal($s1,$s2) {
@@ -2616,7 +2645,7 @@ function test_not_equal($s1,$s2) {
   } else {
     ln(test_ok()."'$s1' not equal to '$s2'");
   }
-  
+
 }
 function test($v1,$v2) {
   str_test($v1,$v2);
@@ -2641,12 +2670,18 @@ function db_connect() {
     if(!$dbhandle) ln("can't connect to sqlite database");
   }
 
+  if(pdo_sqlite) {
+    global $dbhandle;
+    $dbhandle = new PDO('sqlite:'.PDO_SQLITE_DB);
+    $dbhandle->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  }
+
 }
 
 function db_exists($res) {
   $numrows = db_num_rows($res);
-  
-  return ($numrows>0); 
+
+  return ($numrows>0);
 }
 
 
@@ -2680,10 +2715,10 @@ function db_table($tablename,$fields = "",$long_alias="") {
     else
     if(sqlite2)
       sql("CREATE TABLE $tablename (id INTEGER  PRIMARY KEY NOT NULL)");
-    else if(sqlite3)
+    else if(sqlite3 || pdo_sqlite)
 	  sql("CREATE TABLE $tablename (id INTEGER  PRIMARY KEY NOT NULL)");
-    
-    
+
+
   } else {
     global $tables;
     if($long_alias == "") $long_alias = $tablename;
@@ -2732,7 +2767,7 @@ function db_field($fields,$editable=true) {
 
 
 function db_data_model_create() {
-  
+
   global $db_data_model_create;
   $db_data_model_create = true;
 
@@ -3037,15 +3072,15 @@ function form_link_table($link_table,$master_table,$master_field,$master_value,$
     if(str_prefix($items_table_single) == str_prefix($master_table)) {
       $items_table_single = str_no_prefix($items_table_single,str_prefix($master_table));
     }
-    
-    
+
+
     $master_object = db_object($master_table,$master_value);
-    
+
     if(form_post("update")) {
         sql("START TRANSACTION");
 
         sql("DELETE FROM $link_table WHERE $master_field=%d",$master_value);
-        
+
         if(isset($_REQUEST['cb'])) {
           $checkbox_values = $_REQUEST['cb'];
           foreach($checkbox_values as $checkbox_id=>$checkbox_value) {
@@ -3056,7 +3091,7 @@ function form_link_table($link_table,$master_table,$master_field,$master_value,$
         sql("COMMIT");
         session_return("updated");
     }
-    
+
     if(form_post("cancel")) {
         session_return("");
     }
@@ -3064,16 +3099,16 @@ function form_link_table($link_table,$master_table,$master_field,$master_value,$
 
 
     $rr = db_query("SELECT $items_table.id as id, $items_table_display_field, $master_field
-                    FROM $items_table 
-                    LEFT JOIN 
+                    FROM $items_table
+                    LEFT JOIN
                     (SELECT * FROM $link_table WHERE $master_field=%d) as sub
                     ON ({$items_table_single}_id=$items_table.id OR $master_field is NULL)",$master_value);
-    
+
     form_start();
     while($r=db_fetch_object($rr)) {
-      form_checkbox($r->$items_table_display_field,"cb[$r->id]",strlen($r->$master_field)>0,"1");      
+      form_checkbox($r->$items_table_display_field,"cb[$r->id]",strlen($r->$master_field)>0,"1");
     }
-    
+
     global $form;
     $form .= "<tr><td><td><input type=submit name=update value=OK>
                           <input type=submit name=cancel value=Cancel>";
@@ -3087,7 +3122,7 @@ function menu_from_file($filename) {
   $output = "";
   foreach($lines as $line) {
     $parts = explode(',',$line);
-    //if($output) 
+    //if($output)
     $output .= "::";
     $output .= l($parts[0],$parts[1]);
   }
@@ -3125,7 +3160,7 @@ function page_pass_recover() {
 				$o .= errormsg("Can't send password.");
 			}
 		 }
-	  
+
    }
    form_start();
    form_input("Email","login");
@@ -3156,9 +3191,9 @@ function page_user_signup() {
     $o = form();
 
     if (form_post("email")) {
-      
+
       if(!form_post("password") || !form_post("retype")) {
-        $o .= "Please fill all fields."; 
+        $o .= "Please fill all fields.";
       } else
       if(form_post("password") != form_post("retype")) {
         $o .= "Retype doesn't match password.";
@@ -3173,18 +3208,18 @@ function page_user_signup() {
 
 
                 $_SESSION['userid'] = db_last_id();
-                redir(""); 
+                redir("");
 		        die();
                 $o .= "Successfully signed up";
             }
       }
-    }   
+    }
 
     return "$o";
 }
 
 function uid() {
-  if(isset($_SESSION['userid'])) 
+  if(isset($_SESSION['userid']))
 	   return $_SESSION['userid'];
   else return "";
 }
@@ -3195,7 +3230,7 @@ function uid() {
 function page_error() {
   setcookie("error_report",1);
   die("Error Reporting turned on");
-  
+
 }
 
 function page_error_off() {
@@ -3241,14 +3276,14 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
     /* Don't execute PHP internal error handler */
 
     if(false && (!isset($_COOKIE['error_report']) || $_COOKIE['error_report']==0)) {
-		
+
 		if(filesize("site_errors.txt")>500*1000) {
 			file_put_contents("site_errors.txt","");
 		}
 
         $f = fopen("site_errors.txt", 'a');
 
-		fwrite($f,"\r\n--- ".@date("n/j/Y G:i")." ------------------------\r\n"); 
+		fwrite($f,"\r\n--- ".@date("n/j/Y G:i")." ------------------------\r\n");
 		fwrite($f,$_SERVER['REQUEST_URI']."\r\n");
 		fwrite($f,$msg."\r\n");
 
@@ -3256,9 +3291,9 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 		debug_print_backtrace();
 		$s = ob_get_clean();
 		fwrite($f,$s);
-		
+
 		fclose($f);
-		echo 
+		echo
        "<div style='background:#faa;font-family:Trebuchet MS;padding:10px;'>
          Sorry, but it seems we are having a hiccup.<br>
 		 Please report this to site developer.<br>
@@ -3305,7 +3340,7 @@ function nice_urls(&$html) {
 $script_uses = array();
 function script_uses($scripts) {
   global $script_uses;
- 
+
   $scripts = explode(',',$scripts);
   foreach($scripts as $script) {
     $script = trim($script);
@@ -3317,7 +3352,7 @@ function script_uses($scripts) {
     if(in_array($script,$script_uses)) {
       continue;
     } else {
-      $script_uses[] = $script;  
+      $script_uses[] = $script;
     }
   }
 }
@@ -3338,14 +3373,14 @@ function script_uses_head() {
 function die_no_template($o) {
     global $base_url;
     nice_urls($o);
-    $o = "<base href='$base_url'/><meta http-equiv='Content-Type' content='text/html; charset=UTF-8;'>".script_uses_head().$o;    
+    $o = "<base href='$base_url'/><meta http-equiv='Content-Type' content='text/html; charset=UTF-8;'>".script_uses_head().$o;
     $o .="<!-- profiler report: \r\n".prf_report()."\r\n -->";
     translate_parse($o);
 
     die("$o");
 }
 function dh() {
-  die("HERE");  
+  die("HERE");
 }
 
 //TEMPLATES
@@ -3404,7 +3439,7 @@ function replace_my_tags(&$html) {
         $html = str_replace("{call$varname}",$content,$html);
       }
     }
-    
+
     preg_match_all("|{href[^}]*}|",$html,$matches);
     foreach($matches[0] as $value) {
       $varname = substr($value,2+3,strlen($value)-3-3);
@@ -3425,7 +3460,7 @@ function replace_my_tags(&$html) {
 	  if($blank)  {
       $content = "<div class=href_sensor style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.open(\"$loc\")'><a target=_blank href={$loc}></a></div>";
 	  } else {
-	
+
       $content = "<div class=href_sensor style='cursor:pointer;position:absolute;margin-left:{$parts[0]}px;margin-top:{$parts[1]}px;width:{$parts[2]}px;height:{$parts[3]}px;{$background}z-index:100;' onclick='window.location=\"$loc\"'><a href={$parts[4]}></a></div>";
 	  }
       $html = str_replace("{href$varname}",$content,$html);
@@ -3436,28 +3471,28 @@ function replace_files(&$html) {
     preg_match_all("|{![^}]*}|",$html,$matches);
     foreach($matches[0] as $value) {
       $varname = substr($value,2,strlen($value)-3);
-      
+
       if(str_end($varname,".html") && file_exists("uses/".$varname)) {
         $content = file_get_contents("uses/".$varname);
         replace_files($content);
         $html = str_replace("{!$varname}",$content,$html);
       }
-      
+
       if(str_end($varname,".js") && file_exists("uses/".$varname)) {
         $content = "<script src='uses/$varname'></script>";
         $html = str_replace("{!$varname}",$content,$html);
       }
-      
+
       if(str_end($varname,".png") && file_exists("images/".$varname)) {
         $content = "<img src='images/$varname'>";
         $html = str_replace("{!$varname}",$content,$html);
       }
-      
+
       if(str_end($varname,".css") && file_exists("uses/".$varname)) {
        	$content = "<link rel='stylesheet' href='uses/$varname' type='text/css' />";
         $html = str_replace("{!$varname}",$content,$html);
       }
-      
+
     }
 }
 function render($name) {
@@ -3469,11 +3504,11 @@ function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$va
   $php_template = $name.".php.html";
   if(!file_exists($php_template))
     $php_template = "uses/".$name.".php.html";
-  
-  if(!file_exists($php_template)) 
+
+  if(!file_exists($php_template))
     $php_template = "views/".$name.".php.html";
-  
-  
+
+
   if(file_exists($php_template)) {
   	  ob_start();
       foreach($GLOBALS as $key=>$value) {
@@ -3494,7 +3529,7 @@ function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$va
       foreach($GLOBALS as $key=>$value) {
         $data->assign($key,$value);
       }
-      $html =$dwoo->get($dwoo_template,$data); 
+      $html =$dwoo->get($dwoo_template,$data);
       return $html;
   }
 
@@ -3502,15 +3537,15 @@ function template($name="",$varname1="",$varval1="",$varname2="",$varval2="",$va
   if(!file_exists($fname)) {
     $fname = "uses/".$name.".html";
   }
-  
+
   if(file_exists($fname)) {
     $html = file_get_contents($fname);
     template_set($html,$varname1,$varval1,$varname2,$varval2,$varname3,$varval3);
-    
+
     replace_files($html);
     replace_my_tags($html);
     replace_globals($html);
-    
+
     return $html;
   }
   else
@@ -3524,11 +3559,11 @@ function template_set(&$html,$varname,$varvalue,$varname2="",$varvalue2="",$varn
   if($varname2) template_set($html,$varname2,$varvalue2);
   if($varname3) template_set($html,$varname3,$varvalue3);
   if($varname4) template_set($html,$varname4,$varvalue4);
-  
+
 }
 
 function doc_elements_add($html) {
-  
+
       global $doc_elements;
       $doc_elements .= $html;
 
@@ -3547,7 +3582,7 @@ function user($force_refresh=false) {
 }
 
 function table_field($table,$field) {
-  db_query("ALTER TABLE $table ADD $field");  
+  db_query("ALTER TABLE $table ADD $field");
 }
 
 function db_objects_get($table,$where_and_limit) {
@@ -3561,11 +3596,11 @@ function die_def_template($o) {
   } else {
     $html = $o;
   }
-  
+
   nice_urls($html);
   global $base_url;
   $html = "<base href='$base_url'/>".script_uses_head().$html;
-  die($html);  
+  die($html);
 }
 function session_set($name,$value) {
   global $apptitle;
@@ -3575,7 +3610,7 @@ function session_get($name,$def="") {
   global $apptitle;
   if(!isset($_SESSION[$apptitle.$name])) return $def;
   return $_SESSION[$apptitle.$name];
-  
+
 }
 
 function str_limit($s,$len,$ending=-1) {
@@ -3599,10 +3634,10 @@ function replace_globals(&$template) {
       } else {
         $template = str_replace("{!$varname}","",$template);
       }
-    } else    
-    if(!isset($GLOBALS[$varname])) 
+    } else
+    if(!isset($GLOBALS[$varname]))
       $template = str_replace("{!$varname}","",$template);
-    else 
+    else
       $template = str_replace("{!$varname}",$GLOBALS[$varname],$template);
   }
 }
@@ -3642,11 +3677,11 @@ function weight_fix($table) {
 function page_all_vars() {
   requires_admin();
   global $modules;
-  
+
   $mods = $modules;
   $mods[] = "app";
   $_REQUEST['q'] = '/vars';
-  
+
   foreach($mods as $mod) {
     $func_name = "page_".$mod."_vars";
     if(function_exists($func_name)) {
@@ -3654,13 +3689,13 @@ function page_all_vars() {
       ln("<font color=red>$func_name</font>");
       $func_name();
     }
-    
-    
+
+
   }
 }
 
 function self_q() {
-  return $GLOBALS['self_q'];  
+  return $GLOBALS['self_q'];
 }
 
 
@@ -3737,7 +3772,7 @@ function assertFailed() {
 function assertFailedFirst() {
 	if(!isset($GLOBALS['assertErrors'])) return false;
 	$er = $GLOBALS['assertErrors'][0];
-    return "<div class=assertError>$er</div>";  
+    return "<div class=assertError>$er</div>";
 }
 
 
@@ -3750,27 +3785,27 @@ $template_call_admin['arg'] = true;
 
 function uses() {
     $files = func_get_args();
-    
+
     $o = "";
     foreach($files as $file) {
       $o .= uses_file($file);
     }
-    
+
     return $o;
 }
 
 function uses_file($file) {
-    
-  
+
+
       if(str_end(strtolower($file),".js") && file_exists("uses/".$file)) {
         $filetime = filemtime("uses/".$file);
         $content = "<script src='uses/$file?$filetime'></script>";
         return $content;
-      }	
-      
+      }
+
       if(str_end(strtolower($file),".html") && file_exists("uses/".$file)) {
         return file_get_contents("uses/".$file);
-      }	
+      }
 
       if(str_end(strtolower($file),".css") && file_exists("uses/".$file)) {
       	$fname = "uses/".$file;
@@ -3778,7 +3813,7 @@ function uses_file($file) {
        	$content = "<link rel='stylesheet' href='$fname?$filetime' type='text/css' />";
        	return $content;
       }
-      
+
 }
 
 function site_folder() {
