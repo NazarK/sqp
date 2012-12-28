@@ -1033,10 +1033,10 @@ function db_query($query) {
             $db_query_error_function("<h1>SQL ERROR</h1><br> $query<br>".sqlite_error_string($dbhandle));
         }
     }
-
     if(pdo_sqlite) {
         $res = $dbhandle->query($query);
     }
+
 
     global $sqllog;
     $sqllog .= $query."<br>";
@@ -1089,8 +1089,7 @@ function db_num_rows($result) {
 	      return $ret;
         } else
         if(pdo_sqlite) {
-          $row_num = $result->fetch(PDO::FETCH_NUM);
-          return $row_num;
+          die("db_num_rows not supported by pdo_sqlite, use fetchAll");
         } else {
             die("db_num_rows unknown database");
         }
@@ -1109,7 +1108,7 @@ function db_result($result, $row = 0) {
     }
 
     if(pdo_sqlite) {
-        $rec = $result->fetch(PDO::FETCH_ASSOC);
+        $rec = $result->fetch(PDO::FETCH_NUM);
         if($rec===FALSE) return FALSE;
         return $rec[0];
     }
@@ -1150,8 +1149,9 @@ function db_fetch_array($result) {
         else if(sqlite3)
           return $result->fetchArray(SQLITE3_ASSOC);
         else if(pdo_sqlite) {
-          $ret = $result->fetch(PDO::FETCH_ASSOC);
-          var_dump($ret);
+          $ret = $result->fetch(PDO::FETCH_OBJ);
+          if(!$ret) return false;
+          $ret = (array)$ret;
           return $ret;
         }
         else
@@ -2388,7 +2388,8 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
 
     $s = "";
 
-    if(!db_num_rows($rr)) {
+    $rr = db_fetch_objects($rr);
+    if(count($rr)==0) {
       $s .= "{~no records}<br>";
 
     } else {
@@ -2414,7 +2415,8 @@ function table_edit($tablename,$home="",$action="",$id="",$masterfield="",$maste
         table_add(""," class=table_edit_header ");
       }
 
-      while($r = db_fetch_array($rr)) {
+      foreach($rr as $r) {
+        $r = (array)$r;
 
 		////// table add id attribute to tr
 	    global $table_row_attributes;

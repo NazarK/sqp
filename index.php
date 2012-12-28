@@ -7,11 +7,10 @@ require_once "bios.php"; //all functions
 require_once "conf.php";
 
 
-if(function_exists("data_model")) 
+if(function_exists("data_model"))
   data_model();
 
 db_connect();
-                    
 error_reporting(E_ALL | E_STRICT);
 
 if(!isset($_SESSION['lang'])) {
@@ -30,14 +29,14 @@ $pageheader = "";
 
 //OTHER MODULES
 $modules = array();
-foreach(glob("uses/*.php") as $module) { 
-	require_once $module; 
-	$module_name = str_replace("uses/","",str_replace(".php","",$module)); 
+foreach(glob("uses/*.php") as $module) {
+	require_once $module;
+	$module_name = str_replace("uses/","",str_replace(".php","",$module));
 	$modules[] = $module_name;
 	$fname = $module_name."_connect";
 	if(function_exists($fname)) {
 		$fname();
-	}	
+	}
 }
 
 //LOGIN - different menus generation for different user's
@@ -46,7 +45,7 @@ $menu_logout = "";
 $menu_user = "";
 
 $menu_users = "";
-if(user_authorized() && $_SESSION['userid']==1) 
+if(user_authorized() && $_SESSION['userid']==1)
    $menu_users = ":: <a href=?q=users>Users</a>";
 
 if(!isset($_GET['q']) || $_GET['q']=='') {

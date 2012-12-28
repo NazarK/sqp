@@ -8,9 +8,9 @@ error_reporting(E_ALL | E_STRICT);
 
 //HOST SPECIFIC
 define("mysql",0);
-define("sqlite2",1);
+define("sqlite2",0);
 define("sqlite3",0);
-define("pdo_sqlite",0);
+define("pdo_sqlite",1);
 define("USERS",0);
 define("NICE_URLS",1); //apache mod_rewrite enabled
 
