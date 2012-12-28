@@ -29,7 +29,7 @@ function page_search_test() {
 
   $_REQUEST['s']='сервер';
   echo page_search();
-  
+
   die();
 
 }
@@ -56,7 +56,7 @@ if($s) {
   if(count($rr)==0) {
     $o .= "Под запрос <strong>$s</strong> не подходит ни одна страница.";
   } else
-  
+
   foreach($rr as $r) {
 	 $r->content = fld_trans(strip_for_search($r->content));
 	 $r->content_search = fld_trans($r->content_search);

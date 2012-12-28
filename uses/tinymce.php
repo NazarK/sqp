@@ -1,5 +1,5 @@
 <?php
-//set $tables['table']['liveedit'] = true 
+//set $tables['table']['liveedit'] = true
 //then use this editor on this table
 //direct db access through URL - very dangerous
 //NK 2011
@@ -15,13 +15,13 @@ function page_admin_edit($table,$field,$id) {
 
   if(isset($_POST['editor1'])) {
      $html = form_post("editor1");
-	 $html = str_replace('\"','"',$html);
-	 $html = str_replace("\'","'",$html);
-	 $html = str_replace("\\\\","\\",$html);
-	 $f = "on_{$table}_{$field}_update";
+	   $html = str_replace('\"','"',$html);
+	   $html = str_replace("\'","'",$html);
+	   $html = str_replace("\\\\","\\",$html);
+	   $f = "on_{$table}_{$field}_update";
      if(function_exists($f)) {
-		 $f($id,$html);
-	 }
+		   $f($id,$html);
+	   }
      db_query("UPDATE %s SET %s='%s' WHERE id=%d",$table,$field,$html,$id);
 
 	 if(CLOSE_ON_SAVE)

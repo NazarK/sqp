@@ -1037,7 +1037,6 @@ function db_query($query) {
         $res = $dbhandle->query($query);
     }
 
-
     global $sqllog;
     $sqllog .= $query."<br>";
 	@prf_end();
@@ -1063,9 +1062,11 @@ function db_query_callback($match, $init = FALSE) {
           return sqlite_escape_string(array_shift($args));
         else if(sqlite3)
           return $GLOBALS['dbhandle']->escapeString(array_shift($args));
-        else if(pdo_sqlite)
-          return mysql_escape_string(array_shift($args));
-
+        else if(pdo_sqlite) {
+          $s = array_shift($args);
+          $s = str_replace("'","''",$s);
+          return $s;
+        }
         case '%%':
         return '%';
         case '%f':
