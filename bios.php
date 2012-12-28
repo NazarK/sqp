@@ -1057,12 +1057,14 @@ function db_query_callback($match, $init = FALSE) {
         case '%d': // We must use type casting to int to convert false/null/(true?)
         return (int) array_shift($args); // We don't need db_escape_string as numbers are db-safe
         case '%s':
-        if(mysql || pdo_sqlite)
+        if(mysql)
           return mysql_real_escape_string(array_shift($args));
-        if(sqlite2)
+        else if(sqlite2)
           return sqlite_escape_string(array_shift($args));
-        if(sqlite3)
+        else if(sqlite3)
           return $GLOBALS['dbhandle']->escapeString(array_shift($args));
+        else if(pdo_sqlite)
+          return mysql_escape_string(array_shift($args));
 
         case '%%':
         return '%';
