@@ -1,4 +1,6 @@
 <?php
+
+
 require_once 'uses/php-activerecord/ActiveRecord.php';
 
 ActiveRecord\Config::initialize(function($cfg)
